@@ -25,8 +25,9 @@
                                             <input type="text"
                                                 class="form-control form-control-user @error('username') is-invalid @enderror"
                                                 id="username" name="username" value="{{ old('username') }}" required
-                                                autocomplete="username" autofocus aria-describedby="username"
-                                                placeholder="{{ __('Username') }}">
+                                                oninvalid="this.setCustomValidity('Harap diisi terlebih dahulu')"
+                                                oninput="setCustomValidity('')" autocomplete="username" autofocus
+                                                aria-describedby="username" placeholder="{{ __('Username') }}">
 
                                             @error('username')
                                                 <span class="invalid-feedback" role="alert">
@@ -38,7 +39,9 @@
                                         <div class="form-group">
                                             <input type="password"
                                                 class="form-control form-control-user @error('password') is-invalid @enderror"
-                                                id="password" name="password" required autocomplete="current-password"
+                                                id="password" name="password" required
+                                                oninvalid="this.setCustomValidity('Harap diisi terlebih dahulu')"
+                                                oninput="setCustomValidity('')" autocomplete="current-password"
                                                 placeholder="Password">
 
                                             @error('password')

@@ -68,7 +68,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:30'],
-            'username' => ['required', 'string', 'max:8'],
+            'username' => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'string', 'max:25'],
@@ -88,15 +88,16 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
+            'name' => ucwords($data['name']),
+            'username' => strtolower($data['username']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
-            'tmptlahir' => $data['tmptlahir'],
+            'tmptlahir' => ucwords($data['tmptlahir']),
             'tgl_lahir' => $data['tgl_lahir'],
             'no_telepon' => $data['no_telepon'],
-            'alamat' => $data['alamat'],
+            'alamat' => ucwords($data['alamat']),
+            'status' => $data['status'],
         ]);
     }
 }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/a', function () {
     return view('welcome');
 });
 
@@ -23,7 +23,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('/admin')->middleware('auth')->group(function () {
+Route::prefix('/')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.home');
-    Route::get('/user', [UserController::class, 'index'])->name('master.user');
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
+    Route::get('/user/add', [UserController::class, 'add'])->name('user.add');
+    Route::post('/user/add', [UserController::class, 'create'])->name('user.create');
+
+    Route::delete('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
 });

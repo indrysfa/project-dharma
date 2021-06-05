@@ -11,7 +11,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="#" class="btn btn-success btn-icon-split">
+                    <a href="{{ route('user.add') }}" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -21,7 +21,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -49,7 +49,7 @@
                                                     class="fas fa-eye"></i></a>
                                             <a href="#" class="btn btn-warning btn-circle btn-sm"><i
                                                     class="fas fa-pen"></i></a>
-                                            <form action="#" method="post">
+                                            <form action="{{ route('user.delete', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
 

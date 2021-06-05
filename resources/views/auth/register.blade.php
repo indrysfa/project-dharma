@@ -17,6 +17,7 @@
                             <form class="user" method="POST" action="{{ route('register') }}">
                                 @csrf
 
+                                <input type="text" class="form-control" name="status" value="0" hidden>
                                 {{-- Name --}}
                                 <div class="form-group">
                                     <input type="text"
@@ -36,7 +37,8 @@
                                     <input type="text"
                                         class="form-control form-control-user @error('username') is-invalid @enderror"
                                         id="username" name="username" value="{{ old('username') }}" required
-                                        autocomplete="username" autofocus placeholder="Masukan Username">
+                                        pattern="[a-zA-Z]+" autocomplete="
+                                                                    username" autofocus placeholder="Masukan Username">
 
                                     @error('username')
                                         <span class="invalid-feedback" role="alert">
@@ -88,6 +90,7 @@
                                         <option value="lc">Language Center</option>
                                         <option value="admin">Admin</option>
                                     </select>
+
                                     @error('role')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

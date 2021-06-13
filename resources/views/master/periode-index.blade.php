@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Halaman User')
+@section('title', 'Halaman Periode')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -11,7 +11,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="{{ route('user.add') }}" class="btn btn-success btn-icon-split">
+                    <a href="{{ route('periode.add') }}" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -25,11 +25,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Semester</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -40,24 +37,11 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->username }}</td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->role }}</td>
-                                    <td> 
-                                        @if ($item->status == 1)
-                                            {{ 'Aktif' }} 
-                                        @else
-                                            {{ 'Nonaktif' }}
-                                        @endif
-                                    </td>
+                                    <td>{{ $item->tahun }}</td>
+                                    <td>{{ $item->semester }}</td>
                                     <td>
                                         <div class="btn-center">
-                                            <a href="{{ route('user.detail', $item->id) }}" class="btn btn-info btn-circle btn-sm"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning btn-circle btn-sm"><i
-                                                    class="fas fa-pen"></i></a>
-                                            <form action="{{ route('user.delete', $item->id) }}" method="post">
+                                            <form action="{{ route('periode.delete', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
 

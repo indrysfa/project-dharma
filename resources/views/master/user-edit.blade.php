@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Add New User Page')
+@section('title', 'Edit User Page')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -7,7 +7,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
-        <form class="user" method="POST" action="{{ route('user.create') }}">
+        <form class="user" method="POST" action="{{ route('user.update') }}">
             @csrf
 
             {{-- Name --}}
@@ -15,7 +15,7 @@
                 <label for="name" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                        value="{{ old('name') }}" required autocomplete="name" autofocus
+                        value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus
                         placeholder="Masukan Nama Lengkap">
                 </div>
 
@@ -31,7 +31,7 @@
                 <label for="username" class="col-sm-2 col-form-label">Username</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                        name="username" value="{{ old('username') }}" required autocomplete="username" autofocus
+                        name="username" value="{{ old('username', $user->username) }}" required autocomplete="username" autofocus
                         placeholder="Masukan Username">
                 </div>
 
@@ -47,7 +47,7 @@
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
                     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                        value="{{ old('email') }}" required autocomplete="email" placeholder="Masukan Email">
+                        value="{{ old('email', $user->email) }}" required autocomplete="email" placeholder="Masukan Email">
                 </div>
 
                 @error('email')
@@ -61,7 +61,7 @@
             <div class="form-group row">
                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-5">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $user->password) }}"
                         name="password" required autocomplete="new-password" placeholder="Masukan Kata Sandi">
                 </div>
                 @error('password')
@@ -80,7 +80,7 @@
                 <label for="role" class="col-sm-2 col-form-label">Role</label>
                 <div class="col-sm-10">
                     <select id="role" class="form-control form-control @error('role') is-invalid @enderror" name="role"
-                        value="{{ old('role') }}" required>
+                        value="{{ old('role', $user->role) }}" required>
                         <option value="dosen">Dosen</option>
                         <option value="lc">Language Center</option>
                         <option value="admin">Admin</option>
@@ -99,7 +99,7 @@
                 <label for="name" class="col-sm-2 col-form-label">Tempat Lahir</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('tmptlahir') is-invalid @enderror" id="tmptlahir"
-                        name="tmptlahir" value="{{ old('tmptlahir') }}" required autocomplete="tmptlahir" autofocus
+                        name="tmptlahir" value="{{ old('tmptlahir', $user->tmptlahir) }}" required autocomplete="tmptlahir" autofocus
                         placeholder="Masukan Tempat Lahir">
                 </div>
 
@@ -115,7 +115,7 @@
                 <label for="name" class="col-sm-2 col-form-label">Tgl Lahir</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control @error('tgl_lahir') is-invalid @enderror" id="tgl_lahir"
-                        name="tgl_lahir" value="{{ old('tgl_lahir') }}" required autocomplete="tgl_lahir" autofocus
+                        name="tgl_lahir" value="{{ old('tgl_lahir', $user->tgl_lahir) }}" required autocomplete="tgl_lahir" autofocus
                         placeholder="Masukan Tanggal Lahir">
                 </div>
 
@@ -131,7 +131,7 @@
                 <label for="no_telepon" class="col-sm-2 col-form-label">No Telepon</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon"
-                        name="no_telepon" value="{{ old('no_telepon') }}" required autocomplete="no_telepon" autofocus
+                        name="no_telepon" value="{{ old('no_telepon', $user->no_telepon) }}" required autocomplete="no_telepon" autofocus
                         placeholder="Masukan No Telepon">
                 </div>
 
@@ -147,7 +147,7 @@
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat"
-                        value="{{ old('alamat') }}" required autocomplete="alamat" autofocus
+                        value="{{ old('alamat', $user->alamat) }}" required autocomplete="alamat" autofocus
                         placeholder="Masukan Alamat">
                 </div>
 
@@ -161,7 +161,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-user btn-block">
-                    Register
+                    Update
                 </button>
             </div>
         </form>

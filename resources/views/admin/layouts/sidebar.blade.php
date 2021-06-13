@@ -23,6 +23,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Master Components:</h6>
                 <a class="collapse-item" href="{{ route('user.index') }}">User</a>
+                <a class="collapse-item" href="{{ route('dosen.index') }}">Dosen</a>
+                <a class="collapse-item" href="{{ route('periode.index') }}">Periode</a>
             </div>
         </div>
     </li>

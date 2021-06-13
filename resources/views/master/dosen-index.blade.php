@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Halaman User')
+@section('title', 'Halaman Dosen')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -37,7 +37,7 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($data as $item)
+                            @foreach ($dosen as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->name }}</td>
@@ -53,9 +53,9 @@
                                     </td>
                                     <td>
                                         <div class="btn-center">
-                                            <a href="{{ route('user.detail', $item->id) }}" class="btn btn-info btn-circle btn-sm"><i
+                                            <a href="#" class="btn btn-info btn-circle btn-sm"><i
                                                     class="fas fa-eye"></i></a>
-                                            <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning btn-circle btn-sm"><i
+                                            <a href="#" class="btn btn-warning btn-circle btn-sm"><i
                                                     class="fas fa-pen"></i></a>
                                             <form action="{{ route('user.delete', $item->id) }}" method="post">
                                                 @csrf

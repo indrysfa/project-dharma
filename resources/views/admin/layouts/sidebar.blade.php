@@ -41,7 +41,7 @@
         <div id="collapsePengajaran" class="collapse" aria-labelledby="headingPengajaran"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="Pengajaran-color.html">Data</a>
+                <a class="collapse-item" href="{{ route('pengajaran.index') }}">Data</a>
             </div>
         </div>
     </li>
@@ -56,7 +56,7 @@
         <div id="collapsePenelitian" class="collapse" aria-labelledby="headingPenelitian"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="Penelitian-color.html">Data</a>
+                <a class="collapse-item" href="{{ route('penelitian.index') }}">Data</a>
             </div>
         </div>
     </li>
@@ -71,7 +71,7 @@
         <div id="collapsePengabdian" class="collapse" aria-labelledby="headingPengabdian"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="Pengabdian-color.html">Data</a>
+                <a class="collapse-item" href="{{ route('pengabdian.index') }}">Data</a>
             </div>
         </div>
     </li>
@@ -86,7 +86,7 @@
         <div id="collapsePengembangan" class="collapse" aria-labelledby="headingPengembangan"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="Pengembangan-color.html">Colors</a>
+                <a class="collapse-item" href="{{ route('pengembangan.index') }}">Colors</a>
             </div>
         </div>
     </li>

@@ -7,8 +7,9 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
-        <form class="user" method="POST" action="{{ route('user.update') }}">
+        <form class="user" method="POST" action="{{ route('user.update', $user->id) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             {{-- Name --}}
             <div class="form-group row">
@@ -31,8 +32,8 @@
                 <label for="username" class="col-sm-2 col-form-label">Username</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                        name="username" value="{{ old('username', $user->username) }}" required autocomplete="username" autofocus
-                        placeholder="Masukan Username">
+                        name="username" value="{{ old('username', $user->username) }}" required autocomplete="username"
+                        autofocus placeholder="Masukan Username">
                 </div>
 
                 @error('username')
@@ -47,7 +48,8 @@
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
                     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                        value="{{ old('email', $user->email) }}" required autocomplete="email" placeholder="Masukan Email">
+                        value="{{ old('email', $user->email) }}" required autocomplete="email"
+                        placeholder="Masukan Email">
                 </div>
 
                 @error('email')
@@ -61,8 +63,9 @@
             <div class="form-group row">
                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-5">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $user->password) }}"
-                        name="password" required autocomplete="new-password" placeholder="Masukan Kata Sandi">
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                        name="password" value="{{ old('password', $user->password) }}" name="password" required
+                        autocomplete="new-password" placeholder="Masukan Kata Sandi">
                 </div>
                 @error('password')
                     <span class="invalid-feedback" role="alert">
@@ -81,9 +84,9 @@
                 <div class="col-sm-10">
                     <select id="role" class="form-control form-control @error('role') is-invalid @enderror" name="role"
                         value="{{ old('role', $user->role) }}" required>
-                        <option value="dosen">Dosen</option>
-                        <option value="lc">Language Center</option>
-                        <option value="admin">Admin</option>
+                        <option value="dosen" {{ $user->role == 'dosen' ? 'selected' : '' }}>Dosen</option>
+                        <option value="lc" {{ $user->role == 'lc' ? 'selected' : '' }}>Language Center</option>
+                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                     </select>
                 </div>
 
@@ -99,8 +102,8 @@
                 <label for="name" class="col-sm-2 col-form-label">Tempat Lahir</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('tmptlahir') is-invalid @enderror" id="tmptlahir"
-                        name="tmptlahir" value="{{ old('tmptlahir', $user->tmptlahir) }}" required autocomplete="tmptlahir" autofocus
-                        placeholder="Masukan Tempat Lahir">
+                        name="tmptlahir" value="{{ old('tmptlahir', $user->tmptlahir) }}" required
+                        autocomplete="tmptlahir" autofocus placeholder="Masukan Tempat Lahir">
                 </div>
 
                 @error('tmptlahir')
@@ -115,8 +118,8 @@
                 <label for="name" class="col-sm-2 col-form-label">Tgl Lahir</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control @error('tgl_lahir') is-invalid @enderror" id="tgl_lahir"
-                        name="tgl_lahir" value="{{ old('tgl_lahir', $user->tgl_lahir) }}" required autocomplete="tgl_lahir" autofocus
-                        placeholder="Masukan Tanggal Lahir">
+                        name="tgl_lahir" value="{{ old('tgl_lahir', $user->tgl_lahir) }}" required
+                        autocomplete="tgl_lahir" autofocus placeholder="Masukan Tanggal Lahir">
                 </div>
 
                 @error('tgl_lahir')
@@ -131,8 +134,8 @@
                 <label for="no_telepon" class="col-sm-2 col-form-label">No Telepon</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon"
-                        name="no_telepon" value="{{ old('no_telepon', $user->no_telepon) }}" required autocomplete="no_telepon" autofocus
-                        placeholder="Masukan No Telepon">
+                        name="no_telepon" value="{{ old('no_telepon', $user->no_telepon) }}" required
+                        autocomplete="no_telepon" autofocus placeholder="Masukan No Telepon">
                 </div>
 
                 @error('no_telepon')
@@ -157,12 +160,32 @@
                     </span>
                 @enderror
             </div>
-            <input type="number" class="form-control" name="status" value="0" hidden>
+
+            {{-- Status --}}
+            <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                    <select id="status" class="form-control form-control @error('status') is-invalid @enderror"
+                        name="status" value="{{ old('status', $user->status) }}" required>
+                        <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Aktif</option>
+                        <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Nonaktif</option>
+                    </select>
+                </div>
+
+                @error('status')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user btn-block">
+                <button type="submit" class="btn btn-primary btn-user">
                     Update
                 </button>
+                <a href="{{ route('user.index') }}" type="button" class="btn btn-secondary btn-user">
+                    Back
+                </a>
             </div>
         </form>
 

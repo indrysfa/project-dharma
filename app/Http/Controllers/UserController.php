@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -31,20 +33,20 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $data = User::create([
-            'name'          => $request->name,
-            'username'      => $request->username,
+            'name'          => ucwords($request->name),
+            'username'      => strtolower($request->username),
             'email'         => $request->email,
-            'password'      => $request->password,
+            'password'      => Hash::make($request->password),
             'role'          => $request->role,
-            'tmptlahir'     => $request->tmptlahir,
+            'tmptlahir'     => ucwords($request->tmptlahir),
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
-            'alamat'        => $request->alamat,
+            'alamat'        => ucwords($request->alamat),
             'status'        => 1
         ]);
 
         if ($data) {
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('success', 'Data added successfully');
         }
     }
 
@@ -63,20 +65,20 @@ class UserController extends Controller
         $user = User::findOrFail($user->id);
 
         $user->update([
-            'name'          => $request->name,
-            'username'      => $request->username,
+            'name'          => ucwords($request->name),
+            'username'      => strtolower($request->username),
             'email'         => $request->email,
-            'password'      => $request->password,
+            'password'      => Hash::make($request->password),
             'role'          => $request->role,
-            'tmptlahir'     => $request->tmptlahir,
+            'tmptlahir'     => ucwords($request->tmptlahir),
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
-            'alamat'        => $request->alamat,
+            'alamat'        => ucwords($request->alamat),
             'status'        => 1
         ]);
 
         if ($user) {
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('success', 'Data ' . $user["name"] . ' Updated successfully');
         }
     }
 
@@ -87,7 +89,7 @@ class UserController extends Controller
         $user->delete();
 
         if ($user) {
-            return redirect()->route('user.index')->with('success', 'User deleted successfully');
+            return redirect()->route('user.index')->with('success', 'Data ' . $user["name"] . ' deleted successfully');
         }
     }
 }

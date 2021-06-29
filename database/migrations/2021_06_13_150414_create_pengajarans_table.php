@@ -17,10 +17,12 @@ class CreatePengajaransTable extends Migration
             $table->id();
             $table->integer('kode_mk');
             $table->string('nama_mk');
-            $table->integer('periode_id');
+            $table->bigInteger('periode_id')->unsigned();
             $table->string('kelas');
             $table->integer('sks');
             $table->timestamps();
+
+            $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengajaran;
+use App\Models\Periode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,8 @@ class PengajaranController extends Controller
 
     public function add()
     {
-        return view('pengajaran.add');
+        $data = Periode::all();
+        return view('pengajaran.add', compact('data'));
     }
 
     public function create(Request $request)
@@ -37,7 +39,8 @@ class PengajaranController extends Controller
 
     public function edit(Pengajaran $pengajaran)
     {
-        return view('pengajaran.edit', compact('pengajaran'));
+        $data = Periode::all();
+        return view('pengajaran.edit', compact('pengajaran', 'data'));
     }
 
     public function update(Request $request, Pengajaran $pengajaran)
@@ -53,7 +56,7 @@ class PengajaranController extends Controller
         ]);
 
         if ($pengajaran) {
-            return redirect()->route('user.index')->with('success', 'Kode MK ' . $pengajaran["kode_mk"] . ' Updated successfully');
+            return redirect()->route('pengajaran.index')->with('success', 'Kode MK ' . $pengajaran["kode_mk"] . ' Updated successfully');
         }
     }
 

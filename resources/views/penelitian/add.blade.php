@@ -60,7 +60,7 @@
 
             {{-- Tahun Penelitian --}}
             <div class="form-group row">
-                <label for="tahun_penelitian" class="col-sm-2 col-form-label">Tahun Penelitian</label>
+                <label for="periode_id" class="col-sm-2 col-form-label">Tahun Penelitian</label>
                 <div class="col-sm-10">
                     <input type="number" class="form-control @error('tahun_penelitian') is-invalid @enderror"
                         id="tahun_penelitian" name="tahun_penelitian" value="{{ old('tahun_penelitian') }}" required

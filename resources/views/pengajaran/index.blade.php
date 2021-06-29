@@ -29,7 +29,8 @@
                                 <th>No</th>
                                 <th>Kode MK</th>
                                 <th>Nama MK</th>
-                                <th>Periode</th>
+                                <th>Tahun</th>
+                                <th>Semester</th>
                                 <th>Kelas</th>
                                 <th>SKS</th>
                                 <th></th>
@@ -44,7 +45,8 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->kode_mk }}</td>
                                     <td>{{ $item->nama_mk }}</td>
-                                    <td>{{ $item->periode_id }}</td>
+                                    <td>{{ $item->m_pengajaran->tahun }}</td>
+                                    <td>{{ $item->m_pengajaran->semester }}</td>
                                     <td>{{ $item->kelas }}</td>
                                     <td>{{ $item->sks }}</td>
                                     <td>

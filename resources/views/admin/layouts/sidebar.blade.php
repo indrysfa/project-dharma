@@ -86,7 +86,7 @@
         <div id="collapsePengembangan" class="collapse" aria-labelledby="headingPengembangan"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('pengembangan.index') }}">Colors</a>
+                <a class="collapse-item" href="{{ route('pengembangan.index') }}">Data</a>
             </div>
         </div>
     </li>

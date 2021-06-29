@@ -9,4 +9,9 @@ class Pengajaran extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function m_pengajaran()
+    {
+        return $this->belongsTo(Periode::class, 'periode_id', 'id');
+    }
 }

@@ -66,7 +66,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePengabdian"
             aria-expanded="true" aria-controls="collapsePengabdian">
             <i class="fas fa-fw fa-users"></i>
-            <span>Pengabdian Kepada Masyarakat</span>
+            <span>PKM</span>
         </a>
         <div id="collapsePengabdian" class="collapse" aria-labelledby="headingPengabdian"
             data-parent="#accordionSidebar">

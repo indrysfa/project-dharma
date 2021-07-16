@@ -65,9 +65,13 @@
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control @error('periode_id') is-invalid @enderror" id="periode_id"
-                        name="periode_id" value="{{ old('periode_id', $pengabdian->periode_id) }}" required
-                        autocomplete="periode_id">
+                    <select name="periode_id" id="periode_id" class="form-control">
+                        @foreach ($periode as $d)
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                                {{ $d->tahun . '-' . $d->semester }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 @error('periode_id')
@@ -78,10 +82,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <button type="submit" class="btn btn-primary">
                     Update
                 </button>
-                <a href="{{ route('pengabdian.index') }}" type="button" class="btn btn-secondary btn-user">
+                <a href="{{ route('pengabdian.index') }}" type="button" class="btn btn-secondary">
                     Back
                 </a>
             </div>

@@ -19,10 +19,14 @@ class UserController extends Controller
     public function dosen()
     {
         $dosen = DB::table('users')
-            ->select('id', 'name', 'username', 'email', 'role', 'status')
             ->where('role', 'dosen')
             ->get();
         return view('master.dosen-index', compact('dosen'));
+    }
+
+    public function forgotPassword()
+    {
+        //
     }
 
     public function add()
@@ -33,6 +37,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $data = User::create([
+            'status_id'     => 1,
             'name'          => ucwords($request->name),
             'username'      => strtolower($request->username),
             'email'         => $request->email,
@@ -42,7 +47,6 @@ class UserController extends Controller
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
             'alamat'        => ucwords($request->alamat),
-            'status'        => 1
         ]);
 
         if ($data) {
@@ -65,6 +69,7 @@ class UserController extends Controller
         $user = User::findOrFail($user->id);
 
         $user->update([
+            'status_id'     => 1,
             'name'          => ucwords($request->name),
             'username'      => strtolower($request->username),
             'email'         => $request->email,
@@ -74,7 +79,6 @@ class UserController extends Controller
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
             'alamat'        => ucwords($request->alamat),
-            'status'        => 1
         ]);
 
         if ($user) {

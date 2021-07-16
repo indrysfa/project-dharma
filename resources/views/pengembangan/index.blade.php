@@ -30,7 +30,8 @@
                                 <th>Jenis Pengembangan Diri</th>
                                 <th>Status Pengembangan Diri</th>
                                 <th>Lokasi</th>
-                                <th>Tahun</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Semester</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -41,10 +42,11 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->jenis_pengdiri }}</td>
+                                    <td>{{ ucwords($item->m_jenis_pengdiri->name) }}</td>
                                     <td>{{ $item->judul_pengdiri }}</td>
                                     <td>{{ $item->lokasi_pengdiri }}</td>
-                                    <td>{{ $item->periode_id }}</td>
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
                                     <td>
                                         <div class="btn-center">
                                             <a href="{{ route('pengembangan.edit', $item->id) }}"

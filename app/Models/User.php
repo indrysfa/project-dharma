@@ -17,6 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'status_id',
         'name',
         'username',
         'email',
@@ -26,8 +27,17 @@ class User extends Authenticatable
         'tgl_lahir',
         'no_telepon',
         'alamat',
-        'status',
     ];
+
+    public function m_status()
+    {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
+
+    public function hasStatus($status) 
+    {
+      return $this->m_status()->where('code', $status)->count() == 1;
+    }
 
     /**
      * The attributes that should be hidden for arrays.

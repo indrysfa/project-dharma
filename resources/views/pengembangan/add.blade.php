@@ -12,14 +12,19 @@
 
             {{-- Jenis Pengembangan Diri --}}
             <div class="form-group row">
-                <label for="jenis_pengdiri" class="col-sm-2 col-form-label">Jenis</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control @error('jenis_pengdiri') is-invalid @enderror"
-                        id="jenis_pengdiri" name="jenis_pengdiri" value="{{ old('jenis_pengdiri') }}" required
-                        autocomplete="jenis_pengdiri" autofocus placeholder="Masukan Jenis Pengembangan Diri">
+                <label for="jenis_pengdiri_id" class="col-sm-4 col-form-label">Jenis Peng. Diri</label>
+                <div class="col-sm-8">
+                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
+                        @foreach ($jenis_pengdiri as $e)
+                            <option value="{{ $e->id }}"
+                                {{ old('jenis_pengdiri_id') == "$e->name" ? selected : '' }}>
+                                {{ ucwords($e->name) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
-                @error('jenis_pengdiri')
+                @error('jenis_pengdiri_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -28,11 +33,11 @@
 
             {{-- Judul Pengembangan Diri --}}
             <div class="form-group row">
-                <label for="judul_pengdiri" class="col-sm-2 col-form-label">Judul</label>
-                <div class="col-sm-10">
+                <label for="judul_pengdiri" class="col-sm-4 col-form-label">Judul</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('judul_pengdiri') is-invalid @enderror"
-                        id="judul_pengdiri" name="judul_pengdiri" value="{{ old('judul_pengdiri') }}" required
-                        autocomplete="judul_pengdiri" autofocus placeholder="Masukan Judul Pengembangan Diri">
+                        id="judul_pengdiri" name="judul_pengdiri" value="{{ old('judul_pengdiri') }}"
+                        autocomplete="judul_pengdiri" autofocus>
                 </div>
 
                 @error('judul_pengdiri')
@@ -44,11 +49,11 @@
 
             {{-- Lokasi Pengembangan Diri --}}
             <div class="form-group row">
-                <label for="lokasi_pengdiri" class="col-sm-2 col-form-label">Lokasi</label>
-                <div class="col-sm-10">
+                <label for="lokasi_pengdiri" class="col-sm-4 col-form-label">Lokasi</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('lokasi_pengdiri') is-invalid @enderror"
-                        id="lokasi_pengdiri" name="lokasi_pengdiri" value="{{ old('lokasi_pengdiri') }}" required
-                        autocomplete="lokasi_pengdiri" placeholder="Masukan Lokasi Pengembangan Diri">
+                        id="lokasi_pengdiri" name="lokasi_pengdiri" value="{{ old('lokasi_pengdiri') }}"
+                        autocomplete="lokasi_pengdiri">
                 </div>
 
                 @error('lokasi_pengdiri')
@@ -60,11 +65,15 @@
 
             {{-- Periode --}}
             <div class="form-group row">
-                <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control @error('periode_id') is-invalid @enderror" id="periode_id"
-                        name="periode_id" value="{{ old('periode_id') }}" required autocomplete="periode_id"
-                        placeholder="Masukan Periode">
+                <label for="periode_id" class="col-sm-4 col-form-label">Periode</label>
+                <div class="col-sm-8">
+                    <select name="periode_id" id="periode_id" class="form-control">
+                        @foreach ($periode as $d)
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                                {{ $d->tahun . '-' . $d->semester }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 @error('periode_id')
@@ -75,7 +84,8 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <a type="button" href="{{ route('pengembangan.index') }}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">
                     Tambah
                 </button>
             </div>

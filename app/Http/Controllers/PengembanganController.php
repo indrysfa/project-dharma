@@ -3,28 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengembangan;
+use App\Models\Periode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PengembanganController extends Controller
 {
     public function index()
     {
+        // $data = DB::table('pengembangans')
+        //     ->join('periodes', 'periodes.id', '=', 'pengembangans.periode_id')
+        //     ->join('jenis_pengdiris', 'jenis_pengdiris.id', '=', 'pengembangans.jenis_pengdiri_id')
+        //     ->get();
+        //     dd($data);
         $data = Pengembangan::all();
         return view('pengembangan.index', compact('data'));
     }
 
-    public function add()
+    public function create()
     {
-        return view('pengembangan.add');
+        $periode        = DB::table('periodes')->get();
+        $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
+        return view('pengembangan.add', compact('periode', 'jenis_pengdiri'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
+        $this->validate($request, [
+            'judul_pengdiri'    => 'required',
+            'lokasi_pengdiri'   => 'required',
+        ]);
+
         $data = Pengembangan::create([
-            'jenis_pengdiri'    => $request->jenis_pengdiri,
+            'periode_id'        => $request->periode_id,
+            'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
             'judul_pengdiri'    => $request->judul_pengdiri,
             'lokasi_pengdiri'   => $request->lokasi_pengdiri,
-            'periode_id'        => $request->periode_id
         ]);
 
         if ($data) {
@@ -34,7 +48,9 @@ class PengembanganController extends Controller
 
     public function edit(Pengembangan $pengembangan)
     {
-        return view('pengembangan.edit', compact('pengembangan'));
+        $periode        = DB::table('periodes')->get();
+        $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
+        return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri'));
     }
 
     public function update(Request $request, Pengembangan $pengembangan)
@@ -42,10 +58,10 @@ class PengembanganController extends Controller
         $pengembangan = Pengembangan::findOrFail($pengembangan->id);
 
         $pengembangan->update([
-            'jenis_pengdiri'    => $request->jenis_pengdiri,
+            'periode_id'        => $request->periode_id,
+            'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
             'judul_pengdiri'    => $request->judul_pengdiri,
             'lokasi_pengdiri'   => $request->lokasi_pengdiri,
-            'periode_id'        => $request->periode_id
         ]);
 
         if ($pengembangan) {

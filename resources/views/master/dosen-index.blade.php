@@ -44,13 +44,14 @@
                                     <td>{{ $item->username }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->role }}</td>
-                                    <td> 
+                                    <td>{{ ucwords($item->status_id) }}</td>
+                                    {{-- <td> 
                                         @if ($item->status == 1)
                                             {{ 'Aktif' }} 
                                         @else
                                             {{ 'Nonaktif' }}
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <div class="btn-center">
                                             <a href="#" class="btn btn-info btn-circle btn-sm"><i

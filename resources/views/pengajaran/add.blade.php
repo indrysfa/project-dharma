@@ -15,7 +15,7 @@
                 <label for="kode_mk" class="col-sm-2 col-form-label">Kode MK</label>
                 <div class="col-sm-10">
                     <input type="number" class="form-control @error('kode_mk') is-invalid @enderror" id="kode_mk"
-                        name="kode_mk" value="{{ old('kode_mk') }}" required autocomplete="kode_mk" autofocus
+                        name="kode_mk" value="{{ old('kode_mk') }}" autocomplete="kode_mk" autofocus
                         placeholder="Masukan Kode Mata Kuliah">
                 </div>
 
@@ -31,7 +31,7 @@
                 <label for="nama_mk" class="col-sm-2 col-form-label">Nama MK</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control @error('nama_mk') is-invalid @enderror" id="nama_mk"
-                        name="nama_mk" value="{{ old('nama_mk') }}" required autocomplete="nama_mk" autofocus
+                        name="nama_mk" value="{{ old('nama_mk') }}" autocomplete="nama_mk" autofocus
                         placeholder="Masukan Nama Mata Kuliah">
                 </div>
 
@@ -67,7 +67,7 @@
                 <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
                 <div class="col-sm-10">
                     <input type="kelas" class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas"
-                        value="{{ old('kelas') }}" required autocomplete="kelas" placeholder="Masukan kelas">
+                        value="{{ old('kelas') }}" autocomplete="kelas" placeholder="Masukan kelas">
                 </div>
 
                 @error('kelas')
@@ -82,7 +82,7 @@
                 <label for="sks" class="col-sm-2 col-form-label">SKS</label>
                 <div class="col-sm-10">
                     <input type="sks" class="form-control @error('sks') is-invalid @enderror" id="sks" name="sks"
-                        value="{{ old('sks') }}" required autocomplete="sks" placeholder="Masukan SKS">
+                        value="{{ old('sks') }}" autocomplete="sks" placeholder="Masukan SKS">
                 </div>
 
 
@@ -94,7 +94,8 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <a type="button" href="{{ route('pengajaran.index') }}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">
                     Tambah
                 </button>
             </div>

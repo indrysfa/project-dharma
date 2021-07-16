@@ -12,10 +12,10 @@
 
             {{-- Judul PKM --}}
             <div class="form-group row">
-                <label for="judul_pkm" class="col-sm-2 col-form-label">Judul PKM</label>
-                <div class="col-sm-10">
+                <label for="judul_pkm" class="col-sm-4 col-form-label">Judul PKM</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('judul_pkm') is-invalid @enderror" id="judul_pkm"
-                        name="judul_pkm" value="{{ old('judul_pkm') }}" required autocomplete="judul_pkm" autofocus
+                        name="judul_pkm" value="{{ old('judul_pkm') }}" autocomplete="judul_pkm" autofocus
                         placeholder="Masukan Judul PKM">
                 </div>
 
@@ -28,10 +28,10 @@
 
             {{-- Nama Komunitas --}}
             <div class="form-group row">
-                <label for="nama_komunitas" class="col-sm-2 col-form-label">Nama Komunitas</label>
-                <div class="col-sm-10">
+                <label for="nama_komunitas" class="col-sm-4 col-form-label">Nama Komunitas</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('nama_komunitas') is-invalid @enderror"
-                        id="nama_komunitas" name="nama_komunitas" value="{{ old('nama_komunitas') }}" required
+                        id="nama_komunitas" name="nama_komunitas" value="{{ old('nama_komunitas') }}"
                         autocomplete="nama_komunitas" autofocus placeholder="Masukan Nama Komunitas">
                 </div>
 
@@ -44,10 +44,10 @@
 
             {{-- Lokasi PKM --}}
             <div class="form-group row">
-                <label for="lokasi_pkm" class="col-sm-2 col-form-label">Lokasi PKM</label>
-                <div class="col-sm-10">
+                <label for="lokasi_pkm" class="col-sm-4 col-form-label">Lokasi PKM</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('lokasi_pkm') is-invalid @enderror" id="lokasi_pkm"
-                        name="lokasi_pkm" value="{{ old('lokasi_pkm') }}" required autocomplete="lokasi_pkm"
+                        name="lokasi_pkm" value="{{ old('lokasi_pkm') }}" autocomplete="lokasi_pkm"
                         placeholder="Masukan Lokasi PKM">
                 </div>
 
@@ -60,11 +60,15 @@
 
             {{-- Periode --}}
             <div class="form-group row">
-                <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control @error('periode_id') is-invalid @enderror" id="periode_id"
-                        name="periode_id" value="{{ old('periode_id') }}" required autocomplete="periode_id"
-                        placeholder="Masukan Periode">
+                <label for="periode_id" class="col-sm-4 col-form-label">Periode</label>
+                <div class="col-sm-8">
+                    <select name="periode_id" id="periode_id" class="form-control">
+                        @foreach ($periode as $d)
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                                {{ $d->tahun . '-' . $d->semester }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 @error('periode_id')
@@ -75,7 +79,8 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <a type="button" href="{{ route('pengabdian.index') }}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">
                     Tambah
                 </button>
             </div>

@@ -3,28 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengabdian;
+use App\Models\Periode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PengabdianController extends Controller
 {
     public function index()
     {
-        $data = Pengabdian::all();
-        return view('pengabdian.index', compact('data'));
+        $data    = Pengabdian::all();
+        $periode = DB::table('periodes')->first();
+        return view('pengabdian.index', compact('data', 'periode'));
     }
 
-    public function add()
+    public function create()
     {
-        return view('pengabdian.add');
+        $periode = DB::table('periodes')->get();
+        return view('pengabdian.add', compact('periode'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
+        $this->validate($request, [
+            'judul_pkm'         => 'required',
+            'nama_komunitas'    => 'required',
+            'lokasi_pkm'        => 'required',
+        ]);
+
         $data = Pengabdian::create([
+            'periode_id'        => $request->periode_id,
             'judul_pkm'         => $request->judul_pkm,
             'nama_komunitas'    => $request->nama_komunitas,
             'lokasi_pkm'        => $request->lokasi_pkm,
-            'periode_id'        => $request->periode_id
         ]);
 
         if ($data) {
@@ -34,7 +44,8 @@ class PengabdianController extends Controller
 
     public function edit(Pengabdian $pengabdian)
     {
-        return view('pengabdian.edit', compact('pengabdian'));
+        $periode = DB::table('periodes')->get();
+        return view('pengabdian.edit', compact('pengabdian', 'periode'));
     }
 
     public function update(Request $request, Pengabdian $pengabdian)

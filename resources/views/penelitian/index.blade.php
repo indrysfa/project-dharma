@@ -42,9 +42,10 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->judul_penelitian }}</td>
-                                    <td>{{ $item->status_penelitian }}</td>
+                                    <td>{{ ucwords($item->m_status->name) }}</td>
                                     <td>{{ $item->jumlah_anggota }}</td>
-                                    <td>{{ $item->tahun_penelitian }}</td>
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    {{-- <td>{{ $periode->tahun }}</td> --}}
                                     <td>
                                         <div class="btn-center">
                                             <a href="{{ route('penelitian.edit', $item->id) }}"

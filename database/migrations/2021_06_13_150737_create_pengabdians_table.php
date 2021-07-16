@@ -15,11 +15,13 @@ class CreatePengabdiansTable extends Migration
     {
         Schema::create('pengabdians', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('periode_id')->unsigned();
             $table->string('judul_pkm');
             $table->string('nama_komunitas');
             $table->string('lokasi_pkm');
-            $table->integer('periode_id');
             $table->timestamps();
+
+            $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

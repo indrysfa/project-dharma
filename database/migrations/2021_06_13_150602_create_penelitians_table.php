@@ -15,11 +15,14 @@ class CreatePenelitiansTable extends Migration
     {
         Schema::create('penelitians', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('periode_id')->unsigned();
+            $table->bigInteger('status_id')->unsigned();
             $table->string('judul_penelitian');
-            $table->string('status_penelitian');
             $table->integer('jumlah_anggota');
-            $table->integer('tahun_penelitian');
             $table->timestamps();
+
+            $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('statuses')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

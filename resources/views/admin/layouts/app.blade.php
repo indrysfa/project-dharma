@@ -11,6 +11,7 @@
 
     <title>@yield('title')</title>
 
+    <link rel="icon" href="{{ asset('assets/logo binus.png') }}">
     {{-- Datatables --}}
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
@@ -98,7 +99,6 @@
         $(document).ready(function() {
             $('#dataTable').DataTable();
         });
-
     </script>
 
     <!-- Core plugin JavaScript-->
@@ -129,7 +129,6 @@
         //             }
         //         });
         // }
-
     </script>
 
 </body>

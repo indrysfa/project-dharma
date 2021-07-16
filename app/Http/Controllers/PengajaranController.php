@@ -24,10 +24,17 @@ class PengajaranController extends Controller
 
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'kode_mk'   => 'required',
+            'nama_mk'   => 'required',
+            'kelas'     => 'required',
+            'sks'       => 'required',
+        ]);
+
         $data = Pengajaran::create([
+            'periode_id'   => $request->periode_id,
             'kode_mk'      => $request->kode_mk,
             'nama_mk'      => $request->nama_mk,
-            'periode_id'   => $request->periode_id,
             'kelas'        => $request->kelas,
             'sks'          => $request->sks,
         ]);

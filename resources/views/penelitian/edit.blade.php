@@ -14,8 +14,8 @@
 
             {{-- Judul Penelitian --}}
             <div class="form-group row">
-                <label for="judul_penelitian" class="col-sm-2 col-form-label">Judul Penelitian</label>
-                <div class="col-sm-10">
+                <label for="judul_penelitian" class="col-sm-4 col-form-label">Judul Penelitian</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control @error('judul_penelitian') is-invalid @enderror"
                         id="judul_penelitian" name="judul_penelitian"
                         value="{{ old('judul_penelitian', $penelitian->judul_penelitian) }}" required
@@ -31,15 +31,18 @@
 
             {{-- Status Penelitian --}}
             <div class="form-group row">
-                <label for="status_penelitian" class="col-sm-2 col-form-label">Status Penelitian</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control @error('status_penelitian') is-invalid @enderror"
-                        id="status_penelitian" name="status_penelitian"
-                        value="{{ old('status_penelitian', $penelitian->status_penelitian) }}" required
-                        autocomplete="status_penelitian" autofocus>
+                <label for="status_id" class="col-sm-4 col-form-label">Status Penelitian</label>
+                <div class="col-sm-8">
+                    <select name="status_id" id="status_id" class="form-control">
+                        @foreach ($status as $e)
+                            <option value="{{ $e->id }}" {{ old('status_id') == "$e->name" ? selected : '' }}>
+                                {{ ucwords($e->name) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
-                @error('status_penelitian')
+                @error('status_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -48,8 +51,8 @@
 
             {{-- Jumlah Anggota --}}
             <div class="form-group row">
-                <label for="jumlah_anggota" class="col-sm-2 col-form-label">Jumlah Anggota</label>
-                <div class="col-sm-10">
+                <label for="jumlah_anggota" class="col-sm-4 col-form-label">Jumlah Anggota</label>
+                <div class="col-sm-8">
                     <input type="number" class="form-control @error('jumlah_anggota') is-invalid @enderror"
                         id="jumlah_anggota" name="jumlah_anggota"
                         value="{{ old('jumlah_anggota', $penelitian->jumlah_anggota) }}" required
@@ -65,15 +68,18 @@
 
             {{-- Tahun Penelitian --}}
             <div class="form-group row">
-                <label for="tahun_penelitian" class="col-sm-2 col-form-label">Tahun Penelitian</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control @error('tahun_penelitian') is-invalid @enderror"
-                        id="tahun_penelitian" name="tahun_penelitian"
-                        value="{{ old('tahun_penelitian', $penelitian->tahun_penelitian) }}" required
-                        autocomplete="tahun_penelitian">
+                <label for="periode_id" class="col-sm-4 col-form-label">Tahun Penelitian</label>
+                <div class="col-sm-8">
+                    <select name="periode_id" id="periode_id" class="form-control">
+                        @foreach ($periode as $d)
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                                {{ $d->tahun }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
-                @error('tahun_penelitian')
+                @error('periode_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -81,10 +87,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <button type="submit" class="btn btn-primary">
                     Update
                 </button>
-                <a href="{{ route('penelitian.index') }}" type="button" class="btn btn-secondary btn-user">
+                <a href="{{ route('penelitian.index') }}" type="button" class="btn btn-secondary">
                     Back
                 </a>
             </div>

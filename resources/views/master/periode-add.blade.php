@@ -6,17 +6,17 @@
 
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
+        @include('flash-message')
 
-        <form class="user" method="POST" action="{{ route('periode.create') }}">
+        <form class="user" method="POST" action="{{ route('periode.create') }}" enctype="multipart/form-data">
             @csrf
 
             {{-- Tahun Ajaran --}}
             <div class="form-group row">
                 <label for="tahun" class="col-sm-2 col-form-label">Tahun Ajaran</label>
                 <div class="col-sm-6">
-                    <input type="number" class="form-control @error('tahun') is-invalid @enderror" id="tahun"
-                        name="tahun" value="{{ old('tahun') }}" required autocomplete="tahun" autofocus
-                        placeholder="Masukan Tahun Ajaran Baru">
+                    <input type="number" class="form-control @error('tahun') is-invalid @enderror" name="tahun"
+                        value="{{ old('tahun') }}" autocomplete="tahun" autofocus placeholder="Masukan Tahun Ajaran Baru">
                 </div>
 
                 @error('tahun')
@@ -26,12 +26,12 @@
                 @enderror
             </div>
 
-             {{-- Semester --}}
-             <div class="form-group row">
+            {{-- Semester --}}
+            <div class="form-group row">
                 <label for="semester" class="col-sm-2 col-form-label">Semester</label>
                 <div class="col-sm-6">
-                    <input type="number" class="form-control @error('semester') is-invalid @enderror" id="semester"
-                        name="semester" value="{{ old('semester') }}" required autocomplete="semester" autofocus
+                    <input type="number" class="form-control @error('semester') is-invalid @enderror" name="semester"
+                        value="{{ old('semester') }}" autocomplete="semester" autofocus
                         placeholder="Masukan Semester Baru">
                 </div>
 
@@ -43,9 +43,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <button type="submit" class="btn btn-primary">
                     Save
                 </button>
+                <a type="button" href="{{ route('periode.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
 

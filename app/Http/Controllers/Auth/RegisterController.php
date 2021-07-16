@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Status;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -34,18 +35,33 @@ class RegisterController extends Controller
     public function redirectTo()
     {
         $role = Auth::user()->role;
+        $status = Auth::user()->status;
+        $user = Auth::user()->username;
+        // $data =  User::first();
+       
+        // dd(Auth::user());
 
-        switch ($role) {
-            case 'admin':
+        
+        switch ($status) {
+            case 1:
                 return '/admin';
                 break;
-            case 'lc':
-                return '/lc';
-                break;
-            case 'dosen':
-                return '/dosen';
+            case 0:
+                return '/register';
                 break;
         }
+        
+        // switch ($role) {
+        //     case 'admin':
+        //         return '/admin';
+        //         break;
+        //     case 'lc':
+        //         return '/lc';
+        //         break;
+        //     case 'dosen':
+        //         return '/dosen';
+        //         break;
+        // }
     }
 
     /**
@@ -67,15 +83,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:30'],
-            'username' => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'max:25'],
-            'tmptlahir' => ['required', 'string', 'max:50'],
-            'tgl_lahir' => ['required', 'string', 'max:30'],
-            'no_telepon' => ['required', 'string', 'max:13'],
-            'alamat' => ['required', 'string', 'max:60'],
+            'name'          => ['required', 'string', 'max:30'],
+            'username'      => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
+            'email'         => ['required', 'string', 'email', 'max:50', 'unique:users'],
+            'password'      => ['required', 'string', 'min:8', 'confirmed'],
+            'role'          => ['required', 'string', 'max:25'],
+            'tmptlahir'     => ['required', 'string', 'max:50'],
+            'tgl_lahir'     => ['required', 'string', 'max:30'],
+            'no_telepon'    => ['required', 'string', 'max:13'],
+            'alamat'        => ['required', 'string', 'max:60'],
         ]);
     }
 
@@ -87,17 +103,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => ucwords($data['name']),
-            'username' => strtolower($data['username']),
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => $data['role'],
-            'tmptlahir' => ucwords($data['tmptlahir']),
-            'tgl_lahir' => $data['tgl_lahir'],
-            'no_telepon' => $data['no_telepon'],
-            'alamat' => ucwords($data['alamat']),
-            'status' => $data['status'],
+        $user = User::create([
+            'name'          => ucwords($data['name']),
+            'username'      => strtolower($data['username']),
+            'email'         => $data['email'],
+            'password'      => Hash::make($data['password']),
+            'role'          => $data['role'],
+            'tmptlahir'     => ucwords($data['tmptlahir']),
+            'tgl_lahir'     => $data['tgl_lahir'],
+            'no_telepon'    => $data['no_telepon'],
+            'alamat'        => ucwords($data['alamat']),
+            // 'status'        => $data['status'],
         ]);
+
+        $user->m_status_user()->attach(Status::where('code', 0)->first());
+
+        return $user;
     }
 }

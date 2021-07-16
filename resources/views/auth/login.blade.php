@@ -6,20 +6,19 @@
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
-            <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="col-xl-6 col-lg-6 col-md-7">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block">
-                                {{-- <img src="{{ asset('assets/images/logo-binus.png')}}" width="500px"> --}}
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">{{ __('Login') }}</h1>
-                                    </div>
+                                        <img src="{{ asset('assets/images/logo-binus.png') }}" class="img-fluid"
+                                            alt="logo" width="200">
+                                    </div><br>
                                     <form class="user" method="POST" action="{{ route('login') }}">
                                         @csrf
 

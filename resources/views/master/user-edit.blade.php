@@ -180,10 +180,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <button type="submit" class="btn btn-primary">
                     Update
                 </button>
-                <a href="{{ route('user.index') }}" type="button" class="btn btn-secondary btn-user">
+                <a href="{{ route('user.index') }}" type="button" class="btn btn-secondary">
                     Back
                 </a>
             </div>

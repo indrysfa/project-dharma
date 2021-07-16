@@ -30,7 +30,8 @@
                                 <th>Judul PKM</th>
                                 <th>Nama Komunitas</th>
                                 <th>Lokasi PKM</th>
-                                <th>Periode</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Semester</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -44,7 +45,8 @@
                                     <td>{{ $item->judul_pkm }}</td>
                                     <td>{{ $item->nama_komunitas }}</td>
                                     <td>{{ $item->lokasi_pkm }}</td>
-                                    <td>{{ $item->periode_id }}</td>
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
                                     <td>
                                         <div class="btn-center">
                                             <a href="{{ route('pengabdian.edit', $item->id) }}"

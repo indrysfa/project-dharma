@@ -160,9 +160,10 @@
             <input type="number" class="form-control" name="status" value="0" hidden>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user btn-block">
+                <button type="submit" class="btn btn-primary">
                     Register
                 </button>
+                <a type="button" href="{{ route('user.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
 

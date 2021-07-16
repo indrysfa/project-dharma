@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('status_id');
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
@@ -25,9 +26,10 @@ class CreateUsersTable extends Migration
             $table->date('tgl_lahir');
             $table->string('no_telepon');
             $table->char('alamat');
-            $table->integer('status');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('status_id')->references('id')->on('statuses')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -14,15 +14,28 @@
 
             {{-- Jenis --}}
             <div class="form-group row">
-                <label for="jenis_pengdiri" class="col-sm-2 col-form-label">Jenis</label>
+                <label for="jenis_pengdiri_id" class="col-sm-2 col-form-label">Jenis Peng. Diri</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control @error('jenis_pengdiri') is-invalid @enderror"
-                        id="jenis_pengdiri" name="jenis_pengdiri"
-                        value="{{ old('jenis_pengdiri', $pengembangan->jenis_pengdiri) }}" required
-                        autocomplete="jenis_pengdiri" autofocus>
+                    {{-- <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
+                        @foreach ($jenis_pengdiri as $e)
+                            <option value="{{ $e->id }}"
+                                {{ old('jenis_pengdiri_id') == "$e->name" ? selected : '' }}>
+                                {{ ucwords($e->name) }}
+                            </option>
+                        @endforeach
+                    </select> --}}
+
+                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
+                        @foreach ($jenis_pengdiri as $d)
+                            <option value="{{ $d->id }}"
+                                {{ old('jenis_pengdiri_id') == "$d->name" ? selected : '' }}>
+                                {{ $d->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
-                @error('jenis_pengdiri')
+                @error('jenis_pengdiri_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -67,9 +80,13 @@
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control @error('periode_id') is-invalid @enderror" id="periode_id"
-                        name="periode_id" value="{{ old('periode_id', $pengembangan->periode_id) }}" required
-                        autocomplete="periode_id">
+                    <select name="periode_id" id="periode_id" class="form-control">
+                        @foreach ($periode as $d)
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->id" ? selected : '' }}>
+                                {{ $d->tahun . '-' . $d->semester }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 @error('periode_id')
@@ -80,10 +97,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-user">
+                <button type="submit" class="btn btn-primary">
                     Update
                 </button>
-                <a href="{{ route('pengembangan.index') }}" type="button" class="btn btn-secondary btn-user">
+                <a href="{{ route('pengembangan.index') }}" type="button" class="btn btn-secondary">
                     Back
                 </a>
             </div>

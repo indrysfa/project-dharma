@@ -116,7 +116,7 @@ class RegisterController extends Controller
             // 'status'        => $data['status'],
         ]);
 
-        $user->m_status_user()->attach(Status::where('code', 0)->first());
+        // $user->m_status_user()->attach(Status::where('code', 0)->first());
 
         return $user;
     }

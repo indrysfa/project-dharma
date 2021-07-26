@@ -19,6 +19,12 @@
                         </span>
                         <span class="text">Add</span>
                     </a>
+                    <a href="{{ route('penelitian.export') }}" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="text">Export</span>
+                    </a>
                 </h6>
             </div>
             <div class="card-body">

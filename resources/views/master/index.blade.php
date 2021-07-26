@@ -31,7 +31,6 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -46,13 +45,6 @@
                                     <td>{{ $item->username }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->role }}</td>
-                                    <td>
-                                        @if ($item->status == 1)
-                                            {{ 'Aktif' }}
-                                        @else
-                                            {{ 'Nonaktif' }}
-                                        @endif
-                                    </td>
                                     <td>
                                         <div class="btn-center">
                                             <a href="{{ route('user.detail', $item->id) }}"

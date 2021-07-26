@@ -24,18 +24,21 @@ class UserController extends Controller
         return view('master.dosen-index', compact('dosen'));
     }
 
-    public function forgotPassword()
-    {
-        //
-    }
-
-    public function add()
-    {
-        return view('master.user-add');
-    }
-
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'name'          => 'required',
+            'username'      => 'required',
+            'email'         => 'required',
+            'password'      => 'required',
+            'tmptlahir'     => 'required',
+            'no_telepon'    => 'required',
+            'alamat'        => 'required',
+            'image'         => 'required|image|mimes:png,jpg,jpeg',
+        ]);
+
+        $image = $request->file('image');
+        $image->storeAs('public/image', $image->hashName());
         $data = User::create([
             'status_id'     => 1,
             'name'          => ucwords($request->name),
@@ -47,6 +50,7 @@ class UserController extends Controller
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
             'alamat'        => ucwords($request->alamat),
+            'image'         => $image->hashName(),
         ]);
 
         if ($data) {

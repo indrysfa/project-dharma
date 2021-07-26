@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -17,7 +17,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'status_id',
         'name',
         'username',
         'email',
@@ -29,10 +28,10 @@ class User extends Authenticatable
         'alamat',
     ];
 
-    public function m_status()
-    {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
-    }
+    // public function m_status()
+    // {
+    //     return $this->belongsTo(Status::class, 'status_id', 'id');
+    // }
 
     public function hasStatus($status) 
     {

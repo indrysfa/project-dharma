@@ -67,7 +67,7 @@
                 <div class="col-sm-10">
                     <select name="periode_id" id="periode_id" class="form-control">
                         @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                            <option value="{{ $d->id }}" {{ old('periode_id') == $d->tahun ? 'selected' : '' }}>
                                 {{ $d->tahun . '-' . $d->semester }}
                             </option>
                         @endforeach

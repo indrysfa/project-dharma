@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Periode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PeriodeController extends Controller
 {
@@ -25,10 +26,16 @@ class PeriodeController extends Controller
             'semester'  => 'required',
         ]);
 
-        $periode = Periode::first();
-        // dd($request->tahun);
-        
+        // $periode = Periode::get();
+        $periode = DB::table('periodes')
+            // ->where('tahun', '!=', $request->tahun)
+            // ->where('semester', '!=', $request->semester)
+            // ->groupBy('tahun')
+            ->get();
+            // dd($cekperiode);
+            
         if($request->tahun != $periode->tahun &&  $request->semester != $periode->semester) {
+        // if($cekperiode) {
             Periode::create($request->all());
             return redirect()->route('periode.index')->with('success', 'Data berhasil ditambahkan');
         } else {

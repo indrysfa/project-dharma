@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             'tgl_lahir'     => '2021-09-01',
             'no_telepon'    => '08912345678',
             'alamat'        => ucwords('Jl. Merdeka'),
+            'image'        => 'abc',
         ]);
     }
 }

@@ -9,16 +9,6 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="{{ route('user.add') }}" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="text">Add</span>
-                    </a>
-                </h6>
-            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -29,7 +19,6 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -44,7 +33,6 @@
                                     <td>{{ $item->username }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->role }}</td>
-                                    <td>{{ ucwords($item->status_id) }}</td>
                                     {{-- <td> 
                                         @if ($item->status == 1)
                                             {{ 'Aktif' }} 

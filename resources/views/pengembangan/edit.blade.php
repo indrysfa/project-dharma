@@ -16,20 +16,11 @@
             <div class="form-group row">
                 <label for="jenis_pengdiri_id" class="col-sm-2 col-form-label">Jenis Peng. Diri</label>
                 <div class="col-sm-10">
-                    {{-- <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
+                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
                         @foreach ($jenis_pengdiri as $e)
                             <option value="{{ $e->id }}"
-                                {{ old('jenis_pengdiri_id') == "$e->name" ? selected : '' }}>
+                                {{ "old('jenis_pengdiri_id') == $e->id" ? 'selected' : '' }}>
                                 {{ ucwords($e->name) }}
-                            </option>
-                        @endforeach
-                    </select> --}}
-
-                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
-                        @foreach ($jenis_pengdiri as $d)
-                            <option value="{{ $d->id }}"
-                                {{ old('jenis_pengdiri_id') == "$d->name" ? selected : '' }}>
-                                {{ $d->name }}
                             </option>
                         @endforeach
                     </select>
@@ -76,13 +67,14 @@
                 @enderror
             </div>
 
-            {{-- Periode --}}
+            {{-- Periode ok --}}
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
                 <div class="col-sm-10">
-                    <select name="periode_id" id="periode_id" class="form-control">
+                    <select name="periode_id" class="form-control">
                         @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->id" ? selected : '' }}>
+                            <option value="{{ $d->id }}"
+                                {{ old('periode_id') ?? $pengembangan->periode_id == $d->id ? 'selected' : '' }}>
                                 {{ $d->tahun . '-' . $d->semester }}
                             </option>
                         @endforeach

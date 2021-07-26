@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenelitiansExport;
 use App\Models\Penelitian;
 use App\Models\Periode;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenelitianController extends Controller
 {
@@ -86,4 +88,16 @@ class PenelitianController extends Controller
             return redirect()->route('penelitian.index')->with('success', 'Judul Penelitian ' . $penelitian["judul_penelitian"] . ' deleted successfully');
         }
     }
+
+    public function export() 
+    {
+        return Excel::download(new PenelitiansExport, 'penelitians.export');
+    }
+ 
+    // public function import() 
+    // {
+    //     Excel::import(new UsersImport,request()->file('file'));
+             
+    //     return back();
+    // }
 }

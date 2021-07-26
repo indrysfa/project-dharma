@@ -33,9 +33,9 @@
             <div class="form-group row">
                 <label for="status_id" class="col-sm-4 col-form-label">Status Penelitian</label>
                 <div class="col-sm-8">
-                    <select name="status_id" id="status_id" class="form-control">
+                    <select name="status_id" class="form-control">
                         @foreach ($status as $e)
-                            <option value="{{ $e->id }}" {{ old('status_id') == "$e->name" ? selected : '' }}>
+                            <option value="{{ $e->id }}" {{ "old('status_id') == $e->id" ? 'selected' : '' }}>
                                 {{ ucwords($e->name) }}
                             </option>
                         @endforeach
@@ -70,9 +70,9 @@
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-4 col-form-label">Tahun Penelitian</label>
                 <div class="col-sm-8">
-                    <select name="periode_id" id="periode_id" class="form-control">
+                    <select name="periode_id" class="form-control">
                         @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->id" ? 'selected' : '' }}>
                                 {{ $d->tahun }}
                             </option>
                         @endforeach

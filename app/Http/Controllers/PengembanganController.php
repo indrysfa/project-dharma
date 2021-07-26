@@ -50,6 +50,7 @@ class PengembanganController extends Controller
     {
         $periode        = DB::table('periodes')->get();
         $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
+        // dd($periode);
         return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri'));
     }
 

@@ -35,7 +35,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('/')->middleware('auth')->group(function () {
+Route::prefix('/')->middleware('auth')->middleware('verified')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.home');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('dosen.forgot-password');

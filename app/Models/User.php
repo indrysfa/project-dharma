@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'tgl_lahir',
         'no_telepon',
         'alamat',
+        'email_verified_at',
     ];
 
     // public function m_status()
@@ -33,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->belongsTo(Status::class, 'status_id', 'id');
     // }
 
-    public function hasStatus($status) 
+    public function hasStatus($status)
     {
       return $this->m_status()->where('code', $status)->count() == 1;
     }

@@ -38,10 +38,10 @@ class RegisterController extends Controller
         $status = Auth::user()->status;
         $user = Auth::user()->username;
         // $data =  User::first();
-       
+
         // dd(Auth::user());
 
-        
+
         switch ($status) {
             case 1:
                 return '/admin';
@@ -50,7 +50,7 @@ class RegisterController extends Controller
                 return '/register';
                 break;
         }
-        
+
         // switch ($role) {
         //     case 'admin':
         //         return '/admin';

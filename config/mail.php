@@ -37,9 +37,12 @@ return [
         'smtp' => [
             'driver' => env('MAIL_DRIVER', 'smtp'),
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
-            'port' => env('MAIL_PORT', 2525),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
+            'port' => env('MAIL_PORT', 465),
+            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+            // 'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
+            // 'port' => env('MAIL_PORT', 2525),
+            // 'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
@@ -85,7 +88,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@mail.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply_binus@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 

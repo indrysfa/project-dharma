@@ -1,5 +1,9 @@
 <?php
-
+/*
+|--------------------------------------------------------------------------
+| @author: Indry Sefviana | github @indrysfa
+|--------------------------------------------------------------------------
+*/
 namespace App\Http\Controllers;
 
 use App\Models\Periode;
@@ -33,7 +37,7 @@ class PeriodeController extends Controller
             // ->groupBy('tahun')
             ->get();
             // dd($cekperiode);
-            
+
         if($request->tahun != $periode->tahun &&  $request->semester != $periode->semester) {
         // if($cekperiode) {
             Periode::create($request->all());

@@ -1,4 +1,9 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| @author: Indry Sefviana | github @indrysfa
+|--------------------------------------------------------------------------
+*/
 
 namespace App\Http\Controllers;
 
@@ -89,15 +94,15 @@ class PenelitianController extends Controller
         }
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new PenelitiansExport, 'penelitians.export');
     }
- 
-    // public function import() 
+
+    // public function import()
     // {
     //     Excel::import(new UsersImport,request()->file('file'));
-             
+
     //     return back();
     // }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PengabdianController;
 use App\Http\Controllers\PengajaranController;
 use App\Http\Controllers\PengembanganController;
+use App\Http\Controllers\PenugasanController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\UserController;
 
@@ -54,6 +55,10 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/periode/add', [PeriodeController::class, 'create'])->name('periode.add');
     Route::post('/periode/add', [PeriodeController::class, 'store'])->name('periode.create');
     Route::delete('/periode/delete/{periode}', [PeriodeController::class, 'destroy'])->name('periode.delete');
+
+    Route::get('/penugasan', [PenugasanController::class, 'index'])->name('penugasan.index');
+    Route::get('/penugasan/add', [PenugasanController::class, 'create'])->name('penugasan.add');
+    Route::post('/penugasan/add', [PenugasanController::class, 'store'])->name('penugasan.create');
 
     Route::get('/pengajaran', [PengajaranController::class, 'index'])->name('pengajaran.index');
     Route::get('/pengajaran/add', [PengajaranController::class, 'add'])->name('pengajaran.add');

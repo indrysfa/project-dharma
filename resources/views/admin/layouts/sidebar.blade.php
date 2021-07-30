@@ -35,6 +35,13 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Nav Item - Penugasan -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('penugasan.index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Penugasan</span></a>
+    </li>
+
     <!-- Nav Item - Pengajaran Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePengajaran"
@@ -50,7 +57,7 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pengajaran Menu -->
+    <!-- Nav Item - Penelitian Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenelitian"
             aria-expanded="true" aria-controls="collapsePenelitian">

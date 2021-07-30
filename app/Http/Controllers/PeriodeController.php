@@ -10,6 +10,8 @@ use App\Models\Periode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PeriodeController extends Controller
 {
     public function index()
@@ -30,20 +32,19 @@ class PeriodeController extends Controller
             'semester'  => 'required',
         ]);
 
-        // $periode = Periode::get();
         $periode = DB::table('periodes')
-            // ->where('tahun', '!=', $request->tahun)
-            // ->where('semester', '!=', $request->semester)
-            // ->groupBy('tahun')
-            ->get();
-            // dd($cekperiode);
+            ->where('tahun', 'like', "%" . $request->tahun . "%")
+            ->where('semester', 'like', "%" . $request->semester . "%")
+            ->first();
 
-        if($request->tahun != $periode->tahun &&  $request->semester != $periode->semester) {
-        // if($cekperiode) {
-            Periode::create($request->all());
-            return redirect()->route('periode.index')->with('success', 'Data berhasil ditambahkan');
-        } else {
+        if($periode){
             return redirect()->route('periode.index')->with('warning', 'Gagal! Data sudah ada');
+        } else {
+            Periode::create([
+                'tahun'     => $request->tahun,
+                'semester'  => $request->semester,
+            ]);
+            return redirect()->route('periode.index')->with('success', 'Data berhasil ditambahkan');
         }
     }
 

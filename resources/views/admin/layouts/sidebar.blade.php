@@ -3,10 +3,14 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
+        {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-rocket"></i>
+        </div> --}}
+        {{-- <x-application-logo class="sidebar-brand-text mx-3" /> --}}
+
+        <div class="sidebar-brand-text mx-3">
+            <img style="width: 110px" src="{{ asset('assets/images/logo-binus.png') }}" alt="">
         </div>
-        <div class="sidebar-brand-text mx-3">Catur <sup>Dharma</sup></div>
     </a>
 
     <!-- Divider -->

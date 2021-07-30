@@ -11,7 +11,7 @@
 
     <title>@yield('title')</title>
 
-    <link rel="icon" href="{{ asset('assets/logo binus.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/logo-binus.png') }}" type="image/x-icon">
     {{-- Datatables --}}
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
@@ -108,28 +108,28 @@
     <script src="{{ asset('assets/sb-admin2/js/sb-admin-2.min.js') }}"></script>
 
     {{-- Sweetalert2 --}}
-    <script src="{{ asset('assets/sweetalert2.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/sweetalert2.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/sweetalert2.min.css') }}">
     <script>
-        // function confirmDelete(item_id) {
-        //     Swal.fire({
-        //             title: 'Apakah Anda Yakin?',
-        //             text: "Anda Tidak Akan Dapat Mengembalikannya!",
-        //             type: 'warning',
-        //             showCancelButton: true,
-        //             confirmButtonColor: '#3085d6',
-        //             cancelButtonColor: '#d33',
-        //             confirmButtonText: 'Yes, delete it!'
-        //         })
-        //         .then((willDelete) => {
-        //             if (willDelete) {
-        //                 $('#' + item_id).submit();
-        //             } else {
-        //                 swal("Cancelled Successfully");
-        //             }
-        //         });
-        // }
-    </script>
+        function confirmDelete(item_id) {
+            Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda Tidak Akan Dapat Mengembalikannya!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $('#' + item_id).submit();
+                    } else {
+                        swal("Cancelled Successfully");
+                    }
+                });
+        }
+    </script> --}}
 
 </body>
 

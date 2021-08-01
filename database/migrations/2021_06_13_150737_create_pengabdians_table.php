@@ -15,6 +15,7 @@ class CreatePengabdiansTable extends Migration
     {
         Schema::create('pengabdians', function (Blueprint $table) {
             $table->id();
+            $table->string('dosen_id');
             $table->bigInteger('periode_id')->unsigned();
             $table->string('judul_pkm');
             $table->string('nama_komunitas');

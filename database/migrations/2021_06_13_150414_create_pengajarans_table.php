@@ -15,11 +15,13 @@ class CreatePengajaransTable extends Migration
     {
         Schema::create('pengajarans', function (Blueprint $table) {
             $table->id();
+            $table->string('dosen_id');
+            $table->bigInteger('periode_id')->unsigned();
             $table->integer('kode_mk');
             $table->string('nama_mk');
-            $table->bigInteger('periode_id')->unsigned();
             $table->string('kelas');
             $table->integer('sks');
+            $table->string('status_id');
             $table->timestamps();
 
             $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');

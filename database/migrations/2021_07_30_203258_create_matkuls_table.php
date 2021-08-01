@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePenelitiansTable extends Migration
+class CreateMatkulsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreatePenelitiansTable extends Migration
      */
     public function up()
     {
-        Schema::create('penelitians', function (Blueprint $table) {
+        Schema::create('matkuls', function (Blueprint $table) {
             $table->id();
-            $table->string('dosen_id');
-            $table->bigInteger('periode_id')->unsigned();
             $table->bigInteger('status_id')->unsigned();
-            $table->string('judul_penelitian');
-            $table->integer('jumlah_anggota');
+            $table->string('kode');
+            $table->string('name');
             $table->timestamps();
 
-            $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('statuses')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -34,6 +31,6 @@ class CreatePenelitiansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penelitians');
+        Schema::dropIfExists('matkuls');
     }
 }

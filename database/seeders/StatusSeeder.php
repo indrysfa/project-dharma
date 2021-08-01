@@ -17,13 +17,25 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert([
             'name'  => 'aktif',
             'code'  => 1,
-            'group' => 'user',
+            'group' => 'dosen',
         ]);
 
         DB::table('statuses')->insert([
             'name'  => 'nonaktif',
             'code'  => 0,
-            'group' => 'user',
+            'group' => 'dosen',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'aktif',
+            'code'  => 1,
+            'group' => 'matkul',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'nonaktif',
+            'code'  => 0,
+            'group' => 'matkul',
         ]);
 
         DB::table('statuses')->insert([
@@ -36,6 +48,18 @@ class StatusSeeder extends Seeder
             'name'  => 'done',
             'code'  => 2,
             'group' => 'penelitian',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'aktif',
+            'code'  => 1,
+            'group' => 'pengajaran',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'nonaktif',
+            'code'  => 0,
+            'group' => 'pengajaran',
         ]);
     }
 }

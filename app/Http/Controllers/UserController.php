@@ -6,11 +6,15 @@
 */
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -20,41 +24,54 @@ class UserController extends Controller
         return view('master.index', compact('data'));
     }
 
-    public function dosen()
+    public function add()
     {
-        $dosen = DB::table('users')
-            ->where('role', 'dosen')
-            ->get();
-        return view('master.dosen-index', compact('dosen'));
+        $this->authorize('create', User::class);
+
+        $data = Role::all();
+        return view('master.user-add', compact('data'));
     }
 
     public function create(Request $request)
     {
+        $this->authorize('create', User::class);
+
         $this->validate($request, [
-            'name'          => 'required',
-            'username'      => 'required',
-            'email'         => 'required',
+            'role_id'       => 'required|string|max:25',
+            'name'          => 'required|string|max:30',
+            'username'      => 'required|string|max:8|unique:users|alpha_dash',
+            'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required',
-            'tmptlahir'     => 'required',
-            'no_telepon'    => 'required',
-            'alamat'        => 'required',
-            'image'         => 'required|image|mimes:png,jpg,jpeg',
+            'tmptlahir'     => 'required|string|max:50',
+            'tgl_lahir'     => 'required|string|max:30',
+            'no_telepon'    => 'required|string|max:13',
+            'alamat'        => 'required|string|max:60',
+            'picture'       => 'required|image|mimes:png,jpg,jpeg',
         ]);
 
-        $image = $request->file('image');
-        $image->storeAs('public/image', $image->hashName());
+        if ($request->role_id == 3) {
+            $data = Dosen::create([
+                'user_id'       => strtolower($request->username),
+                'status'        => 'aktif',
+                'name'          => ucwords($request->name),
+            ]);
+        }
+
+        $picture = $request->file('picture');
+        $picture->storeAs('public/image', $picture->hashName());
+
         $data = User::create([
-            'status_id'     => 1,
-            'name'          => ucwords($request->name),
-            'username'      => strtolower($request->username),
-            'email'         => $request->email,
-            'password'      => Hash::make($request->password),
-            'role'          => $request->role,
-            'tmptlahir'     => ucwords($request->tmptlahir),
-            'tgl_lahir'     => $request->tgl_lahir,
-            'no_telepon'    => $request->no_telepon,
-            'alamat'        => ucwords($request->alamat),
-            'image'         => $image->hashName(),
+            'name'              => ucwords($request->name),
+            'username'          => strtolower($request->username),
+            'email'             => $request->email,
+            'email_verified_at' => date("Y-m-d H:i:s"),
+            'password'          => Hash::make($request->password),
+            'role_id'           => $request->role_id,
+            'tmptlahir'         => ucwords($request->tmptlahir),
+            'tgl_lahir'         => $request->tgl_lahir,
+            'no_telepon'        => $request->no_telepon,
+            'alamat'            => ucwords($request->alamat),
+            'picture'           => $picture->hashName(),
         ]);
 
         if ($data) {
@@ -69,39 +86,67 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('master.user-edit', compact('user'));
+        $this->authorize('update', User::class);
+
+        $role = Role::all();
+        return view('master.user-edit', compact('user', 'role'));
     }
 
     public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($user->id);
+        $this->authorize('update', User::class);
 
-        $user->update([
-            'status_id'     => 1,
-            'name'          => ucwords($request->name),
-            'username'      => strtolower($request->username),
-            'email'         => $request->email,
-            'password'      => Hash::make($request->password),
-            'role'          => $request->role,
-            'tmptlahir'     => ucwords($request->tmptlahir),
-            'tgl_lahir'     => $request->tgl_lahir,
-            'no_telepon'    => $request->no_telepon,
-            'alamat'        => ucwords($request->alamat),
-        ]);
+        $data = User::findOrFail($user->id);
 
-        if ($user) {
-            return redirect()->route('user.index')->with('success', 'Data ' . $user["name"] . ' Updated successfully');
+        if ($request->file('picture') == "") {
+            $data->update([
+                'name'          => ucwords($request->name),
+                'email'         => $request->email,
+                'role'          => $request->role,
+                'tmptlahir'     => ucwords($request->tmptlahir),
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
+            ]);
+
+        } else {
+            Storage::disk('local')->delete('public/image/' . $data->picture);
+            $picture = $request->file('picture');
+            $picture->storeAs('public/image', $picture->hashName());
+
+            $data->update([
+                'name'          => ucwords($request->name),
+                'email'         => $request->email,
+                'role'          => $request->role,
+                'tmptlahir'     => ucwords($request->tmptlahir),
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
+                'picture'       => $picture->hashName()
+            ]);
+        }
+
+        if ($data) {
+            return redirect()->route('user.index')->with('success', 'Data updated successfully');
         }
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->find($user->id)->all();
+        $this->authorize('delete', User::class);
 
-        $user->delete();
+        $param = User::findOrFail($id);
+
+        if ($param->role_id == 3) {
+            $user = Dosen::where('user_id', $param->username)->delete();
+            $user = $param->delete();
+        } else {
+            $user = $param->delete();
+        }
+        Storage::disk('local')->delete('public/image/' . $param->picture);
 
         if ($user) {
-            return redirect()->route('user.index')->with('success', 'Data ' . $user["name"] . ' deleted successfully');
+            return redirect()->route('user.index')->with('success', 'Data ' . $param->name . ' deleted successfully');
         }
     }
 }

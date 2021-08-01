@@ -10,6 +10,27 @@
         <form class="user" method="POST" action="{{ route('pengajaran.create') }}">
             @csrf
 
+            {{-- Nama Dosen --}}
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                <div class="col-sm-10">
+                    <select name="dosen_id" id="dosen_id" class="selectpicker" data-size="5" data-live-search="true">
+                        @foreach ($dosen as $d)
+                            <option value="{{ $d->role_id }}" {{ old('dosen_id') == "$d->id" ? 'selected' : '' }}>
+                                {{ ucwords($d->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+                @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             {{-- Kode MK --}}
             <div class="form-group row">
                 <label for="kode_mk" class="col-sm-2 col-form-label">Kode MK</label>
@@ -46,7 +67,7 @@
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
                 <div class="col-sm-10">
-                    <select name="periode_id" id="periode_id" class="form-control">
+                    <select name="periode_id" id="periode_id" class="selectpicker" data-size="5" data-live-search="true">
                         @foreach ($data as $d)
                             <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
                                 {{ $d->tahun . '-' . $d->semester }}

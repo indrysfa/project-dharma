@@ -11,6 +11,7 @@ use App\Exports\PenelitiansExport;
 use App\Models\Penelitian;
 use App\Models\Periode;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,13 +29,16 @@ class PenelitianController extends Controller
 
     public function create()
     {
+        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->orderBy('dosens.created_at', 'desc')
+            ->get();
         $periode = DB::table('periodes')
             ->where('semester', '=', 1)
             ->get();
         $status = DB::table('statuses')
             ->where('group', '=', 'penelitian')
             ->get();
-        return view('penelitian.add', compact('periode', 'status'));
+        return view('penelitian.add', compact('periode', 'status', 'dosen'));
     }
 
     public function store(Request $request)

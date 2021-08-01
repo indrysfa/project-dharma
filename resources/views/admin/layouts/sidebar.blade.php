@@ -17,30 +17,37 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Master Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Master</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Master Components:</h6>
-                <a class="collapse-item" href="{{ route('user.index') }}">User</a>
-                <a class="collapse-item" href="{{ route('dosen.index') }}">Dosen</a>
-                <a class="collapse-item" href="{{ route('periode.index') }}">Periode</a>
-            </div>
+    @if (Auth::user()->role_id != 1)
+        {{ '' }}
+    @else
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Master</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Master Components:</h6>
+    @endif
+    @can('view', App\Models\User::class)
+        <a class="collapse-item" href="{{ route('user.index') }}">User</a>
+    @endcan
+    @can('view', App\Models\Periode::class)
+        <a class="collapse-item" href="{{ route('periode.index') }}">Periode</a>
+    @endcan
+    @can('view', App\Models\Dosen::class)
+        <a class="collapse-item" href="{{ route('dosen.index') }}">Dosen</a>
+    @endcan
+    @if (Auth::user()->role_id != 1)
+        {{ '' }}
+    @else
         </div>
-    </li>
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Nav Item - Penugasan -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('penugasan.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Penugasan</span></a>
-    </li>
+        </div>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+    @endif
 
     <!-- Nav Item - Pengajaran Menu -->
     <li class="nav-item">

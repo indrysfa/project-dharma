@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PengabdianController;
 use App\Http\Controllers\PengajaranController;
@@ -39,8 +40,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('/')->middleware('auth')->middleware('verified')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.home');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('dosen.forgot-password');
-    Route::get('/dosen', [UserController::class, 'dosen'])->name('dosen.index');
+
+    Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
+    Route::get('/dosen/add', [DosenController::class, 'add'])->name('dosen.add');
+    Route::post('/dosen/add', [DosenController::class, 'create'])->name('dosen.create');
+    Route::get('/dosen-edit/{dosen}', [DosenController::class, 'edit'])->name('dosen.edit');
+    Route::put('/dosen-edit/{dosen}', [DosenController::class, 'update'])->name('dosen.update');
+    Route::delete('/dosen/delete/{dosen}', [DosenController::class, 'destroy'])->name('dosen.delete');
 
     Route::get('/user/add', [UserController::class, 'add'])->name('user.add');
     Route::post('/user/add', [UserController::class, 'create'])->name('user.create');

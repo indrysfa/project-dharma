@@ -17,26 +17,27 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
+        'role_id',
         'name',
         'username',
         'email',
         'password',
-        'role',
         'tmptlahir',
         'tgl_lahir',
         'no_telepon',
         'alamat',
         'email_verified_at',
+        'picture',
     ];
-
-    // public function m_status()
-    // {
-    //     return $this->belongsTo(Status::class, 'status_id', 'id');
-    // }
 
     public function hasStatus($status)
     {
       return $this->m_status()->where('code', $status)->count() == 1;
+    }
+
+    public function m_role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
     /**

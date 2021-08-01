@@ -14,14 +14,17 @@
 
     <link rel="shortcut icon" href="{{ asset('assets/logo-binus.png') }}" type="image/x-icon">
     {{-- Datatables --}}
-    <link href="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap-select/bootstrap-select.min.css') }}">
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/sb-admin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
         type="text/css">
-    <link
+    {{-- <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        rel="stylesheet"> --}}
+    <link href="{{ asset('assets/assets/family-nunito.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/sb-admin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -107,6 +110,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/sb-admin2/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap-select/bootstrap-select.min.js') }}"></script>
 
     {{-- Sweetalert2 --}}
     {{-- <script src="{{ asset('assets/sweetalert2.min.js') }}"></script>

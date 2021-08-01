@@ -15,6 +15,7 @@ class CreatePengembangansTable extends Migration
     {
         Schema::create('pengembangans', function (Blueprint $table) {
             $table->id();
+            $table->string('dosen_id');
             $table->bigInteger('periode_id')->unsigned();
             $table->bigInteger('jenis_pengdiri_id')->unsigned();
             $table->string('judul_pengdiri');

@@ -22,11 +22,15 @@ class PeriodeController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Periode::class);
+
         return view('master.periode-add');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Periode::class);
+
         $request->validate([
             'tahun'     => 'required',
             'semester'  => 'required',
@@ -50,6 +54,8 @@ class PeriodeController extends Controller
 
     public function destroy(Periode $periode)
     {
+        $this->authorize('delete', Periode::class);
+
         $periode->find($periode->id)->all();
 
         $periode->delete();

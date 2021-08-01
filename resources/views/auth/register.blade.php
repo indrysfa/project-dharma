@@ -54,14 +54,14 @@
 
             <!-- Role -->
             <div class="mt-4">
-                <x-label for="role" :value="__('Role')" />
-
-                {{-- <x-input id="role" class="block mt-1 w-full" type="text" name="role" :value="old('role')" required
-                    autofocus /> --}}
-                <select id="role" class="block mt-1 w-full" name="role" :value="old('role')" required>
-                    <option value="dosen">Dosen</option>
-                    <option value="lc">Language Center</option>
-                    <option value="admin">Admin</option>
+                <x-label for="role_id" :value="__('Role')" />
+                <select id="role_id" class="block mt-1 w-full" name="role_id" :value="old('role_id')" required>
+                    {{-- @foreach ($role as $item)
+                        <option value="{{ $item->code }}">{{ $item->name }}</option>
+                    @endforeach --}}
+                    <option value="3">Dosen</option>
+                    {{-- <option value="lc">Language Center</option> --}}
+                    <option value="1">Admin</option>
                 </select>
             </div>
 

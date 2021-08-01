@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Tambah Periode Baru')
+@section('title', 'Tambah Dosen Baru')
 @section('content')
     @if (Auth::user()->role_id != 1)
         <h1 class="h3 mb-4 text-gray-800">Maaf, kamu tidak bisa mengakses halaman ini.</h1>
@@ -11,35 +11,33 @@
             <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
             @include('flash-message')
 
-            <form class="user" method="POST" action="{{ route('periode.create') }}" enctype="multipart/form-data">
+            <form class="user" method="POST" action="{{ route('dosen.create') }}" enctype="multipart/form-data">
                 @csrf
 
-                {{-- Tahun Ajaran --}}
+                {{-- Nama --}}
                 <div class="form-group row">
-                    <label for="tahun" class="col-sm-2 col-form-label">Tahun Ajaran</label>
+                    <label for="name" class="col-sm-2 col-form-label">Name Dosen</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control @error('tahun') is-invalid @enderror" name="tahun"
-                            value="{{ old('tahun') }}" autocomplete="tahun" autofocus
-                            placeholder="Masukan Tahun Ajaran Baru">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name') }}" autocomplete="name" autofocus>
                     </div>
 
-                    @error('tahun')
+                    @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
 
-                {{-- Semester --}}
+                {{-- Username --}}
                 <div class="form-group row">
-                    <label for="semester" class="col-sm-2 col-form-label">Semester</label>
+                    <label for="user_id" class="col-sm-2 col-form-label">Username</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control @error('semester') is-invalid @enderror" name="semester"
-                            value="{{ old('semester') }}" autocomplete="semester" autofocus
-                            placeholder="Masukan Semester Baru">
+                        <input type="text" class="form-control @error('user_id') is-invalid @enderror" name="user_id"
+                            value="{{ old('user_id') }}" autocomplete="user_id" autofocus>
                     </div>
 
-                    @error('semester')
+                    @error('user_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

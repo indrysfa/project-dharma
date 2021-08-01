@@ -11,22 +11,25 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="{{ route('pengajaran.add') }}" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="text">Add</span>
-                    </a>
-                </h6>
-            </div>
+            @can('viewAny', App\Models\Pengajaran::class)
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <a href="{{ route('pengajaran.add') }}" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Add</span>
+                        </a>
+                    </h6>
+                </div>
+            @endcan
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama Dosen</th>
                                 <th>Kode MK</th>
                                 <th>Nama MK</th>
                                 <th>Tahun</th>
@@ -43,6 +46,7 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
+                                    <td>{{ $item->dosen_id }}</td>
                                     <td>{{ $item->kode_mk }}</td>
                                     <td>{{ $item->nama_mk }}</td>
                                     <td>{{ $item->m_periode->tahun }}</td>

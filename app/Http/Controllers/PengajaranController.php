@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Pengajaran;
 use App\Models\Periode;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,23 +20,25 @@ class PengajaranController extends Controller
 {
     public function index()
     {
-        // $data = Pengajaran::all();
-        $user = Auth::user();
-        // dd($user);
-        if (Auth::user()->role_id === 1) {
-            $data = Pengajaran::all();
-        } else {
-            $data = User::join('pengajarans', 'users.role_id', '=', 'pengajarans.dosen_id')
-                ->where('dosen_id', '=', $user)
+        $period = DB::table('periodes')
+                ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
                 ->get();
-        }
-        // $dosen = User::where('username', $userlogin);
-        // dd($dosen);
-        return view('pengajaran.index', compact('data'));
+        $username = Auth::user()->username;
+        if (Auth::user()->role_id !== 3) {
+            $data = User::join('pengajarans', 'users.username', '=', 'pengajarans.dosen_id')
+                ->get();
+        } else {
+            $data = Pengajaran::where('dosen_id', $username)->get();
+            }
+
+
+        return view('pengajaran.index', compact('data', 'period'));
     }
 
     public function add()
     {
+        $this->authorize('create', Pengajaran::class);
+
         $data = Periode::all();
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->orderBy('dosens.created_at', 'desc')
@@ -45,7 +48,7 @@ class PengajaranController extends Controller
 
     public function create(Request $request)
     {
-        $this->authorize('create', Dosen::class);
+        $this->authorize('create', Pengajaran::class);
 
         $this->validate($request, [
             'kode_mk'   => 'required',
@@ -61,6 +64,7 @@ class PengajaranController extends Controller
             'nama_mk'    => $request->nama_mk,
             'kelas'      => $request->kelas,
             'sks'        => $request->sks,
+            'status_id'  => 1,
         ]);
 
         if ($data) {
@@ -70,12 +74,18 @@ class PengajaranController extends Controller
 
     public function edit(Pengajaran $pengajaran)
     {
-        $data = Periode::all();
-        return view('pengajaran.edit', compact('pengajaran', 'data'));
+        $this->authorize('update', Pengajaran::class);
+
+        $period = Periode::all();
+        $status = Status::where('group', '=', 'pengajaran')->get();
+
+        return view('pengajaran.edit', compact('pengajaran', 'period', 'status'));
     }
 
     public function update(Request $request, Pengajaran $pengajaran)
     {
+        $this->authorize('update', Pengajaran::class);
+
         $pengajaran = Pengajaran::findOrFail($pengajaran->id);
 
         $pengajaran->update([
@@ -84,6 +94,7 @@ class PengajaranController extends Controller
             'periode_id'   => $request->periode_id,
             'kelas'        => $request->kelas,
             'sks'          => $request->sks,
+            'status_id'    => $request->status_id,
         ]);
 
         if ($pengajaran) {
@@ -93,6 +104,8 @@ class PengajaranController extends Controller
 
     public function destroy(Pengajaran $pengajaran)
     {
+        $this->authorize('delete', Pengajaran::class);
+
         $pengajaran->find($pengajaran->id)->all();
 
         $pengajaran->delete();

@@ -11,7 +11,7 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            @can('viewAny', App\Models\Pengajaran::class)
+            @can('create', App\Models\Pengajaran::class)
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         <a href="{{ route('pengajaran.add') }}" class="btn btn-success btn-icon-split">
@@ -36,6 +36,9 @@
                                 <th>Semester</th>
                                 <th>Kelas</th>
                                 <th>SKS</th>
+                                @can('view', App\Models\Pengajaran::class)
+                                    <th>Status</th>
+                                @endcan
                                 <th></th>
                             </tr>
                         </thead>
@@ -46,24 +49,42 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->dosen_id }}</td>
+                                    <td>{{ $item->name }}</td>
                                     <td>{{ $item->kode_mk }}</td>
                                     <td>{{ $item->nama_mk }}</td>
-                                    <td>{{ $item->m_periode->tahun }}</td>
-                                    <td>{{ $item->m_periode->semester }}</td>
+                                    {{-- @php
+                                        $period = Illuminate\Support\Facades\DB::table('periodes')
+                                            ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
+                                            ->get();
+                                    @endphp --}}
+                                    <td>{{ $period[0]->tahun }}</td>
+                                    <td>{{ $period[0]->semester }}</td>
+                                    {{-- <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td> --}}
                                     <td>{{ $item->kelas }}</td>
                                     <td>{{ $item->sks }}</td>
+                                    @can('view', App\Models\Pengajaran::class)
+                                        @if ($item->status_id == 1)
+                                            <td>{{ 'Aktif' }}</td>
+                                        @else
+                                            <td>{{ 'Nonaktif' }}</td>
+                                        @endif
+                                    @endcan
                                     <td>
                                         <div class="btn-center">
-                                            <a href="{{ route('pengajaran.edit', $item->id) }}"
-                                                class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
-                                            <form action="{{ route('pengajaran.delete', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
+                                            @can('update', App\Models\Pengajaran::class)
+                                                <a href="{{ route('pengajaran.edit', $item->id) }}"
+                                                    class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                            @endcan
+                                            @can('delete', App\Models\Pengajaran::class)
+                                                <form action="{{ route('pengajaran.delete', $item->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
+                                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

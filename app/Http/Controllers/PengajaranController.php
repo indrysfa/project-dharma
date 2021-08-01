@@ -29,7 +29,7 @@ class PengajaranController extends Controller
                 ->get();
         } else {
             $data = Pengajaran::where('dosen_id', $username)->get();
-            }
+        }
 
 
         return view('pengajaran.index', compact('data', 'period'));
@@ -41,6 +41,7 @@ class PengajaranController extends Controller
 
         $data = Periode::all();
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
             ->get();
         return view('pengajaran.add', compact('data', 'dosen'));

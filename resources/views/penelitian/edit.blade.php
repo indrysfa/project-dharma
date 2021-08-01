@@ -12,6 +12,20 @@
             @csrf
             @method('PUT')
 
+            {{-- Nama Dosen --}}
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
+                <div class="col-sm-4 pt-1">
+                    {{ $penelitian->m_dosen->name }}
+                </div>
+
+                @error('dosen_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             {{-- Judul Penelitian --}}
             <div class="form-group row">
                 <label for="judul_penelitian" class="col-sm-4 col-form-label">Judul Penelitian</label>
@@ -31,13 +45,14 @@
 
             {{-- Status Penelitian --}}
             <div class="form-group row">
-                <label for="status_id" class="col-sm-4 col-form-label">Status Penelitian</label>
-                <div class="col-sm-8">
-                    <select name="status_id" class="form-control">
-                        @foreach ($status as $e)
-                            <option value="{{ $e->id }}" {{ "old('status_id') == $e->id" ? 'selected' : '' }}>
-                                {{ ucwords($e->name) }}
-                            </option>
+                <label for="status_id" class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-4">
+                    <select id="status_id" class="form-control selectpicker @error('status_id') is-invalid @enderror"
+                        name="status_id" value="{{ old('status_id', $penelitian->status_id) }}" required>
+                        @foreach ($status as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $penelitian->status_id == $item->id ? 'selected' : '' }}>
+                                {{ ucwords($item->name) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -69,12 +84,14 @@
             {{-- Tahun Penelitian --}}
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-4 col-form-label">Tahun Penelitian</label>
-                <div class="col-sm-8">
-                    <select name="periode_id" class="form-control">
-                        @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->id" ? 'selected' : '' }}>
-                                {{ $d->tahun }}
-                            </option>
+                <div class="col-sm-4">
+                    <select id="periode_id" class="form-control selectpicker @error('periode_id') is-invalid @enderror"
+                        data-size="5" data-live-search="true" name="periode_id"
+                        value="{{ old('periode_id', $penelitian->periode_id) }}" required>
+                        @foreach ($periode as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $penelitian->periode_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->tahun }}</option>
                         @endforeach
                     </select>
                 </div>

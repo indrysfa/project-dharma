@@ -13,9 +13,12 @@ class DosenController extends Controller
 {
     public function index()
     {
-        $data = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-            ->orderBy('dosens.created_at', 'desc')
+        $data = Dosen::join('users', 'dosens.user_id', '=', 'users.username')
+            ->orderBy('users.created_at', 'desc')
             ->get();
+        // $data = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+        //     ->orderBy('dosens.created_at', 'desc')
+        //     ->get();
         return view('master.dosen-index', compact('data'));
     }
 

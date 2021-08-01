@@ -45,8 +45,14 @@ class StatusSeeder extends Seeder
         ]);
 
         DB::table('statuses')->insert([
-            'name'  => 'done',
+            'name'  => 'on progress',
             'code'  => 2,
+            'group' => 'penelitian',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'done',
+            'code'  => 3,
             'group' => 'penelitian',
         ]);
 

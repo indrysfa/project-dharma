@@ -19,4 +19,9 @@ class Penelitian extends Model
     {
         return $this->belongsTo(Status::class, 'status_id', 'id');
     }
+
+    public function m_dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'dosen_id', 'id');
+    }
 }

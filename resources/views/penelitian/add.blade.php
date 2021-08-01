@@ -11,19 +11,38 @@
             @csrf
 
             {{-- Nama Dosen --}}
-            <div class="form-group row">
-                <label for="name" class="col-sm-4 col-form-label">Nama Dosen</label>
-                <div class="col-sm-8">
-                    <select name="name" id="name" class="selectpicker" data-size="5" data-live-search="true">
+            {{-- <div class="form-group row">
+                <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
+                <div class="col-sm-6">
+                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker">
                         @foreach ($dosen as $d)
-                            <option value="{{ $d->id }}" {{ old('name') == "$d->name" ? selected : '' }}>
+                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
                                 {{ ucwords($d->name) }}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                @error('name')
+                @error('dosen_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div> --}}
+
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
+                <div class="col-sm-6">
+                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker">
+                        @foreach ($dosen as $d)
+                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
+                                {{ ucwords($d->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                @error('dosen_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -50,7 +69,7 @@
             <div class="form-group row">
                 <label for="status_id" class="col-sm-4 col-form-label">Status Penelitian</label>
                 <div class="col-sm-2">
-                    <select name="status_id" id="status_id" class="form-control">
+                    <select name="status_id" id="status_id" class="form-control selectpicker">
                         @foreach ($status as $d)
                             <option value="{{ $d->id }}" {{ old('status_id') == "$d->name" ? selected : '' }}>
                                 {{ ucwords($d->name) }}
@@ -104,26 +123,12 @@
             </div>
 
             <div class="form-group">
-                <a type="button" href="{{ route('penelitian.index') }}" class="btn btn-secondary">Back</a>
                 <button type="submit" class="btn btn-primary">
                     Tambah
                 </button>
+                <a type="button" href="{{ route('penelitian.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
 
     </div>
-    <!-- /.container-fluid -->
-    <!-- Latest compiled and minified CSS -->
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
-
-    <!-- Latest compiled and minified JavaScript -->
-    {{-- <script src="{{ asset('assets/bootstrap-select/bootstrap-select.min.js') }}"></script> --}}
-
-    <!-- Latest compiled and minified JavaScript -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script> --}}
-    {{-- <script>
-        $(function() {
-            $('#selectpicker').selectpicker();
-        });
-    </script> --}}
 @endsection

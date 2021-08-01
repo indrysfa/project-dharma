@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dosen extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['id', 'user_id','name', 'status'];
 
     public function m_dosen()
     {

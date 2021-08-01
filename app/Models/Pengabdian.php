@@ -14,4 +14,9 @@ class Pengabdian extends Model
     {
         return $this->belongsTo(Periode::class, 'periode_id', 'id');
     }
+
+    public function m_dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'dosen_id', 'id');
+    }
 }

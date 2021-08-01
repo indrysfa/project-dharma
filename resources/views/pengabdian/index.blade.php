@@ -11,22 +11,25 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="{{ route('pengabdian.add') }}" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="text">Add</span>
-                    </a>
-                </h6>
-            </div>
+            @can('create', App\Models\Pengabdian::class)
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <a href="{{ route('pengabdian.add') }}" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Add</span>
+                        </a>
+                    </h6>
+                </div>
+            @endcan
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama Dosen</th>
                                 <th>Judul PKM</th>
                                 <th>Nama Komunitas</th>
                                 <th>Lokasi PKM</th>
@@ -42,6 +45,7 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
+                                    <td>{{ $item->m_dosen->name }}</td>
                                     <td>{{ $item->judul_pkm }}</td>
                                     <td>{{ $item->nama_komunitas }}</td>
                                     <td>{{ $item->lokasi_pkm }}</td>
@@ -49,15 +53,19 @@
                                     <td>{{ $item->m_periode->semester }}</td>
                                     <td>
                                         <div class="btn-center">
-                                            <a href="{{ route('pengabdian.edit', $item->id) }}"
-                                                class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
-                                            <form action="{{ route('pengabdian.delete', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
+                                            @can('update', App\Models\Pengabdian::class)
+                                                <a href="{{ route('pengabdian.edit', $item->id) }}"
+                                                    class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                            @endcan
+                                            @can('delete', App\Models\Pengabdian::class)
+                                                <form action="{{ route('pengabdian.delete', $item->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
+                                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

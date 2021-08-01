@@ -12,6 +12,20 @@
             @csrf
             @method('PUT')
 
+            {{-- Nama Dosen --}}
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                <div class="col-sm-4 pt-1">
+                    {{ $pengabdian->m_dosen->name }}
+                </div>
+
+                @error('dosen_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             {{-- Judul PKM --}}
             <div class="form-group row">
                 <label for="judul_pkm" class="col-sm-2 col-form-label">Judul PKM</label>
@@ -62,14 +76,17 @@
             </div>
 
             {{-- Periode --}}
+
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
-                <div class="col-sm-10">
-                    <select name="periode_id" id="periode_id" class="form-control">
-                        @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == $d->tahun ? 'selected' : '' }}>
-                                {{ $d->tahun . '-' . $d->semester }}
-                            </option>
+                <div class="col-sm-2">
+                    <select id="periode_id" class="form-control selectpicker @error('periode_id') is-invalid @enderror"
+                        data-size="5" data-live-search="true" name="periode_id"
+                        value="{{ old('periode_id', $pengabdian->periode_id) }}" required>
+                        @foreach ($periode as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $pengabdian->periode_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->tahun . '-' . $item->semester }}</option>
                         @endforeach
                     </select>
                 </div>

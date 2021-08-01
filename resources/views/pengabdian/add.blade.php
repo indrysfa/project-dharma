@@ -10,6 +10,27 @@
         <form class="user" method="POST" action="{{ route('pengabdian.create') }}">
             @csrf
 
+            {{-- Nama Dosen --}}
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
+                <div class="col-sm-8">
+                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
+                        data-live-search="true">
+                        @foreach ($dosen as $d)
+                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
+                                {{ ucwords($d->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                @error('dosen_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             {{-- Judul PKM --}}
             <div class="form-group row">
                 <label for="judul_pkm" class="col-sm-4 col-form-label">Judul PKM</label>
@@ -46,9 +67,9 @@
             <div class="form-group row">
                 <label for="lokasi_pkm" class="col-sm-4 col-form-label">Lokasi PKM</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control @error('lokasi_pkm') is-invalid @enderror" id="lokasi_pkm"
-                        name="lokasi_pkm" value="{{ old('lokasi_pkm') }}" autocomplete="lokasi_pkm"
-                        placeholder="Masukan Lokasi PKM">
+                    <textarea type="text" class="form-control @error('lokasi_pkm') is-invalid @enderror" id="lokasi_pkm"
+                        name="lokasi_pkm" autocomplete="lokasi_pkm"
+                        placeholder="Masukan Lokasi PKM">{{ old('lokasi_pkm') }}</textarea>
                 </div>
 
                 @error('lokasi_pkm')
@@ -61,10 +82,12 @@
             {{-- Periode --}}
             <div class="form-group row">
                 <label for="periode_id" class="col-sm-4 col-form-label">Periode</label>
-                <div class="col-sm-8">
-                    <select name="periode_id" id="periode_id" class="form-control">
+                <div class="col-sm-4">
+                    <select name="periode_id" id="periode_id" class="form-control selectpicker" data-size="5"
+                        data-live-search="true">
                         @foreach ($periode as $d)
-                            <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
+                            <option value="{{ $d->id }}"
+                                {{ old('periode_id') == "$d->tahun" ? 'selected' : '' }}>
                                 {{ $d->tahun . '-' . $d->semester }}
                             </option>
                         @endforeach
@@ -79,10 +102,10 @@
             </div>
 
             <div class="form-group">
-                <a type="button" href="{{ route('pengabdian.index') }}" class="btn btn-secondary">Back</a>
                 <button type="submit" class="btn btn-primary">
                     Tambah
                 </button>
+                <a type="button" href="{{ route('pengabdian.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
 

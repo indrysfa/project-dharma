@@ -11,29 +11,11 @@
             @csrf
 
             {{-- Nama Dosen --}}
-            {{-- <div class="form-group row">
-                <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
-                <div class="col-sm-6">
-                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker">
-                        @foreach ($dosen as $d)
-                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
-                                {{ ucwords($d->name) }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                @error('dosen_id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div> --}}
-
             <div class="form-group row">
                 <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
                 <div class="col-sm-6">
-                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker">
+                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
+                        data-live-search="true">
                         @foreach ($dosen as $d)
                             <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
                                 {{ ucwords($d->name) }}

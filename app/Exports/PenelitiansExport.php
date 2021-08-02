@@ -10,8 +10,14 @@ class PenelitiansExport implements FromCollection
     /**
     * @return \Illuminate\Support\Collection
     */
+
     public function collection()
     {
         return Penelitian::all();
+    }
+
+    public function startCell(): string
+    {
+        return 'B2';
     }
 }

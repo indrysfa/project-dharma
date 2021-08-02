@@ -24,17 +24,16 @@ class PengembanganController extends Controller
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Pengembangan::orderBy('created_at')->get();
-            dd($data);
         } else {
-            $dosen = Dosen::where('user_id', $user)->first();
-            // $dosen = DB::table('dosens')
-            //     ->where('user_id', '=', $user)
-            //     ->get();
-             $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))->get();
-
+            // $dosen = Dosen::where('user_id', $user)->first();
+            $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+            $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))->get();
         }
+        // print_r($data);
         // $datas = Pengembangan::all();
-        return view('pengembangan.index', compact('data'));
+       return view('pengembangan.index', compact('data'));
     }
 
     public function create()

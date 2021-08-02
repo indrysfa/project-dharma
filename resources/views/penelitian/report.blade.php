@@ -7,71 +7,61 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
-        @include('flash-message')
-
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    <a href="{{ route('penelitian.add') }}" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="text">Add</span>
-                    </a>
-                    <a href="{{ route('penelitian.export') }}" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="text">Export</span>
-                    </a>
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Judul Penelitian</th>
-                                <th>Status Penelitian</th>
-                                <th>Jumlah Anggota</th>
-                                <th>Tahun Penelitian</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $no = 1;
-                            @endphp
-                            @foreach ($data as $item)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $item->judul_penelitian }}</td>
-                                    <td>{{ ucwords($item->m_status->name) }}</td>
-                                    <td>{{ $item->jumlah_anggota }}</td>
-                                    <td>{{ $item->m_periode->tahun }}</td>
-                                    {{-- <td>{{ $periode->tahun }}</td> --}}
-                                    <td>
-                                        <div class="btn-center">
-                                            <a href="{{ route('penelitian.edit', $item->id) }}"
-                                                class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
-                                            <form action="{{ route('penelitian.delete', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        <form class="user" method="GET" action="{{ route('penelitian.export') }}">
+            @csrf
+            {{-- Nama Dosen --}}
+            <div class="form-group row">
+                <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                <div class="col-sm-6">
+                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
+                        data-live-search="true">
+                        @foreach ($dosen as $d)
+                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
+                                {{ ucwords($d->name) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+
+                @error('dosen_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-        </div>
+
+            {{-- Range --}}
+            <div class="form-group row">
+                <label for="from" class="col-sm-2 col-form-label">From</label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control @error('from') is-invalid @enderror" id="from" name="from"
+                        value="{{ old('from') }}" autocomplete="from">
+                </div>
+
+                @error('from')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <label for="to" class="col-sm-2 col-form-label">To</label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control @error('to') is-invalid @enderror" id="to" name="to"
+                        value="{{ old('to') }}" autocomplete="to">
+                </div>
+
+                @error('to')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    Cari
+                </button>
+            </div>
+        </form>
 
     </div>
     <!-- /.container-fluid -->

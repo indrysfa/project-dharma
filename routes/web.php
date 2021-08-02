@@ -79,6 +79,8 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/penelitian-edit/{penelitian}', [PenelitianController::class, 'edit'])->name('penelitian.edit');
     Route::put('/penelitian-edit/{penelitian}', [PenelitianController::class, 'update'])->name('penelitian.update');
     Route::delete('/penelitian/delete/{penelitian}', [PenelitianController::class, 'destroy'])->name('penelitian.delete');
+    Route::get('/penelitian/report', [PenelitianController::class, 'report'])->name('penelitian.report');
+    Route::get('/penelitian/export', [PenelitianController::class, 'export'])->name('penelitian.export');
 
     Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
     Route::get('/pengabdian/add', [PengabdianController::class, 'create'])->name('pengabdian.add');

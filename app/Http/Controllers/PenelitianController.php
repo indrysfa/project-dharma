@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PenelitiansExport;
+use App\Models\Dosen;
 use App\Models\Penelitian;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -118,9 +119,25 @@ class PenelitianController extends Controller
         }
     }
 
-    public function export()
+    public function report()
     {
-        return Excel::download(new PenelitiansExport, 'penelitians.export');
+        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->where('dosens.status', 'aktif')
+            ->orderBy('dosens.created_at', 'desc')
+            ->get();
+        return view('penelitian.report', compact('dosen'));
+    }
+
+    public function export(Request $request)
+    {
+        // $dosen = date($request->dosen);
+        // $dosen = date("Y-m-d H:i:s", strtotime($request->from));
+        $from = date($request->from);
+        $to = date($request->to);
+
+        Penelitian::whereBetween('created_at', [$from, $to])->get();
+        // dd($dosen);
+        return Excel::download(new PenelitiansExport, 'penelitian-'.$from . '_sd_'.$to.'.xlsx');
     }
 
     // public function import()

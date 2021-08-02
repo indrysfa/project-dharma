@@ -22,6 +22,6 @@ class Pengembangan extends Model
 
     public function m_dosen()
     {
-        return $this->hasMany(Dosen::class, 'dosen_id', 'id');
+        return $this->belongsTo(Dosen::class, 'dosen_id', 'id');
     }
 }

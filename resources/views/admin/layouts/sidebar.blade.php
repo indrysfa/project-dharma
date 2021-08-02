@@ -75,6 +75,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('penelitian.index') }}">Data</a>
+                <a class="collapse-item" href="{{ route('penelitian.report') }}">Report</a>
             </div>
         </div>
     </li>

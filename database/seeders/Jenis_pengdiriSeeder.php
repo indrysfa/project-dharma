@@ -15,15 +15,15 @@ class Jenis_pengdiriSeeder extends Seeder
     public function run()
     {
         DB::table('jenis_pengdiris')->insert([
-            'name'     => 'media pembelajaran',
+            'name_jp'     => 'media pembelajaran',
         ]);
 
         DB::table('jenis_pengdiris')->insert([
-            'name'     => 'publikasi ilmiah',
+            'name_jp'     => 'publikasi ilmiah',
         ]);
 
         DB::table('jenis_pengdiris')->insert([
-            'name'     => 'aktivitas sosial',
+            'name_jp'     => 'aktivitas sosial',
         ]);
     }
 }

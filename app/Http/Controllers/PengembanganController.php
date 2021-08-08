@@ -6,6 +6,8 @@
 */
 namespace App\Http\Controllers;
 
+use App\Exports\PengabdiansExport;
+use App\Exports\PengembangansExport;
 use App\Models\Dosen;
 use App\Models\Pengembangan;
 use App\Models\Periode;
@@ -13,6 +15,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -113,5 +116,23 @@ class PengembanganController extends Controller
         if ($pengembangan) {
             return redirect()->route('pengembangan.index')->with('success', 'Judul pengembangan ' . $pengembangan["judul_pengdiri"] . ' deleted successfully');
         }
+    }
+
+    public function report()
+    {
+        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->where('dosens.status', 'aktif')
+            ->orderBy('dosens.created_at', 'desc')
+            ->get();
+        return view('pengembangan.report', compact('dosen'));
+    }
+
+    public function export(Request $request)
+    {
+        $from = date($request->from);
+        $to = date($request->to);
+
+        Pengembangan::whereBetween('created_at', [$from, $to])->get();
+        return Excel::download(new PengembangansExport, 'pengembangan-diri-'.$from . '_sd_'.$to.'.xlsx');
     }
 }

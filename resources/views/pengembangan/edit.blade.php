@@ -13,15 +13,29 @@
                 @csrf
                 @method('PUT')
 
+                {{-- Nama Dosen --}}
+                <div class="form-group row">
+                    <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                    <div class="col-sm-6 pt-1">
+                        {{ $pengembangan->m_dosen->name_dsn }}
+                    </div>
+
+                    @error('dosen_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 {{-- Jenis --}}
                 <div class="form-group row">
                     <label for="jenis_pengdiri_id" class="col-sm-2 col-form-label">Jenis Peng. Diri</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                         <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
                             @foreach ($jenis_pengdiri as $e)
                                 <option value="{{ $e->id }}"
                                     {{ "old('jenis_pengdiri_id') == $e->id" ? 'selected' : '' }}>
-                                    {{ ucwords($e->name) }}
+                                    {{ ucwords($e->name_jp) }}
                                 </option>
                             @endforeach
                         </select>
@@ -55,10 +69,9 @@
                 <div class="form-group row">
                     <label for="lokasi_pengdiri" class="col-sm-2 col-form-label">Lokasi</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control @error('lokasi_pengdiri') is-invalid @enderror"
-                            id="lokasi_pengdiri" name="lokasi_pengdiri"
-                            value="{{ old('lokasi_pengdiri', $pengembangan->lokasi_pengdiri) }}" required
-                            autocomplete="lokasi_pengdiri">
+                        <textarea type="text" class="form-control @error('lokasi_pengdiri') is-invalid @enderror"
+                            id="lokasi_pengdiri" name="lokasi_pengdiri" required
+                            autocomplete="lokasi_pengdiri">{{ old('lokasi_pengdiri', $pengembangan->lokasi_pengdiri) }}</textarea>
                     </div>
 
                     @error('lokasi_pengdiri')

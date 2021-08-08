@@ -92,6 +92,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengabdian.index') }}">Data</a>
+                <a class="collapse-item" href="{{ route('pengabdian.report') }}">Report</a>
             </div>
         </div>
     </li>
@@ -107,6 +108,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengembangan.index') }}">Data</a>
+                <a class="collapse-item" href="{{ route('pengembangan.report') }}">Report</a>
             </div>
         </div>
     </li>

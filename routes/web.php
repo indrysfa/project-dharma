@@ -90,6 +90,8 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/pengabdian-edit/{pengabdian}', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
     Route::put('/pengabdian-edit/{pengabdian}', [PengabdianController::class, 'update'])->name('pengabdian.update');
     Route::delete('/pengabdian/delete/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.delete');
+    Route::get('/pengabdian/report', [PengabdianController::class, 'report'])->name('pengabdian.report');
+    Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
 
     Route::get('/pengembangan', [PengembanganController::class, 'index'])->name('pengembangan.index');
     Route::get('/pengembangan/add', [PengembanganController::class, 'create'])->name('pengembangan.add');
@@ -97,4 +99,6 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/pengembangan-edit/{pengembangan}', [PengembanganController::class, 'edit'])->name('pengembangan.edit');
     Route::put('/pengembangan-edit/{pengembangan}', [PengembanganController::class, 'update'])->name('pengembangan.update');
     Route::delete('/pengembangan/delete/{pengembangan}', [PengembanganController::class, 'destroy'])->name('pengembangan.delete');
+    Route::get('/pengembangan/report', [PengembanganController::class, 'report'])->name('pengembangan.report');
+    Route::get('/pengembangan/export', [PengembanganController::class, 'export'])->name('pengembangan.export');
 });

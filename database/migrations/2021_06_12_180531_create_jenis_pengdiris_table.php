@@ -15,7 +15,7 @@ class CreateJenisPengdirisTable extends Migration
     {
         Schema::create('jenis_pengdiris', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_jp');
             $table->timestamps();
         });
     }

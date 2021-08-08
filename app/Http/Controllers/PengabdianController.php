@@ -6,12 +6,14 @@
 */
 namespace App\Http\Controllers;
 
+use App\Exports\PengabdiansExport;
 use App\Models\Pengabdian;
 use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PengabdianController extends Controller
 {
@@ -104,5 +106,23 @@ class PengabdianController extends Controller
         if ($pengabdian) {
             return redirect()->route('pengabdian.index')->with('success', 'Judul Pengabdian ' . $pengabdian["judul_pkm"] . ' deleted successfully');
         }
+    }
+
+    public function report()
+    {
+        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->where('dosens.status', 'aktif')
+            ->orderBy('dosens.created_at', 'desc')
+            ->get();
+        return view('pengabdian.report', compact('dosen'));
+    }
+
+    public function export(Request $request)
+    {
+        $from = date($request->from);
+        $to = date($request->to);
+
+        Pengabdian::whereBetween('created_at', [$from, $to])->get();
+        return Excel::download(new PengabdiansExport, 'pkm-'.$from . '_sd_'.$to.'.xlsx');
     }
 }

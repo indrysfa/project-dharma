@@ -45,8 +45,8 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->m_dosen->name }}</td>
-                                    <td>{{ ucwords($item->m_jenis_pengdiri->name) }}</td>
+                                    <td>{{ $item->m_dosen->name_dsn }}</td>
+                                    <td>{{ ucwords($item->m_jenis_pengdiri->name_jp) }}</td>
                                     <td>{{ $item->judul_pengdiri }}</td>
                                     <td>{{ $item->lokasi_pengdiri }}</td>
                                     <td>{{ $item->m_periode->tahun }}</td>

@@ -45,7 +45,7 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->m_dosen->name }}</td>
+                                    <td>{{ $item->m_dosen->name_dsn }}</td>
                                     <td>{{ $item->judul_pkm }}</td>
                                     <td>{{ $item->nama_komunitas }}</td>
                                     <td>{{ $item->lokasi_pkm }}</td>

@@ -19,7 +19,7 @@
                             data-live-search="true">
                             @foreach ($dosen as $d)
                                 <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
-                                    {{ ucwords($d->name) }}
+                                    {{ ucwords($d->name_dsn) }}
                                 </option>
                             @endforeach
                         </select>

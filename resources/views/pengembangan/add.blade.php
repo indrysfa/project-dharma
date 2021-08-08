@@ -14,12 +14,12 @@
                 {{-- Nama Dosen --}}
                 <div class="form-group row">
                     <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                         <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
                             data-live-search="true">
                             @foreach ($dosen as $d)
                                 <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
-                                    {{ ucwords($d->name) }}
+                                    {{ ucwords($d->name_dsn) }}
                                 </option>
                             @endforeach
                         </select>
@@ -35,12 +35,12 @@
                 {{-- Jenis Pengembangan Diri --}}
                 <div class="form-group row">
                     <label for="jenis_pengdiri_id" class="col-sm-2 col-form-label">Jenis Peng. Diri</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                         <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
                             @foreach ($jenis_pengdiri as $e)
                                 <option value="{{ $e->id }}"
-                                    {{ old('jenis_pengdiri_id') == "$e->name" ? selected : '' }}>
-                                    {{ ucwords($e->name) }}
+                                    {{ old('jenis_pengdiri_id') == "$e->id" ? selected : '' }}>
+                                    {{ ucwords($e->name_jp) }}
                                 </option>
                             @endforeach
                         </select>

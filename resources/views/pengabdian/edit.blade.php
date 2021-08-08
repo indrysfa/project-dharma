@@ -17,7 +17,7 @@
                 <div class="form-group row">
                     <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
                     <div class="col-sm-4 pt-1">
-                        {{ $pengabdian->m_dosen->name }}
+                        {{ $pengabdian->m_dosen->name_dsn }}
                     </div>
 
                     @error('dosen_id')
@@ -64,9 +64,9 @@
                 <div class="form-group row">
                     <label for="lokasi_pkm" class="col-sm-2 col-form-label">Lokasi PKM</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control @error('lokasi_pkm') is-invalid @enderror" id="lokasi_pkm"
-                            name="lokasi_pkm" value="{{ old('lokasi_pkm', $pengabdian->lokasi_pkm) }}" required
-                            autocomplete="lokasi_pkm">
+                        <textarea type="text" class="form-control @error('lokasi_pkm') is-invalid @enderror" id="lokasi_pkm"
+                            name="lokasi_pkm" required
+                            autocomplete="lokasi_pkm">{{ old('lokasi_pkm', $pengabdian->lokasi_pkm) }}</textarea>
                     </div>
 
                     @error('lokasi_pkm')

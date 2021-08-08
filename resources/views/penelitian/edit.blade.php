@@ -16,7 +16,7 @@
             <div class="form-group row">
                 <label for="dosen_id" class="col-sm-4 col-form-label">Nama Dosen</label>
                 <div class="col-sm-4 pt-1">
-                    {{ $penelitian->m_dosen->name }}
+                    {{ $penelitian->m_dosen->name_dsn }}
                 </div>
 
                 @error('dosen_id')

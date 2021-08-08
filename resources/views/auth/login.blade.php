@@ -50,7 +50,7 @@
                     </a>
                 @endif
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
-                    {{ __('Belum punya akun?') }}
+                    {{ __('_Belum punya akun?') }}
                 </a>
 
                 <x-button class="ml-3">

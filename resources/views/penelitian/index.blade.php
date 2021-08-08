@@ -52,7 +52,7 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ date('d F Y', strtotime($item->created_at)) }}</td>
-                                    <td>{{ $item->m_dosen->name }}</td>
+                                    <td>{{ $item->m_dosen->name_dsn }}</td>
                                     <td>{{ $item->judul_penelitian }}</td>
                                     @if ($item->m_status->code == 1)
                                         <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>

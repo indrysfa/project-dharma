@@ -84,7 +84,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name'          => ['required', 'string', 'max:30'],
-            'username'      => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
+            'username'      => ['required', 'string', 'max:12', 'unique:users', 'alpha_dash'],
             'email'         => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password'      => ['required', 'string', 'min:8', 'confirmed'],
             'role'          => ['required', 'string', 'max:25'],
@@ -113,7 +113,6 @@ class RegisterController extends Controller
             'tgl_lahir'     => $data['tgl_lahir'],
             'no_telepon'    => $data['no_telepon'],
             'alamat'        => ucwords($data['alamat']),
-            // 'status'        => $data['status'],
         ]);
 
         // $user->m_status_user()->attach(Status::where('code', 0)->first());

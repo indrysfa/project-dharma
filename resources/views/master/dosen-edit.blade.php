@@ -3,9 +3,6 @@
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
-        <div class="alert alert-info" role="alert">
-            Hanya untuk mengubah status, Jika ingin mengubah data silahkan ke menu User
-        </div>
 
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
@@ -29,31 +26,31 @@
                 @enderror
             </div>
 
-            {{-- Nama Dosen --}}
+            {{-- Kode Dosen --}}
             <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Nama Dosen</label>
+                <label for="kode" class="col-sm-2 col-form-label">Kode Dosen</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                        value="{{ old('name', $data[0]->name) }}" autocomplete="name" autofocus readonly>
+                    <input type="text" class="form-control @error('kode') is-invalid @enderror" id="kode" name="kode"
+                        value="{{ old('kode', $data[0]->kode) }}" autocomplete="kode" autofocus>
                 </div>
 
-                @error('name')
+                @error('kode')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
             </div>
 
-
-            {{-- Email --}}
+            {{-- Nama Dosen --}}
             <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <label for="name_dsn" class="col-sm-2 col-form-label">Nama Dosen</label>
                 <div class="col-sm-6">
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                        value="{{ old('email', $data[0]->email) }}" autocomplete="email" autofocus readonly>
+                    <input type="text" class="form-control @error('name_dsn') is-invalid @enderror" id="name_dsn"
+                        name="name_dsn" value="{{ old('name_dsn', $data[0]->name_dsn) }}" autocomplete="name_dsn"
+                        autofocus>
                 </div>
 
-                @error('email')
+                @error('name_dsn')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -66,7 +63,7 @@
                 <div class="col-sm-6">
                     <input type="text" class="form-control @error('tmptlahir') is-invalid @enderror" id="tmptlahir"
                         name="tmptlahir" value="{{ old('tmptlahir', $data[0]->tmptlahir) }}" autocomplete="tmptlahir"
-                        autofocus readonly>
+                        autofocus>
                 </div>
 
                 @error('tmptlahir')
@@ -82,10 +79,45 @@
                 <div class="col-sm-6">
                     <input type="date" class="form-control @error('tgl_lahir') is-invalid @enderror" id="tgl_lahir"
                         name="tgl_lahir" value="{{ old('tgl_lahir', $data[0]->tgl_lahir) }}" autocomplete="tgl_lahir"
-                        autofocus readonly>
+                        autofocus>
                 </div>
 
                 @error('tgl_lahir')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            {{-- Email --}}
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
+                        value="{{ old('email', $data[0]->email) }}" autocomplete="email" autofocus>
+                </div>
+
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            {{-- JJA --}}
+            <div class="form-group row">
+                <label for="jja_id" class="col-sm-2 col-form-label">JJA</label>
+                <div class="col-sm-6">
+                    <select id="jja_id" class="form-control form-control @error('jja_id') is-invalid @enderror"
+                        name="jja_id" value="{{ old('jja_id', $data[0]->jja_id) }}" required>
+                        @foreach ($jja as $item)
+                            <option value="{{ $item->id }}" {{ $data[0]->jja_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                @error('jja_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -98,7 +130,7 @@
                 <div class="col-sm-6">
                     <input type="number" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon"
                         name="no_telepon" value="{{ old('no_telepon', $data[0]->no_telepon) }}" autocomplete="no_telepon"
-                        autofocus readonly>
+                        autofocus>
                 </div>
 
                 @error('no_telepon')
@@ -112,8 +144,8 @@
             <div class="form-group row">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat"
-                        value="{{ old('alamat', $data[0]->alamat) }}" readonly autocomplete="alamat" autofocus>
+                    <textarea type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                        name="alamat" autocomplete="alamat" autofocus>{{ old('alamat', $data[0]->alamat) }}</textarea>
                 </div>
 
                 @error('alamat')
@@ -139,7 +171,8 @@
             </div>
 
             {{-- Status --}}
-            <div class="form-group row">
+            {{-- Fitur dimatikan --}}
+            {{-- <div class="form-group row">
                 <label for="status" class="col-sm-2 col-form-label">Status</label>
                 <div class="col-sm-6">
                     <select id="status" class="form-control form-control @error('status') is-invalid @enderror"
@@ -154,7 +187,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

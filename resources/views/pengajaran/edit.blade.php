@@ -15,6 +15,20 @@
                 @csrf
                 @method('PUT')
 
+                {{-- Nama Dosen --}}
+                <div class="form-group row">
+                    <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                    <div class="col-sm-2 mt-1">
+                        {{ $pengajaran->m_dosen->name_dsn }}
+                    </div>
+
+                    @error('dosen_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 {{-- Kode MK --}}
                 <div class="form-group row">
                     <label for="kode_mk" class="col-sm-2 col-form-label">Kode MK</label>

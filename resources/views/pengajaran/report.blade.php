@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Laporan Penelitian')
+@section('title', 'Laporan Pengajaran')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -7,7 +7,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
-        <form class="user" method="GET" action="{{ route('penelitian.export') }}">
+        <form class="user" method="GET" action="{{ route('pengajaran.export') }}">
             @csrf
             {{-- Nama Dosen --}}
             <div class="form-group row">

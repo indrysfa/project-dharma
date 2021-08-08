@@ -32,18 +32,14 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Image</th>
-                                    <th>Username</th>
-                                    <th>Name</th>
+                                    <th>Kode Dosen</th>
+                                    <th>Nama Dosen</th>
+                                    <th>Tempat, Tanggal Lahir</th>
+                                    <th>JJA</th>
+                                    <th>No Telepon</th>
                                     <th>Email</th>
-                                    <th>Join Date</th>
-                                    <th>Tempat Lahir</th>
-                                    <th>Tanggal Lahir</th>
-                                    <th>Status</th>
-                                    {{-- Fitur dimatikan karena udah jadi satu dengan user --}}
-                                    {{-- @can('delete', App\Models\Dosen::class)
-                                        <th></th>
-                                    @endcan --}}
+                                    <th>Alamat</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,7 +49,7 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        @if ($item->picture == '')
+                                        {{-- @if ($item->picture == '')
                                             <td><img class="img-profile rounded-circle"
                                                     src="{{ asset('assets/sb-admin2/img/undraw_profile.svg') }}"></td>
                                         @else
@@ -61,22 +57,29 @@
                                                 <img src="{{ Storage::url('public/image/' . $item->picture) }}"
                                                     alt="gallery" class="img-responsive" width="80">
                                             </td>
+                                        @endif --}}
+                                        @if ($item->kode == 888888)
+                                            <td><span class="badge badge-primary">New</span>
+                                            @else
+                                            <td>{{ $item->kode }}</td>
                                         @endif
-                                        <td>{{ $item->user_id }}</td>
-                                        <td>{{ ucwords($item->name) }}</td>
+                                        <td>{{ ucwords($item->name_dsn) }}</td>
+                                        <td>{{ ucwords($item->tmptlahir) . ', ' . date('d F Y', strtotime($item->tgl_lahir)) }}
+                                        <td>{{ $item->m_jja->name }}</td>
+                                        <td>{{ $item->no_telepon }}</td>
                                         <td>{{ $item->email }}</td>
-                                        <td>{{ $item->email_verified_at }}</td>
-                                        <td>{{ $item->tmptlahir }}</td>
-                                        <td>{{ date('d F Y', strtotime($item->tgl_lahir)) }}</td>
-                                        <td>{{ ucwords($item->status) }}</td>
+                                        </td>
+                                        <td>{{ $item->alamat }}</td>
                                         {{-- Fitur dimatikan karena udah jadi satu dengan user --}}
-                                        {{-- <td>
+                                        <td>
                                             <div class="btn-center">
-                                                @can('delete', App\Models\Dosen::class)
-                                                    <a href="{{ route('user.detail', $item->id) }}"
-                                                        class="btn btn-info btn-circle btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="{{ route('user.edit', $item->id) }}"
+                                                {{-- <a href="{{ route('user.detail', $item->id) }}"
+                                                    class="btn btn-info btn-circle btn-sm"><i class="fas fa-eye"></i></a> --}}
+                                                @can('update', App\Models\Dosen::class)
+                                                    <a href="{{ route('dosen.edit', $item->id) }}"
                                                         class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                @endcan
+                                                @can('delete', App\Models\Dosen::class)
                                                     <form action="{{ route('dosen.delete', $item->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
@@ -86,7 +89,7 @@
                                                     </form>
                                                 @endcan
                                             </div>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

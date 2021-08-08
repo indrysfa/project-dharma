@@ -17,8 +17,8 @@
                     <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
                         data-live-search="true">
                         @foreach ($dosen as $d)
-                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
-                                {{ ucwords($d->name) }}
+                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name_dsn" ? 'selected' : '' }}>
+                                {{ ucwords($d->name_dsn) }}
                             </option>
                         @endforeach
                     </select>

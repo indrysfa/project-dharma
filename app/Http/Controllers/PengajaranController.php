@@ -6,6 +6,7 @@
 */
 namespace App\Http\Controllers;
 
+use App\Exports\PengajaransExport;
 use App\Models\Dosen;
 use App\Models\Pengajaran;
 use App\Models\Periode;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PengajaranController extends Controller
 {
@@ -23,14 +25,26 @@ class PengajaranController extends Controller
         $period = DB::table('periodes')
                 ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
                 ->get();
-        $username = Auth::user()->username;
-        if (Auth::user()->role_id !== 3) {
-            $data = User::join('pengajarans', 'users.username', '=', 'pengajarans.dosen_id')
-                ->get();
-        } else {
-            $data = Pengajaran::where('dosen_id', $username)->get();
-        }
+        // $username = Auth::user()->username;
+        // if (Auth::user()->role_id !== 3) {
+        //     $data = User::join('pengajarans', 'users.username', '=', 'pengajarans.dosen_id')
+        //         ->get();
+        // } else {
+        //     $data = Pengajaran::where('dosen_id', $username)->get();
+        // }
 
+
+        $user = Auth::user()->username;
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengajaran::orderBy('created_at')->get();
+        } else {
+            $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+            $data = Pengajaran::where('dosen_id', $dosen[0]->id)
+                ->where('status_id', '=', '8')
+                ->get();
+        }
 
         return view('pengajaran.index', compact('data', 'period'));
     }
@@ -78,9 +92,12 @@ class PengajaranController extends Controller
         $this->authorize('update', Pengajaran::class);
 
         $period = Periode::all();
+        $period = Periode::all();
         $status = Status::where('group', '=', 'pengajaran')->get();
-
-        return view('pengajaran.edit', compact('pengajaran', 'period', 'status'));
+        $dosen = DB::table('dosens')
+            ->where('status', '=', 'aktif')
+            ->get();
+        return view('pengajaran.edit', compact('pengajaran', 'period', 'status', 'dosen'));
     }
 
     public function update(Request $request, Pengajaran $pengajaran)
@@ -114,5 +131,23 @@ class PengajaranController extends Controller
         if ($pengajaran) {
             return redirect()->route('pengajaran.index')->with('success', 'Kode MK ' . $pengajaran["kode_mk"] . ' deleted successfully');
         }
+    }
+
+    public function report()
+    {
+        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+            ->where('dosens.status', 'aktif')
+            ->orderBy('dosens.created_at', 'desc')
+            ->get();
+        return view('pengajaran.report', compact('dosen'));
+    }
+
+    public function export(Request $request)
+    {
+        $from = date($request->from);
+        $to = date($request->to);
+
+        Pengajaran::whereBetween('created_at', [$from, $to])->get();
+        return Excel::download(new PengajaransExport, 'pengajaran-'.$from . '_sd_'.$to.'.xlsx');
     }
 }

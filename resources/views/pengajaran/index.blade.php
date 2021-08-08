@@ -49,7 +49,7 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->m_dosen->name_dsn }}</td>
                                     <td>{{ $item->kode_mk }}</td>
                                     <td>{{ $item->nama_mk }}</td>
                                     {{-- @php
@@ -57,19 +57,26 @@
                                             ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
                                             ->get();
                                     @endphp --}}
-                                    <td>{{ $period[0]->tahun }}</td>
-                                    <td>{{ $period[0]->semester }}</td>
-                                    {{-- <td>{{ $item->m_periode->tahun }}</td>
-                                    <td>{{ $item->m_periode->semester }}</td> --}}
+                                    {{-- <td>{{ $period[0]->tahun }}</td>
+                                    <td>{{ $period[0]->semester }}</td> --}}
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
                                     <td>{{ $item->kelas }}</td>
                                     <td>{{ $item->sks }}</td>
                                     @can('view', App\Models\Pengajaran::class)
+                                        @if (Auth::user()->role_id == 3)
+                                            {{ '' }}
+                                        @else
+                                            <td>{{ ucwords($item->m_status->name) }}</td>
+                                        @endif
+                                    @endcan
+                                    {{-- @can('view', App\Models\Pengajaran::class)
                                         @if ($item->status_id == 1)
                                             <td>{{ 'Aktif' }}</td>
                                         @else
                                             <td>{{ 'Nonaktif' }}</td>
                                         @endif
-                                    @endcan
+                                    @endcan --}}
                                     <td>
                                         <div class="btn-center">
                                             @can('update', App\Models\Pengajaran::class)

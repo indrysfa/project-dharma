@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dosen;
+use App\Models\Jja;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -18,14 +19,16 @@ class RegisteredUserController extends Controller
     public function create()
     {
         // $role = Role::all();
-        return view('auth.register');
+        $jja = Jja::all();
+        return view('auth.register', compact('jja'));
         // return view('auth.register', compact('role'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'role_id'       => ['required', 'string', 'max:25'],
+            'jja_id'        => ['required', 'integer', 'max:7'],
+            'kode'          => ['required', 'string', 'max:7'],
             'name'          => ['required', 'string', 'max:30'],
             'username'      => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
             'email'         => ['required', 'string', 'email', 'max:50', 'unique:users'],
@@ -36,16 +39,23 @@ class RegisteredUserController extends Controller
             'alamat'        => ['required', 'string', 'max:60'],
         ]);
 
-        if ($request->role_id == 3) {
+        // if ($request->role_id == 3) {
             $user = Dosen::create([
+                'jja_id'        => strtolower($request->jja_id),
                 'user_id'       => strtolower($request->username),
+                'kode'          => $request->kode,
                 'status'        => 'aktif',
-                'name'          => ucwords($request->name),
+                'name_dsn'      => ucwords($request->name),
+                'email'         => $request->email,
+                'tmptlahir'     => $request->tmptlahir,
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
             ]);
-        }
+        // }
 
         $user = User::create([
-            'role_id'       => $request->role_id,
+            'role_id'       => 3,
             'name'          => ucwords($request->name),
             'username'      => strtolower($request->username),
             'email'         => $request->email,

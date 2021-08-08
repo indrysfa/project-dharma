@@ -15,10 +15,20 @@ class CreateDosensTable extends Migration
     {
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->bigInteger('jja_id')->unsigned();
+            $table->string('user_id')->unique();
+            $table->string('kode');
             $table->string('status');
-            $table->string('name');
+            $table->string('name_dsn');
+            $table->string('tmptlahir');
+            $table->date('tgl_lahir');
+            $table->string('email')->unique();
+            $table->string('no_telepon');
+            $table->char('alamat');
+            $table->string('picture')->nullable();
             $table->timestamps();
+
+            $table->foreign('jja_id')->references('id')->on('jjas')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

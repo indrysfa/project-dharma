@@ -12,6 +12,17 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            <input type="number" name="kode" value="888888" hidden>
+            <!-- JJA -->
+            <div class="mt-4">
+                <x-label for="jja_id" :value="__('JJA')" />
+                <select id="jja_id" class="block w-full mb-2" name="jja_id" :value="old('jja_id')" required>
+                    @foreach ($jja as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <!-- Name -->
             <div>
                 <x-label for="name" :value="__('Name')" />
@@ -53,17 +64,17 @@
             </div>
 
             <!-- Role -->
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-label for="role_id" :value="__('Role')" />
-                <select id="role_id" class="block mt-1 w-full" name="role_id" :value="old('role_id')" required>
-                    {{-- @foreach ($role as $item)
+                <select id="role_id" class="block mt-1 w-full" name="role_id" :value="old('role_id')" required> --}}
+            {{-- @foreach ($role as $item)
                         <option value="{{ $item->code }}">{{ $item->name }}</option>
                     @endforeach --}}
-                    <option value="3">Dosen</option>
-                    {{-- <option value="lc">Language Center</option> --}}
-                    <option value="1">Admin</option>
-                </select>
-            </div>
+            {{-- <option value="3">Dosen</option> --}}
+            {{-- <option value="lc">Language Center</option> --}}
+            {{-- <option value="1">Admin</option> --}}
+            {{-- </select>
+            </div> --}}
 
             <!-- Tempat Lahir -->
             <div class="mt-4">

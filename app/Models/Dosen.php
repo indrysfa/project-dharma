@@ -19,4 +19,9 @@ class Dosen extends Model
     {
         return $this->belongsTo(Jja::class, 'jja_id', 'id');
     }
+
+    public function m_role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
 }

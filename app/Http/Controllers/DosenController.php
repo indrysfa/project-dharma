@@ -69,6 +69,15 @@ class DosenController extends Controller
         }
     }
 
+    public function detail(Dosen $dosen)
+    {
+        $dosen->find($dosen->id)->all();
+        // dd($tes);
+
+        // $dosen = Dosen::all();
+        return view('master.dosen-detail', compact('dosen'));
+    }
+
     public function edit(Dosen $dosen)
     {
         $data = User::join('dosens', 'users.username', '=', 'dosens.user_id')
@@ -79,7 +88,7 @@ class DosenController extends Controller
         return view('master.dosen-edit', compact('data', 'jja'));
     }
 
-    public function update(Request $request, Dosen $dosen)
+    public function update(Request $request, Dosen $dosen, User $user)
     {
         $dosen  = Dosen::findOrFail($dosen->id);
 
@@ -106,13 +115,17 @@ class DosenController extends Controller
                 'jja_id'        => $request->jja_id,
                 'user_id'       => $request->user_id,
                 'kode'          => $request->kode,
-                'name'          => ucwords($request->name),
+                'name_dsn'      => ucwords($request->name_dsn),
                 'tmptlahir'     => ucwords($request->tgl_lahir),
                 'tgl_lahir'     => $request->tgl_lahir,
                 'email'         => $request->email,
                 'no_telepon'    => $request->no_telepon,
                 'alamat'        => $request->alamat,
                 'status'        => 'aktif',
+                'picture'       => $picture->hashName()
+            ]);
+
+            $dosen = Dosen::create([
                 'picture'       => $picture->hashName()
             ]);
         }

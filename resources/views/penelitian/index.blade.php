@@ -98,7 +98,6 @@
 @prepend('datatables')
     {{-- Datatables --}}
     <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({

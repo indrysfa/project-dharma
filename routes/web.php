@@ -43,6 +43,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
     Route::get('/dosen/add', [DosenController::class, 'add'])->name('dosen.add');
     Route::post('/dosen/add', [DosenController::class, 'create'])->name('dosen.create');
+    Route::get('/dosen-detail/{dosen}', [DosenController::class, 'detail'])->name('dosen.detail');
     Route::get('/dosen-edit/{dosen}', [DosenController::class, 'edit'])->name('dosen.edit');
     Route::put('/dosen-edit/{dosen}', [DosenController::class, 'update'])->name('dosen.update');
     Route::delete('/dosen/delete/{dosen}', [DosenController::class, 'destroy'])->name('dosen.delete');

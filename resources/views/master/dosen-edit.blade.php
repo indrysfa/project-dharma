@@ -157,13 +157,14 @@
 
             {{-- Image --}}
             <div class="form-group row">
-                <label for="image" class="col-sm-2 col-form-label">Image</label>
+                <label for="picture" class="col-sm-2 col-form-label">Photo</label>
                 <div class="col-sm-6">
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
-                        value="{{ old('image', $data[0]->image) }}" autocomplete="image" autofocus readonly>
+                    <input type="file" class="form-control @error('picture') is-invalid @enderror" id="picture"
+                        name="picture" value="{{ old('picture', $data[0]->picture) }}" autocomplete="picture" autofocus
+                        readonly>
                 </div>
 
-                @error('image')
+                @error('picture')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

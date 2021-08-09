@@ -50,7 +50,7 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
-                                        <td>{{ $item->m_role->name }}</td>
+                                        <td>{{ $item->m_role->name_r }}</td>
                                         <td>
                                             <div class="btn-center">
                                                 <a href="{{ route('user.detail', $item->id) }}"
@@ -82,3 +82,23 @@
         <!-- /.container-fluid -->
     @endif
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [1, 2, 3, 4],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

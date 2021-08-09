@@ -70,3 +70,14 @@
         <!-- /.container-fluid -->
     @endif
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

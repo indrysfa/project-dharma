@@ -73,8 +73,8 @@
                                         {{-- Fitur dimatikan karena udah jadi satu dengan user --}}
                                         <td>
                                             <div class="btn-group">
-                                                {{-- <a href="{{ route('user.detail', $item->id) }}"
-                                                    class="btn btn-info btn-circle btn-sm"><i class="fas fa-eye"></i></a> --}}
+                                                <a href="{{ route('dosen.detail', $item->id) }}"
+                                                    class="btn btn-info btn-circle btn-sm"><i class="fas fa-eye"></i></a>
                                                 @can('update', App\Models\Dosen::class)
                                                     <a href="{{ route('dosen.edit', $item->id) }}"
                                                         class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
@@ -102,3 +102,23 @@
         <!-- /.container-fluid -->
     @endif
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [0, 1, 2, 3, 4, 5, 6],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [1, 2, 3, 4, 5, 6, 7],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

@@ -8,13 +8,14 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PenelitiansExport;
-use App\Models\Dosen;
 use App\Models\Penelitian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PenelitianController extends Controller
 {
@@ -22,12 +23,14 @@ class PenelitianController extends Controller
     {
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
-            $data = Penelitian::orderBy('created_at')->get();
+            $data = Penelitian::orderBy('created_at', 'desc')->get();
         } else {
             $dosen = DB::table('dosens')
                 ->where('user_id', '=', $user)
                 ->get();
-            $data = Penelitian::where('dosen_id', $dosen[0]->id)->get();
+            $data = Penelitian::where('dosen_id', $dosen[0]->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('penelitian.index', compact('data'));
     }
@@ -137,8 +140,13 @@ class PenelitianController extends Controller
 
         Penelitian::whereBetween('created_at', [$from, $to])->get();
         // dd($dosen);
+        // return [
+        //     (new PenelitiansExport)->withHeadings('Tanggal', 'Nama Dosen', 'Judul Penelitian', 'Status Penelitian', 'Jumlah Anggota', 'Tahun Penelitian'),
+        // ];
         return Excel::download(new PenelitiansExport, 'penelitian-'.$from . '_sd_'.$to.'.xlsx');
     }
+
+
 
     // public function import()
     // {
@@ -146,4 +154,42 @@ class PenelitianController extends Controller
 
     //     return back();
     // }
+
+    public function generatePDF($id)
+    {
+        $data = Penelitian::findOrFail($id);
+        // The next development
+        // $datas = [
+        //     'dosen_id'          => $data->dosen_id,
+        //     'periode_id'        => $data->periode_id,
+        //     'status_id'         => $data->status_id,
+        //     'judul_penelitian'  => $data->judul_penelitian,
+        //     'jumlah_anggota'    => $data->jumlah_anggota,
+        // ];
+        // dd($datas);
+
+        $user = Auth::user()->username;
+        $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+        if (Auth::user()->role_id !== 3) {
+            $data = Penelitian::orderBy('created_at', 'desc')
+                ->where('id', $id)
+                ->get();
+        } else {
+            $data = Penelitian::where('dosen_id', $dosen[0]->id)
+                ->where('id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        $pdf = PDF::loadView('penelitian.pdf', compact('data'));
+        // The next development
+        // Mail::send('emails.myTestMail', $data, function($message)use($datas, $pdf) {
+        //     $message->to(['caturdharma.binus@gmail.com'])
+        //             ->subject(['Laporan Penelitian'])
+        //             ->attachData($pdf->output(), "penelitian.pdf");
+        // });
+        return $pdf->download('penelitian.pdf');
+    }
 }

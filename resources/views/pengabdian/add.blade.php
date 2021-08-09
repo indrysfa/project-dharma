@@ -102,6 +102,26 @@
                     @enderror
                 </div>
 
+                {{-- Status PKM --}}
+                <div class="form-group row">
+                    <label for="status_id" class="col-sm-4 col-form-label">Status PKM</label>
+                    <div class="col-sm-2">
+                        <select name="status_id" id="status_id" class="form-control selectpicker">
+                            @foreach ($status as $d)
+                                <option value="{{ $d->id }}" {{ old('status_id') == "$d->name" ? selected : '' }}>
+                                    {{ ucwords($d->name) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @error('status_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">
                         Tambah

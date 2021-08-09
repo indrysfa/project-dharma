@@ -21,12 +21,6 @@
                             <span class="text">Add</span>
                         </a>
                     @endcan
-                    {{-- <a href="{{ route('penelitian.export') }}" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="text">Export</span>
-                    </a> --}}
                 </h6>
             </div>
             <div class="card-body">
@@ -68,11 +62,18 @@
                                     <td>{{ $item->m_periode->tahun }}</td>
                                     <td>
                                         <div class="btn-center">
+                                            @if ($item->m_status->code == 3)
+                                                <a href="{{ route('penelitian-pdf', $item->id) }}"
+                                                    class="btn btn-info btn-circle btn-sm"><i
+                                                        class="fas fa-download"></i></a>
+                                            @else
+                                                {{ '' }}
+                                            @endif
                                             @can('update', App\Models\Penelitian::class)
                                                 <a href="{{ route('penelitian.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                             @endcan
-                                            @can('update', App\Models\Penelitian::class)
+                                            @can('delete', App\Models\Penelitian::class)
                                                 <form action="{{ route('penelitian.delete', $item->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
@@ -94,3 +95,24 @@
     </div>
     <!-- /.container-fluid -->
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [0, 1, 2, 3, 5, 6, 7],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [2, 3, 4],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

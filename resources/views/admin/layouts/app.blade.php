@@ -96,14 +96,7 @@
     <script src="{{ asset('assets/sb-admin2/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/sb-admin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    {{-- Datatables --}}
-    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
-    </script>
+    @stack('datatables')
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/sb-admin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

@@ -19,4 +19,9 @@ class Pengabdian extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_id', 'id');
     }
+
+    public function m_status()
+    {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
 }

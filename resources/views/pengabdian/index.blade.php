@@ -35,6 +35,7 @@
                                 <th>Lokasi PKM</th>
                                 <th>Tahun Ajaran</th>
                                 <th>Semester</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -51,8 +52,25 @@
                                     <td>{{ $item->lokasi_pkm }}</td>
                                     <td>{{ $item->m_periode->tahun }}</td>
                                     <td>{{ $item->m_periode->semester }}</td>
+                                    @if ($item->m_status->code == 1)
+                                        <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
+                                        </td>
+                                    @elseif ($item->m_status->code == 2)
+                                        <td><span class="badge badge-info">{{ ucwords($item->m_status->name) }}</span>
+                                        </td>
+                                    @elseif ($item->m_status->code == 3)
+                                        <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
+                                        </td>
+                                    @endif
                                     <td>
                                         <div class="btn-center">
+                                            @if ($item->m_status->code == 3)
+                                                <a href="{{ route('pengabdian-pdf', $item->id) }}"
+                                                    class="btn btn-info btn-circle btn-sm"><i
+                                                        class="fas fa-download"></i></a>
+                                            @else
+                                                {{ '' }}
+                                            @endif
                                             @can('update', App\Models\Pengabdian::class)
                                                 <a href="{{ route('pengabdian.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
@@ -79,3 +97,24 @@
     </div>
     <!-- /.container-fluid -->
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [0, 6],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [1, 2, 3, 4, 5],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

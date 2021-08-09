@@ -105,3 +105,24 @@
     </div>
     <!-- /.container-fluid -->
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [0, 1, 4, 5],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [1, 2, 3, 4, 5, 6],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

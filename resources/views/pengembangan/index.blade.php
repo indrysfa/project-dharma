@@ -31,7 +31,7 @@
                                 <th>No</th>
                                 <th>Nama Dosen</th>
                                 <th>Jenis Peng. Diri</th>
-                                <th>Status Peng. Diri</th>
+                                <th>Judul Peng. Diri</th>
                                 <th>Lokasi</th>
                                 <th>Tahun Ajaran</th>
                                 <th>Semester</th>
@@ -79,3 +79,24 @@
     </div>
     <!-- /.container-fluid -->
 @endsection
+@prepend('datatables')
+    {{-- Datatables --}}
+    <script src="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "columnDefs": [{
+                        "targets": [0, 1, 2, 3, 5, 6, 7],
+                        "orderable": false,
+                    },
+                    {
+                        "targets": [1, 2, 3, 4, 5],
+                        "searchable": true,
+                    }
+                ],
+                "pageLength": 20
+            });
+        });
+    </script>
+@endprepend

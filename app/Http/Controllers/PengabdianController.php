@@ -8,12 +8,12 @@ namespace App\Http\Controllers;
 
 use App\Exports\PengabdiansExport;
 use App\Models\Pengabdian;
-use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PengabdianController extends Controller
 {
@@ -41,7 +41,10 @@ class PengabdianController extends Controller
             ->orderBy('dosens.created_at', 'desc')
             ->get();
         $periode = DB::table('periodes')->get();
-        return view('pengabdian.add', compact('periode', 'dosen'));
+        $status = DB::table('statuses')
+            ->where('group', '=', 'pengabdian')
+            ->get();
+        return view('pengabdian.add', compact('periode', 'dosen', 'status'));
     }
 
     public function store(Request $request)
@@ -51,6 +54,7 @@ class PengabdianController extends Controller
         $this->validate($request, [
             'dosen_id'          => 'required',
             'periode_id'        => 'required',
+            'status_id'         => 'required',
             'judul_pkm'         => 'required',
             'nama_komunitas'    => 'required',
             'lokasi_pkm'        => 'required',
@@ -59,6 +63,7 @@ class PengabdianController extends Controller
         $data = Pengabdian::create([
             'dosen_id'          => $request->dosen_id,
             'periode_id'        => $request->periode_id,
+            'status_id'         => $request->status_id,
             'judul_pkm'         => $request->judul_pkm,
             'nama_komunitas'    => $request->nama_komunitas,
             'lokasi_pkm'        => $request->lokasi_pkm,
@@ -74,7 +79,10 @@ class PengabdianController extends Controller
         $this->authorize('update', Pengabdian::class);
 
         $periode = DB::table('periodes')->get();
-        return view('pengabdian.edit', compact('pengabdian', 'periode'));
+        $status = DB::table('statuses')
+            ->where('group', '=', 'pengabdian')
+            ->get();
+        return view('pengabdian.edit', compact('pengabdian', 'periode', 'status'));
     }
 
     public function update(Request $request, Pengabdian $pengabdian)
@@ -85,6 +93,7 @@ class PengabdianController extends Controller
 
         $pengabdian->update([
             'periode_id'        => $request->periode_id,
+            'status_id'         => $request->status_id,
             'judul_pkm'         => $request->judul_pkm,
             'nama_komunitas'    => $request->nama_komunitas,
             'lokasi_pkm'        => $request->lokasi_pkm,
@@ -124,5 +133,28 @@ class PengabdianController extends Controller
 
         Pengabdian::whereBetween('created_at', [$from, $to])->get();
         return Excel::download(new PengabdiansExport, 'pkm-'.$from . '_sd_'.$to.'.xlsx');
+    }
+
+    public function generatePDF($id)
+    {
+        $data = Pengabdian::findOrFail($id);
+
+        $user = Auth::user()->username;
+        $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengabdian::orderBy('created_at', 'desc')
+                ->where('id', $id)
+                ->get();
+        } else {
+            $data = Pengabdian::where('dosen_id', $dosen[0]->id)
+                ->where('id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        $pdf = PDF::loadView('pengabdian.pdf', compact('data'));
+        return $pdf->download('pengabdian.pdf');
     }
 }

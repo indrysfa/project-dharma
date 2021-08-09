@@ -15,19 +15,19 @@ class JjaSeeder extends Seeder
     public function run()
     {
         DB::table('jjas')->insert([
-            'name'            => 'Tetap',
+            'name'            => 'TP',
         ]);
 
         DB::table('jjas')->insert([
-            'name'            => 'Tidak Tetap',
+            'name'            => 'AA',
         ]);
 
         DB::table('jjas')->insert([
-            'name'            => 'Honorer',
+            'name'            => 'Lektor',
         ]);
 
         DB::table('jjas')->insert([
-            'name'            => 'Rektor',
+            'name'            => 'Lektor Kepala / S3',
         ]);
     }
 }

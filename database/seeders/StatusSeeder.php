@@ -67,5 +67,23 @@ class StatusSeeder extends Seeder
             'code'  => 0,
             'group' => 'pengajaran',
         ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'new',
+            'code'  => 1,
+            'group' => 'pengabdian',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'on progress',
+            'code'  => 2,
+            'group' => 'pengabdian',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'done',
+            'code'  => 3,
+            'group' => 'pengabdian',
+        ]);
     }
 }

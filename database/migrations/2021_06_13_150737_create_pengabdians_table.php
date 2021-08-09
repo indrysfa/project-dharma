@@ -17,6 +17,7 @@ class CreatePengabdiansTable extends Migration
             $table->id();
             $table->bigInteger('dosen_id')->unsigned();
             $table->bigInteger('periode_id')->unsigned();
+            $table->bigInteger('status_id')->unsigned();
             $table->string('judul_pkm');
             $table->string('nama_komunitas');
             $table->string('lokasi_pkm');
@@ -24,6 +25,7 @@ class CreatePengabdiansTable extends Migration
 
             $table->foreign('dosen_id')->references('id')->on('dosens')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('periode_id')->references('id')->on('periodes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('statuses')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

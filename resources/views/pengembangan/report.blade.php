@@ -10,7 +10,7 @@
         <form class="user" method="GET" action="{{ route('pengembangan.export') }}">
             @csrf
             {{-- Nama Dosen --}}
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
                 <div class="col-sm-6">
                     <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
@@ -28,7 +28,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
+            </div> --}}
 
             {{-- Range --}}
             <div class="form-group row">

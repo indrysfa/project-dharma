@@ -61,9 +61,9 @@
                                     <td>{{ $item->jumlah_anggota }}</td>
                                     <td>{{ $item->m_periode->tahun }}</td>
                                     <td>
-                                        <div class="btn-center">
+                                        <div class="btn-group-horizontal">
                                             @if ($item->m_status->code == 3)
-                                                <a href="{{ route('penelitian-pdf', $item->id) }}"
+                                                <a href="{{ route('penelitian.pdf', $item->id) }}"
                                                     class="btn btn-info btn-circle btn-sm"><i
                                                         class="fas fa-download"></i></a>
                                             @else

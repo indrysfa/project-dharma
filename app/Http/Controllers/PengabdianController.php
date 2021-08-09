@@ -119,6 +119,8 @@ class PengabdianController extends Controller
 
     public function report()
     {
+        $this->authorize('viewReport', Pengabdian::class);
+
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
@@ -128,6 +130,8 @@ class PengabdianController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('viewReport', Pengabdian::class);
+
         $from = date($request->from);
         $to = date($request->to);
 

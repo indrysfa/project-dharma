@@ -120,6 +120,8 @@ class PengembanganController extends Controller
 
     public function report()
     {
+        $this->authorize('viewReport', Pengembangan::class);
+
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
@@ -127,12 +129,17 @@ class PengembanganController extends Controller
         return view('pengembangan.report', compact('dosen'));
     }
 
-    public function export(Request $request)
+    public function export(Request $request, Dosen $dosen)
     {
+        $this->authorize('viewReport', Pengembangan::class);
+
         $from = date($request->from);
         $to = date($request->to);
-
-        Pengembangan::whereBetween('created_at', [$from, $to])->get();
+        $dosen = Dosen::findOrFail($dosen->id);
+        // dd($dosen);
+        Pengembangan::whereBetween('created_at', [$from, $to])
+            ->where('dosen_id', $dosen)
+            ->get();
         return Excel::download(new PengembangansExport, 'pengembangan-diri-'.$from . '_sd_'.$to.'.xlsx');
     }
 }

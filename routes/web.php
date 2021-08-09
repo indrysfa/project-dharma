@@ -82,7 +82,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::delete('/penelitian/delete/{penelitian}', [PenelitianController::class, 'destroy'])->name('penelitian.delete');
     Route::get('/penelitian/report', [PenelitianController::class, 'report'])->name('penelitian.report');
     Route::get('/penelitian/export', [PenelitianController::class, 'export'])->name('penelitian.export');
-    Route::get('generate-pdf/{id}', [PenelitianController::class, 'generatePDF'])->name('penelitian-pdf');
+    Route::get('/penelitian/generate-pdf/{id}', [PenelitianController::class, 'generatePDF'])->name('penelitian.pdf');
 
     Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
     Route::get('/pengabdian/add', [PengabdianController::class, 'create'])->name('pengabdian.add');
@@ -92,7 +92,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::delete('/pengabdian/delete/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.delete');
     Route::get('/pengabdian/report', [PengabdianController::class, 'report'])->name('pengabdian.report');
     Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
-    Route::get('generate-pdf/{id}', [PengabdianController::class, 'generatePDF'])->name('pengabdian-pdf');
+    Route::get('/pengabdian/generate-pdf/{id}', [PengabdianController::class, 'generatePDF'])->name('pengabdian.pdf');
 
     Route::get('/pengembangan', [PengembanganController::class, 'index'])->name('pengembangan.index');
     Route::get('/pengembangan/add', [PengembanganController::class, 'create'])->name('pengembangan.add');

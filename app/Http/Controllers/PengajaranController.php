@@ -135,6 +135,8 @@ class PengajaranController extends Controller
 
     public function report()
     {
+        $this->authorize('viewReport', Pengajaran::class);
+
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
@@ -144,6 +146,8 @@ class PengajaranController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('viewReport', Pengajaran::class);
+
         $from = date($request->from);
         $to = date($request->to);
 

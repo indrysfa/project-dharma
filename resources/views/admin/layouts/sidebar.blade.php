@@ -60,7 +60,9 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengajaran.index') }}">Data</a>
-                <a class="collapse-item" href="{{ route('pengajaran.report') }}">Report</a>
+                @can('viewReport', App\Models\Pengajaran::class)
+                    <a class="collapse-item" href="{{ route('pengajaran.report') }}">Report</a>
+                @endcan
             </div>
         </div>
     </li>
@@ -76,7 +78,9 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('penelitian.index') }}">Data</a>
-                <a class="collapse-item" href="{{ route('penelitian.report') }}">Report</a>
+                @can('viewReport', App\Models\Penelitian::class)
+                    <a class="collapse-item" href="{{ route('penelitian.report') }}">Report</a>
+                @endcan
             </div>
         </div>
     </li>
@@ -92,7 +96,9 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengabdian.index') }}">Data</a>
-                <a class="collapse-item" href="{{ route('pengabdian.report') }}">Report</a>
+                @can('viewReport', App\Models\Pengabdian::class)
+                    <a class="collapse-item" href="{{ route('pengabdian.report') }}">Report</a>
+                @endcan
             </div>
         </div>
     </li>
@@ -108,7 +114,9 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengembangan.index') }}">Data</a>
-                <a class="collapse-item" href="{{ route('pengembangan.report') }}">Report</a>
+                @can('viewReport', App\Models\Pengembangan::class)
+                    <a class="collapse-item" href="{{ route('pengembangan.report') }}">Report</a>
+                @endcan
             </div>
         </div>
     </li>

@@ -124,6 +124,8 @@ class PenelitianController extends Controller
 
     public function report()
     {
+        $this->authorize('viewReport', Penelitian::class);
+
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
@@ -133,6 +135,8 @@ class PenelitianController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('viewReport', Penelitian::class);
+
         // $dosen = date($request->dosen);
         // $dosen = date("Y-m-d H:i:s", strtotime($request->from));
         $from = date($request->from);
@@ -140,13 +144,12 @@ class PenelitianController extends Controller
 
         Penelitian::whereBetween('created_at', [$from, $to])->get();
         // dd($dosen);
+
         // return [
         //     (new PenelitiansExport)->withHeadings('Tanggal', 'Nama Dosen', 'Judul Penelitian', 'Status Penelitian', 'Jumlah Anggota', 'Tahun Penelitian'),
         // ];
         return Excel::download(new PenelitiansExport, 'penelitian-'.$from . '_sd_'.$to.'.xlsx');
     }
-
-
 
     // public function import()
     // {

@@ -72,7 +72,7 @@
                                         <td>{{ $item->alamat }}</td>
                                         {{-- Fitur dimatikan karena udah jadi satu dengan user --}}
                                         <td>
-                                            <div class="btn-center">
+                                            <div class="btn-group">
                                                 {{-- <a href="{{ route('user.detail', $item->id) }}"
                                                     class="btn btn-info btn-circle btn-sm"><i class="fas fa-eye"></i></a> --}}
                                                 @can('update', App\Models\Dosen::class)

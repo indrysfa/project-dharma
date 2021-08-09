@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name'              => ucwords('Admin 01'),
-            'username'          => strtolower('admin'),
-            'email'             => 'admin@mail.com',
+            'name'              => ucwords('LC 01'),
+            'username'          => strtolower('lc01'),
+            'email'             => 'lc@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password'          => Hash::make('12345678'),
             'role_id'           => 1,

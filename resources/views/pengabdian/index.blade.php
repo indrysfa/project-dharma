@@ -65,7 +65,7 @@
                                     <td>
                                         <div class="btn-center">
                                             @if ($item->m_status->code == 3)
-                                                <a href="{{ route('pengabdian-pdf', $item->id) }}"
+                                                <a href="{{ route('pengabdian.pdf', $item->id) }}"
                                                     class="btn btn-info btn-circle btn-sm"><i
                                                         class="fas fa-download"></i></a>
                                             @else

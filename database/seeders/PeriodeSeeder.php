@@ -15,6 +15,11 @@ class PeriodeSeeder extends Seeder
     public function run()
     {
         DB::table('periodes')->insert([
+            'tahun'     => 2000,
+            'semester'  => 0,
+        ]);
+
+        DB::table('periodes')->insert([
             'tahun'     => 2021,
             'semester'  => 1,
         ]);
@@ -31,6 +36,16 @@ class PeriodeSeeder extends Seeder
 
         DB::table('periodes')->insert([
             'tahun'     => 2022,
+            'semester'  => 2,
+        ]);
+
+        DB::table('periodes')->insert([
+            'tahun'     => 2023,
+            'semester'  => 1,
+        ]);
+
+        DB::table('periodes')->insert([
+            'tahun'     => 2023,
             'semester'  => 2,
         ]);
     }

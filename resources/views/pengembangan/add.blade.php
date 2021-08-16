@@ -86,7 +86,7 @@
             </div>
 
             {{-- Periode --}}
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
                 <div class="col-sm-2">
                     <select name="periode_id" id="periode_id" class="form-control selectpicker" data-size="5"
@@ -105,7 +105,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

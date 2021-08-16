@@ -25,6 +25,9 @@ class PengembanganController extends Controller
     {
         $periode = DB::table('periodes')->first();
         $user = Auth::user()->username;
+        $status = DB::table('statuses')
+            ->where('group', '=', 'pengembangan')
+            ->get();
         if (Auth::user()->role_id !== 3) {
             $data = Pengembangan::orderBy('created_at')->get();
         } else {
@@ -36,7 +39,7 @@ class PengembanganController extends Controller
         }
         // print_r($data);
         // $datas = Pengembangan::all();
-       return view('pengembangan.index', compact('data'));
+       return view('pengembangan.index', compact('data', 'status'));
     }
 
     public function create()
@@ -61,7 +64,6 @@ class PengembanganController extends Controller
 
         $this->validate($request, [
             'dosen_id'          => 'required',
-            'periode_id'        => 'required',
             'jenis_pengdiri_id' => 'required',
             'judul_pengdiri'    => 'required',
             'lokasi_pengdiri'   => 'required',
@@ -69,9 +71,9 @@ class PengembanganController extends Controller
 
         $data = Pengembangan::create([
             'dosen_id'          => $request->dosen_id,
-            'periode_id'        => $request->periode_id,
+            'periode_id'        => 1,
             'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
-            'status_id'         => 1,
+            'status_id'         => 17,
             'judul_pengdiri'    => $request->judul_pengdiri,
             'lokasi_pengdiri'   => $request->lokasi_pengdiri,
         ]);
@@ -97,16 +99,23 @@ class PengembanganController extends Controller
 
         $pengembangan = Pengembangan::findOrFail($pengembangan->id);
 
-        $pengembangan->update([
-            'periode_id'        => $request->periode_id,
-            'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
-            'judul_pengdiri'    => $request->judul_pengdiri,
-            'lokasi_pengdiri'   => $request->lokasi_pengdiri,
-        ]);
+        if ($request->periode_id == 1) {
+            return redirect()->route('pengembangan.edit', $pengembangan)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        } else {
+            $pengembangan->update([
+                'periode_id'        => $request->periode_id,
+                'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
+                'judul_pengdiri'    => $request->judul_pengdiri,
+                'lokasi_pengdiri'   => $request->lokasi_pengdiri,
+                'status_id'         => 18,
+            ]);
 
-        if ($pengembangan) {
             return redirect()->route('pengembangan.index')->with('success', 'Judul pengembangan ' . $pengembangan["judul_pengdiri"] . ' Updated successfully');
         }
+
+        // if ($pengembangan) {
+        //     return redirect()->route('pengembangan.index')->with('success', 'Judul pengembangan ' . $pengembangan["judul_pengdiri"] . ' Updated successfully');
+        // }
     }
 
     public function destroy(Pengembangan $pengembangan)

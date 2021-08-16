@@ -9,7 +9,7 @@
         {{-- <x-application-logo class="sidebar-brand-text mx-3" /> --}}
 
         <div class="sidebar-brand-text mx-3">
-            <img style="width: 110px" src="{{ asset('assets/images/logo-binus.png') }}" alt="">
+            <img style="width: 110px" src="{{ asset('assets/images/logo-binus3.png') }}" alt="">
         </div>
     </a>
 

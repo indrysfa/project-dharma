@@ -12,7 +12,7 @@
 
     <title>@yield('title')</title>
 
-    <link rel="shortcut icon" href="{{ asset('assets/logo-binus.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/logo-binus2.png') }}" type="image/x-icon">
     {{-- Datatables --}}
     {{-- <link href="{{ asset('assets/sb-admin2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('assets/sb-admin2/vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">

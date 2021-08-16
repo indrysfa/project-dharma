@@ -60,14 +60,24 @@
                                     <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
                                 @endif
-                                <td>{{ $item->m_periode->tahun }}</td>
-                                <td>{{ $item->m_periode->semester }}</td>
+                                @if ($item->m_periode->id == 1)
+                                    <td>{{ '' }}</td>
+                                    <td>{{ '' }}</td>
+                                @else
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
+                                @endif
                                 <td>
                                     <div class="btn-center">
-                                        @can('update', App\Models\Pengembangan::class)
-                                            <a href="{{ route('pengembangan.edit', $item->id) }}"
-                                                class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
-                                        @endcan
+                                        {{-- issue button edit if approved is clear --}}
+                                        @if ($item->m_status->code == 2)
+                                            @can('update', App\Models\Pengembangan::class)
+                                                <a href="{{ route('pengembangan.edit', $item->id) }}"
+                                                    class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                            @endcan
+                                        @else
+                                            {{ '' }}
+                                        @endif
                                         @can('delete', App\Models\Pengembangan::class)
                                             <form action="{{ route('pengembangan.delete', $item->id) }}" method="post">
                                                 @csrf

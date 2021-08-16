@@ -57,6 +57,12 @@ class StatusSeeder extends Seeder
         ]);
 
         DB::table('statuses')->insert([
+            'name'  => 'rejected',
+            'code'  => 4,
+            'group' => 'penelitian',
+        ]);
+
+        DB::table('statuses')->insert([
             'name'  => 'submit',
             'code'  => 1,
             'group' => 'pengajaran',
@@ -75,6 +81,12 @@ class StatusSeeder extends Seeder
         ]);
 
         DB::table('statuses')->insert([
+            'name'  => 'rejected',
+            'code'  => 4,
+            'group' => 'pengajaran',
+        ]);
+
+        DB::table('statuses')->insert([
             'name'  => 'submit',
             'code'  => 1,
             'group' => 'pengabdian',
@@ -89,6 +101,12 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert([
             'name'  => 'reported',
             'code'  => 3,
+            'group' => 'pengabdian',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'rejected',
+            'code'  => 4,
             'group' => 'pengabdian',
         ]);
 
@@ -107,6 +125,12 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert([
             'name'  => 'reported',
             'code'  => 3,
+            'group' => 'pengembangan',
+        ]);
+
+        DB::table('statuses')->insert([
+            'name'  => 'rejected',
+            'code'  => 4,
             'group' => 'pengembangan',
         ]);
     }

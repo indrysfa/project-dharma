@@ -49,7 +49,7 @@
                                 <td>{{ $item->m_dosen->name_dsn }}</td>
                                 <td>{{ ucwords($item->m_jenis_pengdiri->name_jp) }}</td>
                                 <td>{{ $item->judul_pengdiri }}</td>
-                                <td>{{ $item->lokasi_pengdiri }}</td>
+                                <td>{{ ucwords($item->lokasi_pengdiri) }}</td>
                                 @if ($item->m_status->code == 1)
                                     <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
@@ -73,17 +73,27 @@
                                 <td>
                                     <div class="btn-center">
                                         {{-- issue button edit if approved is clear --}}
-                                        @if ($item->m_status->code == 1)
+
+                                        @if (Auth::user()->role_id == 1)
                                             @can('update', App\Models\Pengembangan::class)
                                                 <a href="{{ route('pengembangan.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                             @endcan
-                                        @elseif (Auth::user()->role_id == 1)
+                                            @if ($item->m_status->code == 3)
+                                                <a href="{{ route('pengembangan.pdf', $item->id) }}"
+                                                    class="btn btn-info btn-circle btn-sm"><i
+                                                        class="fas fa-download"></i></a>
+                                            @endif
+                                        @elseif ($item->m_status->code == 1)
                                             @can('update', App\Models\Pengembangan::class)
                                                 <a href="{{ route('pengembangan.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                             @endcan
-                                        @elseif ($item->m_status->code != 1)
+                                        @elseif ($item->m_status->code == 3)
+                                            <a href="{{ route('pengembangan.pdf', $item->id) }}"
+                                                class="btn btn-info btn-circle btn-sm"><i
+                                                    class="fas fa-download"></i></a>
+                                        @elseif ($item->m_status->code == 2 || $item->m_status->code == 4)
                                             {{ '' }}
                                         @endif
                                         @can('delete', App\Models\Pengembangan::class)

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -163,5 +164,28 @@ class PengembanganController extends Controller
             ->where('dosen_id', $dosen)
             ->get();
         return Excel::download(new PengembangansExport, 'pengembangan-diri-'.$from . '_sd_'.$to.'.xlsx');
+    }
+
+    public function generatePDF($id)
+    {
+        $data = Pengembangan::findOrFail($id);
+
+        $user = Auth::user()->username;
+        $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengembangan::orderBy('created_at', 'desc')
+                ->where('id', $id)
+                ->get();
+        } else {
+            $data = Pengembangan::where('dosen_id', $dosen[0]->id)
+                ->where('id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        $pdf = PDF::loadView('pengembangan.pdf', compact('data'));
+        return $pdf->download('pengembangan.pdf');
     }
 }

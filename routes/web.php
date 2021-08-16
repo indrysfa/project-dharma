@@ -103,4 +103,5 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::delete('/pengembangan/delete/{pengembangan}', [PengembanganController::class, 'destroy'])->name('pengembangan.delete');
     Route::get('/pengembangan/report', [PengembanganController::class, 'report'])->name('pengembangan.report');
     Route::get('/pengembangan/export', [PengembanganController::class, 'export'])->name('pengembangan.export');
+    Route::get('/pengembangan/generate-pdf/{id}', [PengembanganController::class, 'generatePDF'])->name('pengembangan.pdf');
 });

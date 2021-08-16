@@ -89,8 +89,11 @@ class PengembanganController extends Controller
 
         $periode        = DB::table('periodes')->get();
         $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
+        $status         = DB::table('statuses')
+                            ->where('group', '=', 'pengembangan')
+                            ->get();
         // dd($periode);
-        return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri'));
+        return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri', 'status'));
     }
 
     public function update(Request $request, Pengembangan $pengembangan)
@@ -102,20 +105,26 @@ class PengembanganController extends Controller
         if ($request->periode_id == 1) {
             return redirect()->route('pengembangan.edit', $pengembangan)->with('warning', 'Silahkan pilih periode terlebih dahulu');
         } else {
-            $pengembangan->update([
-                'periode_id'        => $request->periode_id,
-                'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
-                'judul_pengdiri'    => $request->judul_pengdiri,
-                'lokasi_pengdiri'   => $request->lokasi_pengdiri,
-                'status_id'         => 18,
-            ]);
+            if (Auth::user()->role_id == 1) {
+                $pengembangan->update([
+                    'periode_id'        => $request->periode_id,
+                    'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
+                    'judul_pengdiri'    => $request->judul_pengdiri,
+                    'lokasi_pengdiri'   => $request->lokasi_pengdiri,
+                    'status_id'         => $request->status_id,
+                ]);
+            } else if ($request->status_id == 17 || Auth::user()->role_id == 2) {
+                $pengembangan->update([
+                    'periode_id'        => $request->periode_id,
+                    'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
+                    'judul_pengdiri'    => $request->judul_pengdiri,
+                    'lokasi_pengdiri'   => $request->lokasi_pengdiri,
+                    'status_id'         => 19,
+                ]);
+            }
 
             return redirect()->route('pengembangan.index')->with('success', 'Judul pengembangan ' . $pengembangan["judul_pengdiri"] . ' Updated successfully');
         }
-
-        // if ($pengembangan) {
-        //     return redirect()->route('pengembangan.index')->with('success', 'Judul pengembangan ' . $pengembangan["judul_pengdiri"] . ' Updated successfully');
-        // }
     }
 
     public function destroy(Pengembangan $pengembangan)

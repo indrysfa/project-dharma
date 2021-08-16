@@ -59,6 +59,9 @@
                                 @elseif ($item->m_status->code == 3)
                                     <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
+                                @elseif ($item->m_status->code == 4)
+                                    <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
                                 @endif
                                 @if ($item->m_periode->id == 1)
                                     <td>{{ '' }}</td>
@@ -70,12 +73,17 @@
                                 <td>
                                     <div class="btn-center">
                                         {{-- issue button edit if approved is clear --}}
-                                        @if ($item->m_status->code == 2)
+                                        @if ($item->m_status->code == 1)
                                             @can('update', App\Models\Pengembangan::class)
                                                 <a href="{{ route('pengembangan.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                             @endcan
-                                        @else
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @can('update', App\Models\Pengembangan::class)
+                                                <a href="{{ route('pengembangan.edit', $item->id) }}"
+                                                    class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                            @endcan
+                                        @elseif ($item->m_status->code != 1)
                                             {{ '' }}
                                         @endif
                                         @can('delete', App\Models\Pengembangan::class)

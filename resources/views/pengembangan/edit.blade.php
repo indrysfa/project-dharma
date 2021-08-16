@@ -133,6 +133,27 @@
                         </span>
                     @enderror
                 </div>
+
+                {{-- Status --}}
+                <div class="form-group row">
+                    <label for="status_id" class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-2">
+                        <select id="status_id" class="form-control selectpicker @error('status_id') is-invalid @enderror"
+                            name="status_id" value="{{ old('status_id', $pengembangan->status_id) }}" required>
+                            @foreach ($status as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ $pengembangan->status_id == $item->id ? 'selected' : '' }}>
+                                    {{ ucwords($item->name) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @error('status_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
             @endif
 
             {{-- Periode --}}

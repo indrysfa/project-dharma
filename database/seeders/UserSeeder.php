@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name'              => ucwords('Dosen 01'),
+            'name'              => ucwords('Dr. I Nyoman Suardana, M.Si.'),
             'username'          => strtolower('dosen01'),
             'email'             => 'dosen1@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name'              => ucwords('Dosen 02'),
+            'name'              => ucwords('Dr. Dewa Bagus Sanjaya, M.Si.'),
             'username'          => strtolower('dosen02'),
             'email'             => 'dosen2@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),

@@ -16,7 +16,8 @@
             <!-- JJA -->
             <div class="mt-4">
                 <x-label for="jja_id" :value="__('JJA')" />
-                <select id="jja_id" class="block w-full mb-2" name="jja_id" :value="old('jja_id')" required>
+                <select id="jja_id" class="block w-full mb-2" name="jja_id" :value="old('jja_id')">
+                    <option value="">Select...</option>
                     @foreach ($jja as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
@@ -27,8 +28,7 @@
             <div>
                 <x-label for="name" :value="__('Name')" />
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                    autofocus />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autofocus />
             </div>
 
             <!-- Username -->
@@ -36,22 +36,21 @@
                 <x-label for="username" :value="__('Username')" />
 
                 <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')"
-                    required autofocus />
+                    autofocus />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                    required />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password"
                     autocomplete="new-password" />
             </div>
 
@@ -60,7 +59,7 @@
                 <x-label for="password_confirmation" :value="__('Confirm Password')" />
 
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                    name="password_confirmation" required />
+                    name="password_confirmation" />
             </div>
 
             <!-- Role -->
@@ -81,7 +80,7 @@
                 <x-label for="tmptlahir" :value="__('Tempat Lahir')" />
 
                 <x-input id="tmptlahir" class="block mt-1 w-full" type="text" name="tmptlahir" :value="old('tmptlahir')"
-                    required autofocus />
+                    autofocus />
             </div>
 
             <!-- Tgl Lahir -->
@@ -89,7 +88,7 @@
                 <x-label for="tgl_lahir" :value="__('Tanggal Lahir')" />
 
                 <x-input id="tgl_lahir" class="block mt-1 w-full" type="date" name="tgl_lahir" :value="old('tgl_lahir')"
-                    required autofocus />
+                    autofocus />
             </div>
 
             <!-- No Telepon -->
@@ -97,14 +96,14 @@
                 <x-label for="no_telepon" :value="__('No Telepon')" />
 
                 <x-input id="no_telepon" class="block mt-1 w-full" type="number" name="no_telepon"
-                    :value="old('no_telepon')" required autofocus />
+                    :value="old('no_telepon')" autofocus />
             </div>
 
             <!-- Alamat -->
             <div class="mt-4">
                 <x-label for="alamat" :value="__('Alamat')" />
 
-                <x-input id="alamat" class="block mt-1 w-full" type="text" name="alamat" :value="old('alamat')" required
+                <x-input id="alamat" class="block mt-1 w-full" type="text" name="alamat" :value="old('alamat')"
                     autofocus />
             </div>
 

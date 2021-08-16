@@ -49,6 +49,9 @@ class PengembanganController extends Controller
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
             ->get();
+        // $status = DB::table('statuses')
+        //     ->where('group', '=', 'pengembangan')
+        //     ->get();
         return view('pengembangan.add', compact('periode', 'jenis_pengdiri', 'dosen'));
     }
 
@@ -68,6 +71,7 @@ class PengembanganController extends Controller
             'dosen_id'          => $request->dosen_id,
             'periode_id'        => $request->periode_id,
             'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
+            'status_id'         => 1,
             'judul_pengdiri'    => $request->judul_pengdiri,
             'lokasi_pengdiri'   => $request->lokasi_pengdiri,
         ]);

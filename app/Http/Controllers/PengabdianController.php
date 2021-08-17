@@ -40,11 +40,11 @@ class PengabdianController extends Controller
             ->where('dosens.status', 'aktif')
             ->orderBy('dosens.created_at', 'desc')
             ->get();
-        $periode = DB::table('periodes')->get();
-        $status = DB::table('statuses')
-            ->where('group', '=', 'pengabdian')
-            ->get();
-        return view('pengabdian.add', compact('periode', 'dosen', 'status'));
+        // $periode = DB::table('periodes')->get();
+        // $status = DB::table('statuses')
+        //     ->where('group', '=', 'pengabdian')
+        //     ->get();
+        return view('pengabdian.add', compact('dosen'));
     }
 
     public function store(Request $request)

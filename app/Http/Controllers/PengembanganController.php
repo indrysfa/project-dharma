@@ -6,11 +6,9 @@
 */
 namespace App\Http\Controllers;
 
-use App\Exports\PengabdiansExport;
 use App\Exports\PengembangansExport;
 use App\Models\Dosen;
 use App\Models\Pengembangan;
-use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,37 +24,35 @@ class PengembanganController extends Controller
     {
         $periode = DB::table('periodes')->first();
         $user = Auth::user()->username;
-        $status = DB::table('statuses')
-            ->where('group', '=', 'pengembangan')
-            ->get();
         if (Auth::user()->role_id !== 3) {
-            $data = Pengembangan::orderBy('created_at')->get();
+            $data = Pengembangan::orderBy('created_at', 'DESC')->get();
         } else {
-            // $dosen = Dosen::where('user_id', $user)->first();
-            $dosen = DB::table('dosens')
-                ->where('user_id', '=', $user)
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'desc')
                 ->get();
-            $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))->get();
+            $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
-        // print_r($data);
-        // $datas = Pengembangan::all();
-       return view('pengembangan.index', compact('data', 'status'));
+       return view('pengembangan.index', compact('data'));
     }
 
     public function create()
     {
         $this->authorize('create', Pengembangan::class);
 
-        $periode        = DB::table('periodes')->get();
+        $user = Auth::user()->username;
         $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
-        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-            ->where('dosens.status', 'aktif')
-            ->orderBy('dosens.created_at', 'desc')
-            ->get();
-        // $status = DB::table('statuses')
-        //     ->where('group', '=', 'pengembangan')
-        //     ->get();
-        return view('pengembangan.add', compact('periode', 'jenis_pengdiri', 'dosen'));
+        if (Auth::user()->role_id === 3) {
+            $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->first();
+        } else {
+            $dosen = Dosen::where('status', 'aktif')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        }
+        return view('pengembangan.add', compact('jenis_pengdiri', 'dosen'));
     }
 
     public function store(Request $request)
@@ -93,7 +89,6 @@ class PengembanganController extends Controller
         $status         = DB::table('statuses')
                             ->where('group', '=', 'pengembangan')
                             ->get();
-        // dd($periode);
         return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri', 'status'));
     }
 
@@ -147,7 +142,7 @@ class PengembanganController extends Controller
 
         $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('dosens.status', 'aktif')
-            ->orderBy('dosens.created_at', 'desc')
+            ->orderBy('dosens.created_at', 'DESC')
             ->get();
         return view('pengembangan.report', compact('dosen'));
     }
@@ -181,7 +176,7 @@ class PengembanganController extends Controller
         } else {
             $data = Pengembangan::where('dosen_id', $dosen[0]->id)
                 ->where('id', $id)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', 'DESC')
                 ->get();
         }
 

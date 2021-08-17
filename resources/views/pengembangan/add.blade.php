@@ -12,34 +12,47 @@
             @csrf
 
             {{-- Nama Dosen --}}
-            <div class="form-group row">
-                <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
-                <div class="col-sm-4">
-                    <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
-                        data-live-search="true">
-                        @foreach ($dosen as $d)
-                            <option value="{{ $d->id }}" {{ old('dosen_id') == "$d->name" ? 'selected' : '' }}>
-                                {{ ucwords($d->name_dsn) }}
-                            </option>
-                        @endforeach
-                    </select>
+            @if (Auth::user()->role_id === 3)
+                <div class="form-group row">
+                    <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                    <div class="col-sm-6 pt-1">
+                        <input type="text" name="dosen_id" value="{{ $dosen->id }}" hidden>
+                        {{ $dosen->name_dsn }}
+                    </div>
                 </div>
+            @else
+                <div class="form-group row">
+                    <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                    <div class="col-sm-6 pt-1">
+                        <select name="dosen_id" id="dosen_id"
+                            class="form-control selectpicker @error('periode_id') is-invalid @enderror" data-size="5"
+                            data-live-search="true">
+                            @foreach ($dosen as $e)
+                                <option value="{{ $e->id }}" {{ old('dosen_id') == "$e->id" ? 'selected' : '' }}>
+                                    {{ ucwords($e->name_dsn) }}
+                                </option>
+                            @endforeach
+                        </select>
 
-                @error('dosen_id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
+                        @error('dosen_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+            @endif
 
             {{-- Jenis Pengembangan Diri --}}
             <div class="form-group row">
                 <label for="jenis_pengdiri_id" class="col-sm-2 col-form-label">Jenis Peng. Diri</label>
                 <div class="col-sm-4">
-                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id" class="form-control">
+                    <select name="jenis_pengdiri_id" id="jenis_pengdiri_id"
+                        class="form-control selectpicker @error('periode_id') is-invalid @enderror" data-size="5"
+                        data-live-search="true">
                         @foreach ($jenis_pengdiri as $e)
                             <option value="{{ $e->id }}"
-                                {{ old('jenis_pengdiri_id') == "$e->id" ? selected : '' }}>
+                                {{ old('jenis_pengdiri_id') == "$e->id" ? 'selected' : '' }}>
                                 {{ ucwords($e->name_jp) }}
                             </option>
                         @endforeach
@@ -109,7 +122,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">
-                    Tambah
+                    Submit
                 </button>
                 <a type="button" href="{{ route('pengembangan.index') }}" class="btn btn-secondary">Back</a>
             </div>

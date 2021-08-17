@@ -27,7 +27,7 @@ class PengabdianPolicy
 
     public function update(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1, 2]);
     }
 
     public function delete(User $user)

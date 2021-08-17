@@ -33,9 +33,9 @@
                             <th>Judul PKM</th>
                             <th>Nama Komunitas</th>
                             <th>Lokasi PKM</th>
+                            <th>Status Laporan</th>
                             <th>Tahun Ajaran</th>
                             <th>Semester</th>
-                            <th>Status Laporan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -50,8 +50,6 @@
                                 <td>{{ $item->judul_pkm }}</td>
                                 <td>{{ $item->nama_komunitas }}</td>
                                 <td>{{ $item->lokasi_pkm }}</td>
-                                <td>{{ $item->m_periode->tahun }}</td>
-                                <td>{{ $item->m_periode->semester }}</td>
                                 @if ($item->m_status->code == 1)
                                     <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
@@ -61,6 +59,13 @@
                                 @elseif ($item->m_status->code == 3)
                                     <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
+                                @endif
+                                @if ($item->m_periode->id == 1)
+                                    <td>{{ '' }}</td>
+                                    <td>{{ '' }}</td>
+                                @else
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
                                 @endif
                                 <td>
                                     <div class="btn-center">

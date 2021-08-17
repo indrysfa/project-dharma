@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
-use function PHPUnit\Framework\isEmpty;
-
 class PengembanganController extends Controller
 {
     public function index()
@@ -34,7 +32,7 @@ class PengembanganController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-       return view('pengembangan.index', compact('data'));
+        return view('pengembangan.index', compact('data'));
     }
 
     public function create()

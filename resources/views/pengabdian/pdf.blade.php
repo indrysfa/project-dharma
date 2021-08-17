@@ -86,6 +86,7 @@
                     <th>Lokasi PKM</th>
                     <th>Tahun Ajaran</th>
                     <th>Semester</th>
+                    <th>Status Laporan</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,9 +94,10 @@
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
                     <td>{{ $data[0]->judul_pkm }}</td>
                     <td>{{ $data[0]->nama_komunitas }}</td>
-                    <td>{{ $data[0]->lokasi_pkm }}</td>
+                    <td>{{ ucwords($data[0]->lokasi_pkm) }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->tahun }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->semester }}</td>
+                    <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>
                 </tr>
             </tbody>
         </table>

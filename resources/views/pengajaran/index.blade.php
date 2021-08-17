@@ -32,13 +32,11 @@
                             <th>Nama Dosen</th>
                             <th>Kode MK</th>
                             <th>Nama MK</th>
+                            <th>Status</th>
                             <th>Tahun</th>
                             <th>Semester</th>
                             <th>Kelas</th>
                             <th>SKS</th>
-                            @can('view', App\Models\Pengajaran::class)
-                                <th>Status Laporan</th>
-                            @endcan
                             <th></th>
                         </tr>
                     </thead>
@@ -52,33 +50,37 @@
                                 <td>{{ $item->m_dosen->name_dsn }}</td>
                                 <td>{{ $item->kode_mk }}</td>
                                 <td>{{ $item->nama_mk }}</td>
-                                {{-- @php
-                                        $period = Illuminate\Support\Facades\DB::table('periodes')
-                                            ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
-                                            ->get();
-                                    @endphp --}}
-                                {{-- <td>{{ $period[0]->tahun }}</td>
-                                    <td>{{ $period[0]->semester }}</td> --}}
-                                <td>{{ $item->m_periode->tahun }}</td>
-                                <td>{{ $item->m_periode->semester }}</td>
+                                @if ($item->m_status->code == 1)
+                                    <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
+                                @elseif ($item->m_status->code == 2)
+                                    <td><span class="badge badge-info">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
+                                @elseif ($item->m_status->code == 3)
+                                    <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
+                                @elseif ($item->m_status->code == 4)
+                                    <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
+                                @endif
+                                @if ($item->m_periode->id == 1)
+                                    <td>{{ '' }}</td>
+                                    <td>{{ '' }}</td>
+                                @else
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                    <td>{{ $item->m_periode->semester }}</td>
+                                @endif
                                 <td>{{ $item->kelas }}</td>
                                 <td>{{ $item->sks }}</td>
-                                @can('view', App\Models\Pengajaran::class)
-                                    @if (Auth::user()->role_id == 3)
-                                        {{ '' }}
-                                    @else
-                                        <td>{{ ucwords($item->m_status->name) }}</td>
-                                    @endif
-                                @endcan
-                                {{-- @can('view', App\Models\Pengajaran::class)
-                                        @if ($item->status_id == 1)
-                                            <td>{{ 'Aktif' }}</td>
-                                        @else
-                                            <td>{{ 'Nonaktif' }}</td>
-                                        @endif
-                                    @endcan --}}
                                 <td>
                                     <div class="btn-center">
+                                        @if ($item->m_status->code == 3)
+                                            <a href="{{ route('pengajaran.pdf', $item->id) }}"
+                                                class="btn btn-info btn-circle btn-sm"><i
+                                                    class="fas fa-download"></i></a>
+                                        @else
+                                            {{ '' }}
+                                        @endif
                                         @can('update', App\Models\Pengajaran::class)
                                             <a href="{{ route('pengajaran.edit', $item->id) }}"
                                                 class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>

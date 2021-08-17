@@ -7,6 +7,8 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
+    @include('flash-message')
+
     <form class="user" method="POST" action="{{ route('penelitian.update', $penelitian->id) }}"
         enctype="multipart/form-data">
         @csrf

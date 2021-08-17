@@ -74,6 +74,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::delete('/pengajaran/delete/{pengajaran}', [PengajaranController::class, 'destroy'])->name('pengajaran.delete');
     Route::get('/pengajaran/report', [PengajaranController::class, 'report'])->name('pengajaran.report');
     Route::get('/pengajaran/export', [PengajaranController::class, 'export'])->name('pengajaran.export');
+    Route::get('/pengajaran/generate-pdf/{id}', [PengajaranController::class, 'generatePDF'])->name('pengajaran.pdf');
 
     Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
     Route::get('/penelitian/add', [PenelitianController::class, 'create'])->name('penelitian.add');

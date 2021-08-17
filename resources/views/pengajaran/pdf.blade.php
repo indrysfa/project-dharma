@@ -71,10 +71,10 @@
     <!-- Wrap the content of your PDF inside a main tag -->
     <main>
         <div id="title">
-            <h2>Laporan Penelitian</h2>
+            <h2>Laporan Pengajaran</h2>
             <hr style="size: 10px">
         </div>
-        <p>Sehubungan dengan telah selesainya Penelitian {{ $data[0]->judul_penelitian }} Tahun Ajaran
+        <p>Sehubungan dengan telah selesainya pengajaran {{ $data[0]->judul_Pengajaran }} Tahun Ajaran
             {{ $data[0]->m_periode->tahun }} yang saya laksanakan dan sesuai dengan peraturan, bersama ini kami
             sampaikan dengan hormat laporan tersebut dibawah ini :</p>
         <table align="center" border="1">
@@ -82,9 +82,12 @@
                 <tr>
                     <th>Tanggal</th>
                     <th>Nama Dosen</th>
-                    <th>Judul Penelitian</th>
-                    <th>Jumlah Anggota</th>
-                    <th>Tahun Penelitian</th>
+                    <th>Kode MK</th>
+                    <th>Nama MK</th>
+                    <th>Tahun</th>
+                    <th>Semester</th>
+                    <th>Kelas</th>
+                    <th>SKS</th>
                     <th>Status Laporan</th>
                 </tr>
             </thead>
@@ -92,14 +95,17 @@
                 <tr>
                     <td>{{ date('d F Y', strtotime($data[0]->created_at)) }}</td>
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
-                    <td>{{ $data[0]->judul_penelitian }}</td>
-                    <td style="text-align: center">{{ $data[0]->jumlah_anggota }}</td>
+                    <td>{{ $data[0]->kode_mk }}</td>
+                    <td>{{ $data[0]->nama_mk }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->tahun }}</td>
+                    <td style="text-align: center">{{ $data[0]->m_periode->semester }}</td>
+                    <td style="text-align: center">{{ $data[0]->kelas }}</td>
+                    <td style="text-align: center">{{ $data[0]->sks }}</td>
                     <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>
                 </tr>
             </tbody>
         </table>
-        <p>Demikian laporan penelitian yang saya sampaikan atas perhatiannya saya ucapkan terima kasih.</p>
+        <p>Demikian laporan pengajaran yang saya sampaikan atas perhatiannya saya ucapkan terima kasih.</p>
         <br>
         <p>Hormat saya,</p>
         <br><br><br>

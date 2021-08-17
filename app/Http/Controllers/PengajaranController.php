@@ -17,14 +17,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PengajaranController extends Controller
 {
     public function index()
     {
-        $period = DB::table('periodes')
-                ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
-                ->get();
+        // $period = DB::table('periodes')
+        //         ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
+        //         ->get();
         // $username = Auth::user()->username;
         // if (Auth::user()->role_id !== 3) {
         //     $data = User::join('pengajarans', 'users.username', '=', 'pengajarans.dosen_id')
@@ -35,18 +36,29 @@ class PengajaranController extends Controller
 
 
         $user = Auth::user()->username;
+        // if (Auth::user()->role_id !== 3) {
+        //     $data = Pengajaran::orderBy('created_at')->get();
+        // } else {
+        //     $dosen = DB::table('dosens')
+        //         ->where('user_id', '=', $user)
+        //         ->get();
+        //     $data = Pengajaran::where('dosen_id', $dosen[0]->id)
+        //         ->where('status_id', '=', '8')
+        //         ->get();
+        // }
+
         if (Auth::user()->role_id !== 3) {
-            $data = Pengajaran::orderBy('created_at')->get();
+            $data = Pengajaran::orderBy('created_at', 'desc')->get();
         } else {
-            $dosen = DB::table('dosens')
-                ->where('user_id', '=', $user)
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'asc')
                 ->get();
             $data = Pengajaran::where('dosen_id', $dosen[0]->id)
-                ->where('status_id', '=', '8')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
 
-        return view('pengajaran.index', compact('data', 'period'));
+        return view('pengajaran.index', compact('data'));
     }
 
     public function add()
@@ -54,10 +66,17 @@ class PengajaranController extends Controller
         $this->authorize('create', Pengajaran::class);
 
         $data = Periode::all();
-        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-            ->where('dosens.status', 'aktif')
-            ->orderBy('dosens.created_at', 'desc')
-            ->get();
+        $user = Auth::user()->username;
+        if (Auth::user()->role_id === 3) {
+            $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->first();
+        } else {
+            $dosen = Dosen::where('status', 'aktif')
+                ->where('dosens.status', 'aktif')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        }
         return view('pengajaran.add', compact('data', 'dosen'));
     }
 
@@ -74,12 +93,12 @@ class PengajaranController extends Controller
 
         $data = Pengajaran::create([
             'dosen_id'   => $request->dosen_id,
-            'periode_id' => $request->periode_id,
+            'periode_id' => 1,
             'kode_mk'    => $request->kode_mk,
             'nama_mk'    => $request->nama_mk,
             'kelas'      => $request->kelas,
             'sks'        => $request->sks,
-            'status_id'  => 1,
+            'status_id'  => 9,
         ]);
 
         if ($data) {
@@ -106,17 +125,29 @@ class PengajaranController extends Controller
 
         $pengajaran = Pengajaran::findOrFail($pengajaran->id);
 
-        $pengajaran->update([
-            'kode_mk'      => $request->kode_mk,
-            'nama_mk'      => $request->nama_mk,
-            'periode_id'   => $request->periode_id,
-            'kelas'        => $request->kelas,
-            'sks'          => $request->sks,
-            'status_id'    => $request->status_id,
-        ]);
-
-        if ($pengajaran) {
-            return redirect()->route('pengajaran.index')->with('success', 'Kode MK ' . $pengajaran["kode_mk"] . ' Updated successfully');
+        if ($request->periode_id == 1) {
+            return redirect()->route('pengajaran.edit', $pengajaran)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        } else {
+            if (Auth::user()->role_id == 1) {
+                $pengajaran->update([
+                    'kode_mk'      => $request->kode_mk,
+                    'nama_mk'      => $request->nama_mk,
+                    'periode_id'   => $request->periode_id,
+                    'kelas'        => $request->kelas,
+                    'sks'          => $request->sks,
+                    'status_id'    => $request->status_id,
+                ]);
+            } else if ($request->status_id == 9 || Auth::user()->role_id == 2) {
+                $pengajaran->update([
+                    'kode_mk'      => $request->kode_mk,
+                    'nama_mk'      => $request->nama_mk,
+                    'periode_id'   => $request->periode_id,
+                    'kelas'        => $request->kelas,
+                    'sks'          => $request->sks,
+                    'status_id'    => 11,
+                ]);
+            }
+            return redirect()->route('pengajaran.index')->with('success', 'Judul PKM ' . $pengajaran["kode_mk"] . ' Updated successfully');
         }
     }
 
@@ -153,5 +184,27 @@ class PengajaranController extends Controller
 
         Pengajaran::whereBetween('created_at', [$from, $to])->get();
         return Excel::download(new PengajaransExport, 'pengajaran-'.$from . '_sd_'.$to.'.xlsx');
+    }
+
+    public function generatePDF($id)
+    {
+        $data = Pengajaran::findOrFail($id);
+        $user = Auth::user()->username;
+        $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->get();
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengajaran::orderBy('created_at', 'desc')
+                ->where('id', $id)
+                ->get();
+        } else {
+            $data = Pengajaran::where('dosen_id', $dosen[0]->id)
+                ->where('id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        $pdf = PDF::loadView('pengajaran.pdf', compact('data'));
+        return $pdf->download('pengajaran.pdf');
     }
 }

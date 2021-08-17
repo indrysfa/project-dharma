@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PenelitiansExport;
+use App\Models\Dosen;
 use App\Models\Penelitian;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,8 +26,8 @@ class PenelitianController extends Controller
         if (Auth::user()->role_id !== 3) {
             $data = Penelitian::orderBy('created_at', 'desc')->get();
         } else {
-            $dosen = DB::table('dosens')
-                ->where('user_id', '=', $user)
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'asc')
                 ->get();
             $data = Penelitian::where('dosen_id', $dosen[0]->id)
                 ->orderBy('created_at', 'desc')
@@ -38,18 +39,29 @@ class PenelitianController extends Controller
     public function create()
     {
         $this->authorize('create', Penelitian::class);
+        $user = Auth::user()->username;
+        if (Auth::user()->role_id === 3) {
+            $dosen = DB::table('dosens')
+                ->where('user_id', '=', $user)
+                ->first();
+        } else {
+            $dosen = Dosen::where('status', 'aktif')
+                ->where('dosens.status', 'aktif')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        }
 
-        $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-            ->where('dosens.status', 'aktif')
-            ->orderBy('dosens.created_at', 'desc')
-            ->get();
-        $periode = DB::table('periodes')
-            ->where('semester', '=', 1)
-            ->get();
-        $status = DB::table('statuses')
-            ->where('group', '=', 'penelitian')
-            ->get();
-        return view('penelitian.add', compact('periode', 'status', 'dosen'));
+        // $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
+        //     ->where('dosens.status', 'aktif')
+        //     ->orderBy('dosens.created_at', 'desc')
+        //     ->get();
+        // $periode = DB::table('periodes')
+        //     ->where('semester', '=', 1)
+        //     ->get();
+        // $status = DB::table('statuses')
+        //     ->where('group', '=', 'penelitian')
+        //     ->get();
+        return view('penelitian.add', compact('dosen'));
     }
 
     public function store(Request $request)
@@ -64,8 +76,8 @@ class PenelitianController extends Controller
 
         $data = Penelitian::create([
             'dosen_id'          => $request->dosen_id,
-            'status_id'         => $request->status_id,
-            'periode_id'        => $request->periode_id,
+            'status_id'         => 5,
+            'periode_id'        => 1,
             'judul_penelitian'  => $request->judul_penelitian,
             'jumlah_anggota'    => $request->jumlah_anggota,
         ]);
@@ -97,15 +109,25 @@ class PenelitianController extends Controller
 
         $penelitian = Penelitian::findOrFail($penelitian->id);
 
-        $penelitian->update([
-            'periode_id'        => $request->periode_id,
-            'status_id'         => $request->status_id,
-            'judul_penelitian'  => $request->judul_penelitian,
-            'jumlah_anggota'    => $request->jumlah_anggota,
-        ]);
-
-        if ($penelitian) {
-            return redirect()->route('penelitian.index')->with('success', 'Judul Penelitian ' . $penelitian["judul_penelitian"] . ' Updated successfully');
+        if ($request->periode_id == 1) {
+            return redirect()->route('penelitian.edit', $penelitian)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        } else {
+            if (Auth::user()->role_id == 1) {
+                $penelitian->update([
+                    'periode_id'        => $request->periode_id,
+                    'status_id'         => $request->status_id,
+                    'judul_penelitian'  => $request->judul_penelitian,
+                    'jumlah_anggota'    => $request->jumlah_anggota,
+                ]);
+            } else if ($request->status_id == 5 || Auth::user()->role_id == 2) {
+                $penelitian->update([
+                    'periode_id'        => $request->periode_id,
+                    'status_id'         => 7,
+                    'judul_penelitian'  => $request->judul_penelitian,
+                    'jumlah_anggota'    => $request->jumlah_anggota,
+                ]);
+            }
+            return redirect()->route('penelitian.index')->with('success', 'Judul PKM ' . $penelitian["judul_pkm"] . ' Updated successfully');
         }
     }
 

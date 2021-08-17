@@ -83,9 +83,9 @@
                     <th>Tanggal</th>
                     <th>Nama Dosen</th>
                     <th>Judul Penelitian</th>
-                    <th>Status Penelitian</th>
                     <th>Jumlah Anggota</th>
                     <th>Tahun Penelitian</th>
+                    <th>Status Penelitian</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,9 +93,9 @@
                     <td>{{ date('d F Y', strtotime($data[0]->created_at)) }}</td>
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
                     <td>{{ $data[0]->judul_penelitian }}</td>
-                    <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>
                     <td style="text-align: center">{{ $data[0]->jumlah_anggota }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->tahun }}</td>
+                    <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>
                 </tr>
             </tbody>
         </table>

@@ -26,7 +26,7 @@ class PengembanganController extends Controller
             $data = Pengembangan::orderBy('created_at', 'DESC')->get();
         } else {
             $dosen = Dosen::where('user_id', '=', $user)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', 'asc')
                 ->get();
             $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))
                 ->orderBy('created_at', 'desc')

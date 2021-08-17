@@ -20,13 +20,12 @@ class PengabdianController extends Controller
 {
     public function index()
     {
-        // $periode = DB::table('periodes')->first();
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Pengabdian::orderBy('created_at', 'desc')->get();
         } else {
             $dosen = Dosen::where('user_id', '=', $user)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', 'asc')
                 ->get();
             $data = Pengabdian::where('dosen_id', $dosen[0]->id)
                 ->orderBy('created_at', 'desc')
@@ -105,7 +104,7 @@ class PengabdianController extends Controller
                     'nama_komunitas'    => $request->nama_komunitas,
                     'lokasi_pkm'        => $request->lokasi_pkm,
                 ]);
-            } else if ($request->status_id == 17 || Auth::user()->role_id == 2) {
+            } else if ($request->status_id == 13 || Auth::user()->role_id == 2) {
                 $pengabdian->update([
                     'periode_id'        => $request->periode_id,
                     'status_id'         => 15,

@@ -57,9 +57,16 @@
                                 @elseif ($item->m_status->code == 3)
                                     <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
+                                @elseif ($item->m_status->code == 4)
+                                    <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
                                 @endif
                                 <td>{{ $item->jumlah_anggota }}</td>
-                                <td>{{ $item->m_periode->tahun }}</td>
+                                @if ($item->m_periode->id == 1)
+                                    <td>{{ '' }}</td>
+                                @else
+                                    <td>{{ $item->m_periode->tahun }}</td>
+                                @endif
                                 <td>
                                     <div class="btn-group-horizontal">
                                         @if ($item->m_status->code == 3)

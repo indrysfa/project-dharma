@@ -59,6 +59,9 @@
                                 @elseif ($item->m_status->code == 3)
                                     <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
                                     </td>
+                                @elseif ($item->m_status->code == 4)
+                                    <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
+                                    </td>
                                 @endif
                                 @if ($item->m_periode->id == 1)
                                     <td>{{ '' }}</td>

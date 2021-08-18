@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Dosen;
 use App\Models\Jja;
+use App\Models\Penelitian;
+use App\Models\Pengabdian;
+use App\Models\Pengajaran;
+use App\Models\Pengembangan;
 use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +20,17 @@ class DosenController extends Controller
 {
     public function index()
     {
-        // $data = Dosen::join('users', 'dosens.user_id', '=', 'users.username')
-        //     ->orderBy('users.created_at', 'desc')
-        //     ->get();
-        // $data = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-        //     ->orderBy('dosens.created_at', 'desc')
-        //     ->get();
-        $data = Dosen::all();
+        $user = Auth::user()->username;
+        if (Auth::user()->role_id !== 3) {
+            $data = Dosen::orderBy('created_at', 'desc')->get();
+        } else {
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            $data = Dosen::where('id', $dosen[0]->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
         return view('master.dosen-index', compact('data'));
     }
 
@@ -71,15 +80,40 @@ class DosenController extends Controller
 
     public function detail(Dosen $dosen)
     {
-        $dosen->find($dosen->id)->all();
-        // dd($tes);
-
-        // $dosen = Dosen::all();
-        return view('master.dosen-detail', compact('dosen'));
+        $dosens = $dosen->find($dosen->id)->all();
+        // dd($dosens);
+        $year = date("Y");
+        $pengajaran = Pengajaran::orderBy('pengajarans.created_at', 'desc')
+            ->join('dosens', 'pengajarans.dosen_id', '=', 'dosens.id')
+            ->join('periodes', 'pengajarans.periode_id', '=', 'periodes.id')
+            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('periodes.tahun', '=', $year)
+            ->get();
+        $penelitian = Penelitian::orderBy('penelitians.created_at', 'desc')
+            ->join('dosens', 'penelitians.dosen_id', '=', 'dosens.id')
+            ->join('periodes', 'penelitians.periode_id', '=', 'periodes.id')
+            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('periodes.tahun', '=', $year)
+            ->get();
+        $pengabdian = Pengabdian::orderBy('pengabdians.created_at', 'desc')
+            ->join('dosens', 'pengabdians.dosen_id', '=', 'dosens.id')
+            ->join('periodes', 'pengabdians.periode_id', '=', 'periodes.id')
+            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('periodes.tahun', '=', $year)
+            ->get();
+        $pengembangan = Pengembangan::orderBy('pengembangans.created_at', 'desc')
+            ->join('dosens', 'pengembangans.dosen_id', '=', 'dosens.id')
+            ->join('periodes', 'pengembangans.periode_id', '=', 'periodes.id')
+            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('periodes.tahun', '=', $year)
+            ->get();
+        return view('master.dosen-detail', compact('dosen', 'pengajaran', 'penelitian', 'pengabdian', 'pengembangan'));
     }
 
     public function edit(Dosen $dosen)
     {
+        $this->authorize('update', Dosen::class);
+
         $data = User::join('dosens', 'users.username', '=', 'dosens.user_id')
             ->where('username', '=', $dosen->user_id)
             ->get();
@@ -91,6 +125,8 @@ class DosenController extends Controller
     public function update(Request $request, Dosen $dosen, User $user)
     {
         $dosen  = Dosen::findOrFail($dosen->id);
+        $user = User::where('username', $dosen->user_id)->first();
+        // dd($user);
 
         if ($request->file('picture') == "") {
             $dosen->update([
@@ -98,7 +134,7 @@ class DosenController extends Controller
                 'user_id'       => $request->user_id,
                 'kode'          => $request->kode,
                 'name_dsn'      => ucwords($request->name_dsn),
-                'tmptlahir'     => ucwords($request->tgl_lahir),
+                'tmptlahir'     => ucwords($request->tmptlahir),
                 'tgl_lahir'     => $request->tgl_lahir,
                 'email'         => $request->email,
                 'no_telepon'    => $request->no_telepon,
@@ -106,8 +142,19 @@ class DosenController extends Controller
                 'status'        => 'aktif',
             ]);
 
+            $user->update([
+                'name'          => ucwords($request->name_dsn),
+                'email'         => $request->email,
+                'role'          => $request->role,
+                'tmptlahir'     => ucwords($request->tmptlahir),
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
+            ]);
+
         } else {
             Storage::disk('local')->delete('public/image/' . $dosen->picture);
+            Storage::disk('local')->delete('public/image/' . $user->picture);
             $picture = $request->file('picture');
             $picture->storeAs('public/image', $picture->hashName());
 
@@ -116,7 +163,7 @@ class DosenController extends Controller
                 'user_id'       => $request->user_id,
                 'kode'          => $request->kode,
                 'name_dsn'      => ucwords($request->name_dsn),
-                'tmptlahir'     => ucwords($request->tgl_lahir),
+                'tmptlahir'     => ucwords($request->tmptlahir),
                 'tgl_lahir'     => $request->tgl_lahir,
                 'email'         => $request->email,
                 'no_telepon'    => $request->no_telepon,
@@ -125,7 +172,14 @@ class DosenController extends Controller
                 'picture'       => $picture->hashName()
             ]);
 
-            $dosen = Dosen::create([
+            $user->update([
+                'name'          => ucwords($request->name_dsn),
+                'email'         => $request->email,
+                'role'          => $request->role,
+                'tmptlahir'     => ucwords($request->tmptlahir),
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
                 'picture'       => $picture->hashName()
             ]);
         }

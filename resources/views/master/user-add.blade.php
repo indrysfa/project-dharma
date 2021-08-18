@@ -25,6 +25,25 @@
                 @enderror
             </div>
 
+            {{-- JJA --}}
+            <div class="form-group row">
+                <label for="jja_id" class="col-sm-2 col-form-label">JJA</label>
+                <div class="col-sm-6">
+                    <select id="jja_id" class="form-control form-control @error('jja_id') is-invalid @enderror"
+                        name="jja_id" value="{{ old('jja_id') }}">
+                        @foreach ($jja as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                @error('jja_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             {{-- Username --}}
             <div class="form-group row">
                 <label for="username" class="col-sm-2 col-form-label">Username</label>
@@ -77,7 +96,7 @@
                     <select id="role_id" class="form-control form-control @error('role_id') is-invalid @enderror"
                         name="role_id" value="{{ old('role_id') }}">
                         @foreach ($data as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item->id }}">{{ $item->name_r }}</option>
                         @endforeach
                     </select>
                 </div>

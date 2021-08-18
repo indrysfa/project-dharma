@@ -50,17 +50,6 @@ class PenelitianController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->get();
         }
-
-        // $dosen = User::join('dosens', 'users.username', '=', 'dosens.user_id')
-        //     ->where('dosens.status', 'aktif')
-        //     ->orderBy('dosens.created_at', 'desc')
-        //     ->get();
-        // $periode = DB::table('periodes')
-        //     ->where('semester', '=', 1)
-        //     ->get();
-        // $status = DB::table('statuses')
-        //     ->where('group', '=', 'penelitian')
-        //     ->get();
         return view('penelitian.add', compact('dosen'));
     }
 

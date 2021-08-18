@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Dosen;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -17,7 +18,7 @@ class DosenPolicy
 
     public function view(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1, 2, 3]);
     }
 
     public function create(User $user)
@@ -27,7 +28,7 @@ class DosenPolicy
 
     public function update(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1, 2, 3]);
     }
 
     public function delete(User $user)

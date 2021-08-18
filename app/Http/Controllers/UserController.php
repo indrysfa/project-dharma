@@ -7,11 +7,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Jja;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +22,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $data = User::all();
+        $data = User::orderBy('created_at', 'DESC')->get();
         return view('master.index', compact('data'));
     }
 
@@ -29,7 +31,8 @@ class UserController extends Controller
         $this->authorize('create', User::class);
 
         $data = Role::all();
-        return view('master.user-add', compact('data'));
+        $jja = Jja::all();
+        return view('master.user-add', compact('data', 'jja'));
     }
 
     public function create(Request $request)
@@ -49,16 +52,24 @@ class UserController extends Controller
             'picture'       => 'required|image|mimes:png,jpg,jpeg',
         ]);
 
+        $picture = $request->file('picture');
+        $picture->storeAs('public/image', $picture->hashName());
+
         if ($request->role_id == 3) {
             $data = Dosen::create([
                 'user_id'       => strtolower($request->username),
+                'jja_id'        => $request->jja_id,
+                'kode'          => 888888,
                 'status'        => 'aktif',
-                'name'          => ucwords($request->name),
+                'name_dsn'      => ucwords($request->name),
+                'email'         => $request->email,
+                'tmptlahir'     => ucwords($request->tmptlahir),
+                'tgl_lahir'     => $request->tgl_lahir,
+                'no_telepon'    => $request->no_telepon,
+                'alamat'        => ucwords($request->alamat),
+                'picture'       => $picture->hashName(),
             ]);
         }
-
-        $picture = $request->file('picture');
-        $picture->storeAs('public/image', $picture->hashName());
 
         $data = User::create([
             'name'              => ucwords($request->name),

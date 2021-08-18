@@ -68,7 +68,7 @@
                             name="role_id" value="{{ old('role_id', $user->role_id) }}" required>
                             @foreach ($role as $item)
                                 <option value="{{ $item->id }}" {{ $user->role_id == $item->id ? 'selected' : '' }}>
-                                    {{ $item->name }}</option>
+                                    {{ $item->name_r }}</option>
                             @endforeach
                         </select>
                     </div>

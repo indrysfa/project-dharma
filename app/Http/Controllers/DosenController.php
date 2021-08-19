@@ -137,67 +137,74 @@ class DosenController extends Controller
 
         $dosen  = Dosen::findOrFail($dosen->id);
         $user = User::where('username', $dosen->user_id)->first();
-        // dd($user);
+        $kodedosen = DB::table('dosens')
+            ->where('kode', 'like', "%" . $request->kode . "%")
+            ->first();
 
-        if ($request->file('picture') == "") {
-            $dosen->update([
-                'jja_id'        => $request->jja_id,
-                'user_id'       => $request->user_id,
-                'kode'          => $request->kode,
-                'name_dsn'      => ucwords($request->name_dsn),
-                'tmptlahir'     => ucwords($request->tmptlahir),
-                'tgl_lahir'     => $request->tgl_lahir,
-                'email'         => $request->email,
-                'no_telepon'    => $request->no_telepon,
-                'alamat'        => $request->alamat,
-                'status'        => 'aktif',
-            ]);
-
-            $user->update([
-                'name'          => ucwords($request->name_dsn),
-                'email'         => $request->email,
-                'role'          => $request->role,
-                'tmptlahir'     => ucwords($request->tmptlahir),
-                'tgl_lahir'     => $request->tgl_lahir,
-                'no_telepon'    => $request->no_telepon,
-                'alamat'        => ucwords($request->alamat),
-            ]);
-
+        if ($kodedosen) {
+            return redirect()->route('dosen.index')->with('warning', 'Update failed!, data already exists');
         } else {
-            Storage::disk('local')->delete('public/image/' . $dosen->picture);
-            Storage::disk('local')->delete('public/image/' . $user->picture);
-            $picture = $request->file('picture');
-            $picture->storeAs('public/image', $picture->hashName());
+            if ($request->file('picture') == "") {
+                $dosen->update([
+                    'jja_id'        => $request->jja_id,
+                    'user_id'       => $request->user_id,
+                    'kode'          => $request->kode,
+                    'name_dsn'      => ucwords($request->name_dsn),
+                    'tmptlahir'     => ucwords($request->tmptlahir),
+                    'tgl_lahir'     => $request->tgl_lahir,
+                    'email'         => $request->email,
+                    'no_telepon'    => $request->no_telepon,
+                    'alamat'        => $request->alamat,
+                    'status'        => 'aktif',
+                ]);
 
-            $dosen->update([
-                'jja_id'        => $request->jja_id,
-                'user_id'       => $request->user_id,
-                'kode'          => $request->kode,
-                'name_dsn'      => ucwords($request->name_dsn),
-                'tmptlahir'     => ucwords($request->tmptlahir),
-                'tgl_lahir'     => $request->tgl_lahir,
-                'email'         => $request->email,
-                'no_telepon'    => $request->no_telepon,
-                'alamat'        => $request->alamat,
-                'status'        => 'aktif',
-                'picture'       => $picture->hashName()
-            ]);
+                $user->update([
+                    'name'          => ucwords($request->name_dsn),
+                    'email'         => $request->email,
+                    'role'          => $request->role,
+                    'tmptlahir'     => ucwords($request->tmptlahir),
+                    'tgl_lahir'     => $request->tgl_lahir,
+                    'no_telepon'    => $request->no_telepon,
+                    'alamat'        => ucwords($request->alamat),
+                ]);
 
-            $user->update([
-                'name'          => ucwords($request->name_dsn),
-                'email'         => $request->email,
-                'role'          => $request->role,
-                'tmptlahir'     => ucwords($request->tmptlahir),
-                'tgl_lahir'     => $request->tgl_lahir,
-                'no_telepon'    => $request->no_telepon,
-                'alamat'        => ucwords($request->alamat),
-                'picture'       => $picture->hashName()
-            ]);
+            } else {
+                Storage::disk('local')->delete('public/image/' . $dosen->picture);
+                Storage::disk('local')->delete('public/image/' . $user->picture);
+                $picture = $request->file('picture');
+                $picture->storeAs('public/image', $picture->hashName());
+
+                $dosen->update([
+                    'jja_id'        => $request->jja_id,
+                    'user_id'       => $request->user_id,
+                    'kode'          => $request->kode,
+                    'name_dsn'      => ucwords($request->name_dsn),
+                    'tmptlahir'     => ucwords($request->tmptlahir),
+                    'tgl_lahir'     => $request->tgl_lahir,
+                    'email'         => $request->email,
+                    'no_telepon'    => $request->no_telepon,
+                    'alamat'        => $request->alamat,
+                    'status'        => 'aktif',
+                    'picture'       => $picture->hashName()
+                ]);
+
+                $user->update([
+                    'name'          => ucwords($request->name_dsn),
+                    'email'         => $request->email,
+                    'role'          => $request->role,
+                    'tmptlahir'     => ucwords($request->tmptlahir),
+                    'tgl_lahir'     => $request->tgl_lahir,
+                    'no_telepon'    => $request->no_telepon,
+                    'alamat'        => ucwords($request->alamat),
+                    'picture'       => $picture->hashName()
+                ]);
+            }
+
+            if ($dosen) {
+                return redirect()->route('dosen.index')->with('success', 'Data ' . $dosen["name"] . ' Updated successfully');
+            }
         }
 
-        if ($dosen) {
-            return redirect()->route('dosen.index')->with('success', 'Data ' . $dosen["name"] . ' Updated successfully');
-        }
     }
 
     public function destroyv1(Dosen $dos)

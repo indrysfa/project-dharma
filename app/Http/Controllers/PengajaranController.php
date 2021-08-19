@@ -74,19 +74,28 @@ class PengajaranController extends Controller
             'sks'       => 'required',
         ]);
 
-        $data = Pengajaran::create([
-            'dosen_id'   => $request->dosen_id,
-            'periode_id' => 1,
-            'kode_mk'    => $request->kode_mk,
-            'nama_mk'    => $request->nama_mk,
-            'kelas'      => $request->kelas,
-            'sks'        => $request->sks,
-            'status_id'  => 9,
-        ]);
+        $pengajaran = DB::table('pengajarans')
+            ->where('kode_mk', 'like', "%" . $request->kode_mk . "%")
+            ->first();
 
-        if ($data) {
-            return redirect()->route('pengajaran.index')->with('success', 'Data added successfully');
+        if ($pengajaran->kode_mk) {
+            return redirect()->route('pengajaran.index')->with('warning', 'Data already exists');
+        } else {
+            $data = Pengajaran::create([
+                'dosen_id'   => $request->dosen_id,
+                'periode_id' => 1,
+                'kode_mk'    => $request->kode_mk,
+                'nama_mk'    => $request->nama_mk,
+                'kelas'      => $request->kelas,
+                'sks'        => $request->sks,
+                'status_id'  => 9,
+            ]);
+
+            if ($data) {
+                return redirect()->route('pengajaran.index')->with('success', 'Data added successfully');
+            }
         }
+
     }
 
     public function edit(Pengajaran $pengajaran)

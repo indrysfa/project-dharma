@@ -11,7 +11,7 @@
             <form class="form-horizontal">
                 <div class="card-body row">
                     <div class="col-sm-4">
-                        <div class="col-sm-5 pt-1">
+                        <div class="col-sm-8 pt-1">
                             @if ($user->picture == '')
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('assets/sb-admin2/img/undraw_profile.svg') }}">
@@ -23,44 +23,44 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Name</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="name" class="col-sm-4 col-form-label"><b>Name</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->name }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="username" class="col-sm-2 col-form-label">Username</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="username" class="col-sm-4 col-form-label"><b>Username</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->username }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="email" class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="email" class="col-sm-4 col-form-label"><b>Email</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->email }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="role" class="col-sm-2 col-form-label">Role</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="role" class="col-sm-4 col-form-label"><b>Role</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->m_role->name_r }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="tmptlahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="tmptlahir" class="col-sm-4 col-form-label"><b>Tempat Lahir</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->tmptlahir }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="no_telepon" class="col-sm-2 col-form-label">No Telepon</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="no_telepon" class="col-sm-4 col-form-label"><b>No Telepon</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->no_telepon }}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
-                            <div class="col-sm-5 pt-1">
+                            <label for="alamat" class="col-sm-4 col-form-label"><b>Alamat</b></label>
+                            <div class="col-sm-8 pt-1">
                                 {{ $user->alamat }}
                             </div>
                         </div>

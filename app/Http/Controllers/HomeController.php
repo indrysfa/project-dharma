@@ -20,7 +20,7 @@ class HomeController extends Controller
     {
         // $this->middleware('auth');
         $this->middleware(['auth','verified']);
-        $this->authorize('aktif', User::class);
+        // $this->authorize('aktif', User::class);
     }
 
     /**

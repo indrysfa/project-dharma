@@ -22,8 +22,8 @@
                     </div>
                 @else
                     <div class="form-group row">
-                        <label for="dosen_id" class="col-sm-3 col-form-label">Nama Dosen</label>
-                        <div class="col-sm-9">
+                        <label for="dosen_id" class="col-sm-2 col-form-label">Nama Dosen</label>
+                        <div class="col-sm-10">
                             <select name="dosen_id" id="dosen_id" class="form-control selectpicker" data-size="5"
                                 data-live-search="true">
                                 @foreach ($dosen as $d)

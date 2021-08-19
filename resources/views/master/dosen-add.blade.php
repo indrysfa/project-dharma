@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 @section('title', 'Tambah Dosen Baru')
 @section('content')
-    @if (Auth::user()->role_id != 1)
-        <h1 class="h3 mb-4 text-gray-800">Maaf, kamu tidak bisa mengakses halaman ini.</h1>
-    @else
+    @can('create', App\Models\Dosen::class)
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -54,5 +52,6 @@
 
         </div>
         <!-- /.container-fluid -->
+    @endcan
     @endif
 @endsection

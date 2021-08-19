@@ -35,6 +35,9 @@
                 @can('view', App\Models\Dosen::class)
                     <a class="collapse-item" href="{{ route('dosen.index') }}">Dosen</a>
                 @endcan
+                @can('view', App\Models\Jenis_pengdiri::class)
+                    <a class="collapse-item" href="{{ route('jenis_pengdiri.index') }}">Jenis Peng. Diri</a>
+                @endcan
             </div>
         </div>
     </li>
@@ -52,9 +55,10 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengajaran.index') }}">Data</a>
-                @can('viewReport', App\Models\Pengajaran::class)
+                {{-- Fitur dimatikan belum dibutuhkan --}}
+                {{-- @can('viewReport', App\Models\Pengajaran::class)
                     <a class="collapse-item" href="{{ route('pengajaran.report') }}">Report</a>
-                @endcan
+                @endcan --}}
             </div>
         </div>
     </li>
@@ -70,9 +74,10 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('penelitian.index') }}">Data</a>
-                @can('viewReport', App\Models\Penelitian::class)
+                {{-- Fitur dimatikan belum dibutuhkan --}}
+                {{-- @can('viewReport', App\Models\Penelitian::class)
                     <a class="collapse-item" href="{{ route('penelitian.report') }}">Report</a>
-                @endcan
+                @endcan --}}
             </div>
         </div>
     </li>
@@ -88,9 +93,10 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengabdian.index') }}">Data</a>
-                @can('viewReport', App\Models\Pengabdian::class)
+                {{-- Fitur dimatikan belum dibutuhkan --}}
+                {{-- @can('viewReport', App\Models\Pengabdian::class)
                     <a class="collapse-item" href="{{ route('pengabdian.report') }}">Report</a>
-                @endcan
+                @endcan --}}
             </div>
         </div>
     </li>
@@ -106,9 +112,10 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('pengembangan.index') }}">Data</a>
-                @can('viewReport', App\Models\Pengembangan::class)
+                {{-- Fitur dimatikan belum dibutuhkan --}}
+                {{-- @can('viewReport', App\Models\Pengembangan::class)
                     <a class="collapse-item" href="{{ route('pengembangan.report') }}">Report</a>
-                @endcan
+                @endcan --}}
             </div>
         </div>
     </li>

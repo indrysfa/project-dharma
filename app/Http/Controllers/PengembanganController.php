@@ -18,8 +18,15 @@ use PDF;
 
 class PengembanganController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
+        $this->authorize('view', Pengembangan::class);
+
         $periode = DB::table('periodes')->first();
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {

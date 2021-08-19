@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DosenController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
         $this->authorize('view', Dosen::class);
@@ -82,6 +87,8 @@ class DosenController extends Controller
 
     public function detail(Dosen $dosen)
     {
+        $this->authorize('view', Dosen::class);
+
         $dosens = $dosen->find($dosen->id)->all();
         // dd($dosens);
         $year = date("Y");
@@ -126,6 +133,8 @@ class DosenController extends Controller
 
     public function update(Request $request, Dosen $dosen, User $user)
     {
+        $this->authorize('update', Dosen::class);
+
         $dosen  = Dosen::findOrFail($dosen->id);
         $user = User::where('username', $dosen->user_id)->first();
         // dd($user);

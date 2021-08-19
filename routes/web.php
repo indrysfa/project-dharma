@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\Jenis_pengdiriController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PengabdianController;
 use App\Http\Controllers\PengajaranController;
@@ -61,6 +62,13 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/periode/add', [PeriodeController::class, 'create'])->name('periode.add');
     Route::post('/periode/add', [PeriodeController::class, 'store'])->name('periode.create');
     Route::delete('/periode/delete/{periode}', [PeriodeController::class, 'destroy'])->name('periode.delete');
+
+    Route::get('/jenis_pengdiri', [Jenis_pengdiriController::class, 'index'])->name('jenis_pengdiri.index');
+    Route::get('/jenis_pengdiri/add', [Jenis_pengdiriController::class, 'create'])->name('jenis_pengdiri.add');
+    Route::post('/jenis_pengdiri/add', [Jenis_pengdiriController::class, 'store'])->name('jenis_pengdiri.create');
+    Route::get('/jenis_pengdiri-edit/{jenis_pengdiri}', [Jenis_pengdiriController::class, 'edit'])->name('jenis_pengdiri.edit');
+    Route::put('/jenis_pengdiri-edit/{jenis_pengdiri}', [Jenis_pengdiriController::class, 'update'])->name('jenis_pengdiri.update');
+    Route::delete('/jenis_pengdiri/delete/{jenis_pengdiri}', [Jenis_pengdiriController::class, 'destroy'])->name('jenis_pengdiri.delete');
 
     Route::get('/penugasan', [PenugasanController::class, 'index'])->name('penugasan.index');
     Route::get('/penugasan/add', [PenugasanController::class, 'create'])->name('penugasan.add');

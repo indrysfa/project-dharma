@@ -35,4 +35,9 @@ class DosenPolicy
     {
         return in_array($user->role_id, [1]);
     }
+
+    public function aktif(User $user)
+    {
+        return in_array($user->status, [1]);
+    }
 }

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('no_telepon');
             $table->char('alamat');
             $table->string('picture')->nullable();
+            $table->integer('status');
             $table->rememberToken();
             $table->timestamps();
 

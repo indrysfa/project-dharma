@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
-@section('title', 'Halaman Periode')
+@section('title', 'Halaman Jenis Pengembangan Diri')
 @section('content')
-    @can('view', App\Models\Periode::class)
+    @can('view', App\Models\Jenis_pengdiri::class)
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -14,7 +14,7 @@
                 @can('create', App\Models\Periode::class)
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
-                            <a href="{{ route('periode.add') }}" class="btn btn-success btn-icon-split">
+                            <a href="{{ route('jenis_pengdiri.add') }}" class="btn btn-success btn-icon-split">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-plus"></i>
                                 </span>
@@ -29,8 +29,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Tahun Ajaran</th>
-                                    <th>Semester</th>
+                                    <th>Name</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -41,12 +40,15 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $item->tahun }}</td>
-                                        <td>{{ $item->semester }}</td>
+                                        <td>{{ ucwords($item->name_jp) }}</td>
                                         <td>
-                                            @can('delete', App\Models\Periode::class)
+                                            @can('update', App\Models\Jenis_pengdiri::class)
+                                                <a href="{{ route('jenis_pengdiri.edit', $item->id) }}"
+                                                    class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                            @endcan
+                                            @can('delete', App\Models\Jenis_pengdiri::class)
                                                 <div class="btn-center">
-                                                    <form action="{{ route('periode.delete', $item->id) }}" method="post">
+                                                    <form action="{{ route('jenis_pengdiri.delete', $item->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
 

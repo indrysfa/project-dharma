@@ -21,32 +21,16 @@ use PDF;
 
 class PengajaranController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
-        // $period = DB::table('periodes')
-        //         ->join('pengajarans', 'periodes.id', '=', 'pengajarans.periode_id')
-        //         ->get();
-        // $username = Auth::user()->username;
-        // if (Auth::user()->role_id !== 3) {
-        //     $data = User::join('pengajarans', 'users.username', '=', 'pengajarans.dosen_id')
-        //         ->get();
-        // } else {
-        //     $data = Pengajaran::where('dosen_id', $username)->get();
-        // }
-
+        $this->authorize('view', Pengajaran::class);
 
         $user = Auth::user()->username;
-        // if (Auth::user()->role_id !== 3) {
-        //     $data = Pengajaran::orderBy('created_at')->get();
-        // } else {
-        //     $dosen = DB::table('dosens')
-        //         ->where('user_id', '=', $user)
-        //         ->get();
-        //     $data = Pengajaran::where('dosen_id', $dosen[0]->id)
-        //         ->where('status_id', '=', '8')
-        //         ->get();
-        // }
-
         if (Auth::user()->role_id !== 3) {
             $data = Pengajaran::orderBy('created_at', 'desc')->get();
         } else {
@@ -57,7 +41,6 @@ class PengajaranController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-
         return view('pengajaran.index', compact('data'));
     }
 
@@ -110,7 +93,6 @@ class PengajaranController extends Controller
     {
         $this->authorize('update', Pengajaran::class);
 
-        $period = Periode::all();
         $period = Periode::all();
         $status = Status::where('group', '=', 'pengajaran')->get();
         $dosen = DB::table('dosens')

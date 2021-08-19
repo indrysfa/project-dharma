@@ -14,6 +14,11 @@ use function PHPUnit\Framework\isEmpty;
 
 class PeriodeController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
         $this->authorize('view', Periode::class);

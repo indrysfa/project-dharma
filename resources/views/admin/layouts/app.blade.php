@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="https://github.com/indrysfa">
-    <meta name="author" content="Indry Sefviana">
-    <meta name="author" content="Rina Ristiawati">
+    <meta name="author" content="Indry Sefviana - Developer">
+    <meta name="author" content="belongs to Rina Ristiawati">
 
     <title>@yield('title')</title>
 

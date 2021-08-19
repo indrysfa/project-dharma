@@ -17,7 +17,7 @@ class PenelitianPolicy
 
     public function view(User $user)
     {
-        return in_array($user->role_id, [1]);
+        return in_array($user->role_id, [1, 2, 3]);
     }
 
     public function create(User $user)
@@ -38,5 +38,10 @@ class PenelitianPolicy
     public function viewReport(User $user)
     {
         return in_array($user->role_id, [1]);
+    }
+
+    public function aktif(User $user)
+    {
+        return in_array($user->status, [1]);
     }
 }

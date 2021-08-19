@@ -27,12 +27,13 @@ class UserSeeder extends Seeder
             'no_telepon'        => '08912345678',
             'alamat'            => ucwords('Jl. Merdeka'),
             'picture'           => '',
+            'status'            => 1,
         ]);
 
         DB::table('users')->insert([
             'name'              => ucwords('Dr. I Nyoman Suardana, M.Si.'),
             'username'          => strtolower('dosen01'),
-            'email'             => 'dosen1@mail.com',
+            'email'             => 'dosen01@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password'          => Hash::make('12345678'),
             'role_id'           => 3,
@@ -41,12 +42,13 @@ class UserSeeder extends Seeder
             'no_telepon'        => '089123498319',
             'alamat'            => ucwords('Jl. Pusaka'),
             'picture'           => '',
+            'status'            => 1,
         ]);
 
         DB::table('users')->insert([
             'name'              => ucwords('Dr. Dewa Bagus Sanjaya, M.Si.'),
             'username'          => strtolower('dosen02'),
-            'email'             => 'dosen2@mail.com',
+            'email'             => 'dosen02@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password'          => Hash::make('12345678'),
             'role_id'           => 3,
@@ -55,6 +57,7 @@ class UserSeeder extends Seeder
             'no_telepon'        => '089123498222',
             'alamat'            => ucwords('Jl. Harmonis'),
             'picture'           => '',
+            'status'            => 1,
         ]);
 
         DB::table('users')->insert([
@@ -69,6 +72,7 @@ class UserSeeder extends Seeder
             'no_telepon'        => '089123498111',
             'alamat'            => ucwords('Jl. Pelabuhan'),
             'picture'           => '',
+            'status'            => 1,
         ]);
     }
 }

@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 @section('title', 'Tambah Periode Baru')
 @section('content')
-    @if (Auth::user()->role_id != 1)
-        <h1 class="h3 mb-4 text-gray-800">Maaf, kamu tidak bisa mengakses halaman ini.</h1>
-    @else
+    @can('create', App\Models\Periode::class)
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -19,8 +17,7 @@
                     <label for="tahun" class="col-sm-2 col-form-label">Tahun Ajaran</label>
                     <div class="col-sm-6">
                         <input type="number" class="form-control @error('tahun') is-invalid @enderror" name="tahun"
-                            value="{{ old('tahun') }}" autocomplete="tahun" autofocus
-                            placeholder="Masukan Tahun Ajaran Baru">
+                            value="{{ old('tahun') }}" autocomplete="tahun" autofocus placeholder="Masukan Tahun Ajaran Baru">
                     </div>
 
                     @error('tahun')
@@ -56,5 +53,5 @@
 
         </div>
         <!-- /.container-fluid -->
-    @endif
+    @endcan
 @endsection

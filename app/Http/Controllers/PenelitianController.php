@@ -20,8 +20,15 @@ use PDF;
 
 class PenelitianController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
+        $this->authorize('view', Penelitian::class);
+
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Penelitian::orderBy('created_at', 'desc')->get();
@@ -39,6 +46,7 @@ class PenelitianController extends Controller
     public function create()
     {
         $this->authorize('create', Penelitian::class);
+
         $user = Auth::user()->username;
         if (Auth::user()->role_id === 3) {
             $dosen = DB::table('dosens')
@@ -146,6 +154,7 @@ class PenelitianController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('aktif', User::class);
         $this->authorize('viewReport', Penelitian::class);
 
         // $dosen = date($request->dosen);

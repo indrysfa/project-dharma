@@ -1,5 +1,9 @@
 <?php
-
+/*
+|--------------------------------------------------------------------------
+| @author: Indry Sefviana | github @indrysfa
+|--------------------------------------------------------------------------
+*/
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;

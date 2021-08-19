@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 @section('title', 'Edit User Page')
 @section('content')
-    @if (Auth::user()->role_id != 1)
-        <h1 class="h3 mb-4 text-gray-800">Maaf, kamu tidak bisa mengakses halaman ini.</h1>
-    @else
+    @can('update', App\Models\User::class)
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -48,8 +46,8 @@
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-6">
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                            name="email" value="{{ old('email', $user->email) }}" required autocomplete="email"
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
+                            value="{{ old('email', $user->email) }}" required autocomplete="email"
                             placeholder="Masukan Email">
                     </div>
 
@@ -172,5 +170,5 @@
 
         </div>
         <!-- /.container-fluid -->
-    @endif
+    @endcan
 @endsection

@@ -20,8 +20,15 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorize('aktif', User::class);
+    // }
+
     public function index()
     {
+        $this->authorize('view', User::class);
+
         $data = User::orderBy('created_at', 'DESC')->get();
         return view('master.index', compact('data'));
     }
@@ -83,6 +90,7 @@ class UserController extends Controller
             'no_telepon'        => $request->no_telepon,
             'alamat'            => ucwords($request->alamat),
             'picture'           => $picture->hashName(),
+            'status'            => 1,
         ]);
 
         if ($data) {
@@ -92,6 +100,8 @@ class UserController extends Controller
 
     public function detail(User $user)
     {
+        $this->authorize('view', User::class);
+
         return view('master.user-detail', compact('user'));
     }
 
@@ -118,6 +128,7 @@ class UserController extends Controller
                 'tgl_lahir'     => $request->tgl_lahir,
                 'no_telepon'    => $request->no_telepon,
                 'alamat'        => ucwords($request->alamat),
+                'status'        => 1,
             ]);
 
         } else {
@@ -133,7 +144,8 @@ class UserController extends Controller
                 'tgl_lahir'     => $request->tgl_lahir,
                 'no_telepon'    => $request->no_telepon,
                 'alamat'        => ucwords($request->alamat),
-                'picture'       => $picture->hashName()
+                'picture'       => $picture->hashName(),
+                'status'        => 1,
             ]);
         }
 

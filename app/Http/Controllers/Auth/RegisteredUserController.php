@@ -1,5 +1,9 @@
 <?php
-
+/*
+|--------------------------------------------------------------------------
+| @author: Indry Sefviana | github @indrysfa
+|--------------------------------------------------------------------------
+*/
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -64,6 +68,7 @@ class RegisteredUserController extends Controller
             'tgl_lahir'     => $request->tgl_lahir,
             'no_telepon'    => $request->no_telepon,
             'alamat'        => ucwords($request->alamat),
+            'status'        => 1,
         ]);
 
         event(new Registered($user));

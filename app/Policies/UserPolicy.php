@@ -16,21 +16,21 @@ class UserPolicy
 
     public function view(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1]);
     }
 
     public function create(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1]);
     }
 
     public function update(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1]);
     }
 
     public function delete(User $user)
     {
-        return $user->role_id === 1;
+        return in_array($user->role_id, [1]);
     }
 }

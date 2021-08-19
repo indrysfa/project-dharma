@@ -16,6 +16,8 @@ class PeriodeController extends Controller
 {
     public function index()
     {
+        $this->authorize('view', Periode::class);
+
         $data = Periode::all();
         return view('master.periode', compact('data'));
     }

@@ -20,6 +20,8 @@ class DosenController extends Controller
 {
     public function index()
     {
+        $this->authorize('view', Dosen::class);
+
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Dosen::orderBy('created_at', 'desc')->get();

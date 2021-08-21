@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Halaman Jenis Pengembangan Diri')
+@section('title', 'Halaman Jenis Penelitian')
 @section('content')
     @can('view', App\Models\Jenis_pengdiri::class)
         <!-- Begin Page Content -->
@@ -11,7 +11,7 @@
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
-                @can('create', App\Models\Jenis_pengdiri::class)
+                @can('create', App\Models\Jenis_penelitian::class)
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
                             <a href="{{ route('jenis_pengdiri.add') }}" class="btn btn-success btn-icon-split">
@@ -40,15 +40,16 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ ucwords($item->name_jp) }}</td>
+                                        <td>{{ ucwords($item->name_jns_penelitian) }}</td>
                                         <td>
-                                            @can('update', App\Models\Jenis_pengdiri::class)
-                                                <a href="{{ route('jenis_pengdiri.edit', $item->id) }}"
+                                            @can('update', App\Models\Jenis_penelitian::class)
+                                                <a href="{{ route('jenis_penelitian.edit', $item->id) }}"
                                                     class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                             @endcan
-                                            @can('delete', App\Models\Jenis_pengdiri::class)
+                                            @can('delete', App\Models\Jenis_penelitian::class)
                                                 <div class="btn-center">
-                                                    <form action="{{ route('jenis_pengdiri.delete', $item->id) }}" method="post">
+                                                    <form action="{{ route('jenis_penelitian.delete', $item->id) }}"
+                                                        method="post">
                                                         @csrf
                                                         @method('DELETE')
 

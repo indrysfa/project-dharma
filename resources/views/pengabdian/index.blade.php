@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Halaman Pengabdian Masyarakat')
+@section('title', 'Halaman Pengabdian Kepada Masyarakat')
 @section('content')
     @can('view', App\Models\Pengabdian::class)
         <!-- Begin Page Content -->
@@ -30,13 +30,14 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tahun Ajaran</th>
+                                    <th>Semester</th>
                                     <th>Nama Dosen</th>
+                                    <th>Status Laporan</th>
+                                    <th>Tanggal Pelaksanaan</th>
                                     <th>Judul PKM</th>
                                     <th>Nama Komunitas</th>
                                     <th>Lokasi PKM</th>
-                                    <th>Status Laporan</th>
-                                    <th>Tahun Ajaran</th>
-                                    <th>Semester</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -47,10 +48,14 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        @if ($item->m_periode->id == 1)
+                                            <td>{{ '' }}</td>
+                                            <td>{{ '' }}</td>
+                                        @else
+                                            <td>{{ $item->m_periode->tahun }}</td>
+                                            <td>{{ $item->m_periode->semester }}</td>
+                                        @endif
                                         <td>{{ $item->m_dosen->name_dsn }}</td>
-                                        <td>{{ $item->judul_pkm }}</td>
-                                        <td>{{ $item->nama_komunitas }}</td>
-                                        <td>{{ $item->lokasi_pkm }}</td>
                                         @if ($item->m_status->code == 1)
                                             <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
@@ -64,13 +69,10 @@
                                             <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
                                         @endif
-                                        @if ($item->m_periode->id == 1)
-                                            <td>{{ '' }}</td>
-                                            <td>{{ '' }}</td>
-                                        @else
-                                            <td>{{ $item->m_periode->tahun }}</td>
-                                            <td>{{ $item->m_periode->semester }}</td>
-                                        @endif
+                                        <td>{{ $item->tanggal }}</td>
+                                        <td>{{ $item->judul_pkm }}</td>
+                                        <td>{{ $item->nama_komunitas }}</td>
+                                        <td>{{ $item->lokasi_pkm }}</td>
                                         <td>
                                             <div class="btn-center">
                                                 @if ($item->m_status->code == 3)
@@ -81,8 +83,13 @@
                                                     {{ '' }}
                                                 @endif
                                                 @can('update', App\Models\Pengabdian::class)
-                                                    <a href="{{ route('pengabdian.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @if (Auth::user()->role_id == 1)
+                                                        <a href="{{ route('pengabdian.edit', $item->id) }}"
+                                                            class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @elseif ($item->m_status->code == 3 && Auth::user()->role_id == 3 ||
+                                                        Auth::user()->role_id == 2)
+                                                        {{ '' }}
+                                                    @endif
                                                 @endcan
                                                 @can('delete', App\Models\Pengabdian::class)
                                                     <form action="{{ route('pengabdian.delete', $item->id) }}" method="post">

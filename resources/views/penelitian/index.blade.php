@@ -30,12 +30,13 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>Nama Dosen</th>
-                                    <th>Judul Penelitian</th>
-                                    <th>Status Laporan</th>
-                                    <th>Jumlah Anggota</th>
                                     <th>Tahun Penelitian</th>
+                                    <th>Status Laporan</th>
+                                    <th>Nama Dosen</th>
+                                    <th>Tanggal</th>
+                                    <th>Jenis Penelitian</th>
+                                    <th>Judul Penelitian</th>
+                                    <th>Jumlah Anggota</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -46,9 +47,11 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ date('d F Y', strtotime($item->created_at)) }}</td>
-                                        <td>{{ $item->m_dosen->name_dsn }}</td>
-                                        <td>{{ $item->judul_penelitian }}</td>
+                                        @if ($item->m_periode->id == 1)
+                                            <td>{{ '' }}</td>
+                                        @else
+                                            <td>{{ $item->m_periode->tahun }}</td>
+                                        @endif
                                         @if ($item->m_status->code == 1)
                                             <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
@@ -62,12 +65,15 @@
                                             <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
                                         @endif
-                                        <td>{{ $item->jumlah_anggota }}</td>
-                                        @if ($item->m_periode->id == 1)
-                                            <td>{{ '' }}</td>
+                                        <td>{{ $item->m_dosen->name_dsn }}</td>
+                                        @if ($item->tgl_penelitian == null)
+                                            <td>-</td>
                                         @else
-                                            <td>{{ $item->m_periode->tahun }}</td>
+                                            <td>{{ date('d F Y', strtotime($item->tgl_penelitian)) }}</td>
                                         @endif
+                                        <td>{{ isset($item->m_jenis_penelitian->name_jns_penelitian) }}</td>
+                                        <td>{{ $item->judul_penelitian }}</td>
+                                        <td>{{ $item->jumlah_anggota }}</td>
                                         <td>
                                             <div class="btn-group-horizontal">
                                                 @if ($item->m_status->code == 3)
@@ -78,8 +84,13 @@
                                                     {{ '' }}
                                                 @endif
                                                 @can('update', App\Models\Penelitian::class)
-                                                    <a href="{{ route('penelitian.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @if (Auth::user()->role_id == 1)
+                                                        <a href="{{ route('penelitian.edit', $item->id) }}"
+                                                            class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @elseif ($item->m_status->code == 3 && Auth::user()->role_id == 3 ||
+                                                        Auth::user()->role_id == 2)
+                                                        {{ '' }}
+                                                    @endif
                                                 @endcan
                                                 @can('delete', App\Models\Penelitian::class)
                                                     <form action="{{ route('penelitian.delete', $item->id) }}" method="post">

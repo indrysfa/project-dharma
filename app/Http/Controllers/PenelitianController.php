@@ -9,7 +9,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\PenelitiansExport;
 use App\Models\Dosen;
+use App\Models\Jenis_penelitian;
 use App\Models\Penelitian;
+use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +50,8 @@ class PenelitianController extends Controller
         $this->authorize('create', Penelitian::class);
 
         $user = Auth::user()->username;
+        $jenis_penelitian = Jenis_penelitian::all();
+        $periode = Periode::where('semester', 1)->get();
         if (Auth::user()->role_id === 3) {
             $dosen = DB::table('dosens')
                 ->where('user_id', '=', $user)
@@ -58,26 +62,40 @@ class PenelitianController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->get();
         }
-        return view('penelitian.add', compact('dosen'));
+        return view('penelitian.add1', compact('dosen', 'jenis_penelitian', 'periode'));
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', Penelitian::class);
 
-        $this->validate($request, [
-            'dosen_id'          => 'required',
-            'judul_penelitian'  => 'required',
-            'jumlah_anggota'    => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'dosen_id'              => 'required',
+        //     'jenis_penelitian_id'   => 'required',
+        //     'judul_penelitian'      => 'required',
+        //     'jumlah_anggota'        => 'required',
+        // ]);
 
-        $data = Penelitian::create([
-            'dosen_id'          => $request->dosen_id,
-            'status_id'         => 5,
-            'periode_id'        => 1,
-            'judul_penelitian'  => $request->judul_penelitian,
-            'jumlah_anggota'    => $request->jumlah_anggota,
-        ]);
+        // $data = Penelitian::create([
+        //     'dosen_id'              => $request->dosen_id,
+        //     'jenis_penelitian_id'   => $request->jenis_penelitian_id,
+        //     'status_id'             => 5,
+        //     'periode_id'            => 1,
+        //     'judul_penelitian'      => $request->judul_penelitian,
+        //     'jumlah_anggota'        => $request->jumlah_anggota,
+        // ]);
+
+        $row = $request->row;
+            for ($i=0; $i < $row; $i++) {
+                $data = Penelitian::create([
+                    'dosen_id'              => $request->dosen_id,
+                    'status_id'             => 5,
+                    'periode_id'            => $request->periode_id,
+                    'judul_penelitian'      => '-',
+                    'jumlah_anggota'        => 0,
+                ]);
+            }
+        // dd($data);
 
         if ($data) {
             return redirect()->route('penelitian.index')->with('success', 'Data added successfully');
@@ -88,6 +106,7 @@ class PenelitianController extends Controller
     {
         $this->authorize('update', Penelitian::class);
 
+        $jenis_penelitian = Jenis_penelitian::all();
         $periode = DB::table('periodes')
             ->where('semester', '=', 1)
             ->get();
@@ -97,7 +116,7 @@ class PenelitianController extends Controller
         $dosen = DB::table('dosens')
             ->where('status', '=', 'aktif')
             ->get();
-        return view('penelitian.edit', compact('penelitian', 'periode', 'status', 'dosen'));
+        return view('penelitian.edit', compact('penelitian', 'periode', 'status', 'dosen', 'jenis_penelitian'));
     }
 
     public function update(Request $request, Penelitian $penelitian)
@@ -106,25 +125,49 @@ class PenelitianController extends Controller
 
         $penelitian = Penelitian::findOrFail($penelitian->id);
 
-        if ($request->periode_id == 1) {
-            return redirect()->route('penelitian.edit', $penelitian)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        // if ($request->periode_id == 1) {
+        //     return redirect()->route('penelitian.edit', $penelitian)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        // } else {
+        //     if (Auth::user()->role_id == 1) {
+        //         $penelitian->update([
+        //             'periode_id'            => $request->periode_id,
+        //             'jenis_penelitian_id'   => $request->jenis_penelitian_id,
+        //             'status_id'             => $request->status_id,
+        //             'judul_penelitian'      => $request->judul_penelitian,
+        //             'jumlah_anggota'        => $request->jumlah_anggota,
+        //         ]);
+        //     } else if ($request->status_id == 5 || Auth::user()->role_id == 2) {
+        //         $penelitian->update([
+        //             'periode_id'            => $request->periode_id,
+        //             'jenis_penelitian_id'   => $request->jenis_penelitian_id,
+        //             'status_id'             => 7,
+        //             'judul_penelitian'      => $request->judul_penelitian,
+        //             'jumlah_anggota'        => $request->jumlah_anggota,
+        //         ]);
+        //     }
+        //     return redirect()->route('penelitian.index')->with('success', 'Judul PKM ' . $penelitian["judul_pkm"] . ' Updated successfully');
+        // }
+
+        $this->validate($request, [
+            'jenis_penelitian_id'   => 'required',
+            'tgl_penelitian'        => 'required',
+            'judul_penelitian'      => 'required',
+            'jumlah_anggota'        => 'required',
+        ]);
+
+        if ($request->judul_penelitian == '' || $request->jumlah_anggota == 0 || $request->jenis_penelitian_id == null) {
+            return redirect()->route('penelitian.index')->with('warning', 'Data failed to update! Isi data terlebih dahulu');
         } else {
-            if (Auth::user()->role_id == 1) {
-                $penelitian->update([
-                    'periode_id'        => $request->periode_id,
-                    'status_id'         => $request->status_id,
-                    'judul_penelitian'  => $request->judul_penelitian,
-                    'jumlah_anggota'    => $request->jumlah_anggota,
-                ]);
-            } else if ($request->status_id == 5 || Auth::user()->role_id == 2) {
-                $penelitian->update([
-                    'periode_id'        => $request->periode_id,
-                    'status_id'         => 7,
-                    'judul_penelitian'  => $request->judul_penelitian,
-                    'jumlah_anggota'    => $request->jumlah_anggota,
-                ]);
-            }
-            return redirect()->route('penelitian.index')->with('success', 'Judul PKM ' . $penelitian["judul_pkm"] . ' Updated successfully');
+            $penelitian->update([
+                'dosen_id'              => $request->dosen_id,
+                'jenis_penelitian_id'   => $request->jenis_penelitian_id,
+                'periode_id'            => $request->periode_id,
+                'tgl_penelitian'        => $request->tgl_penelitian,
+                'judul_penelitian'      => $request->judul_penelitian,
+                'jumlah_anggota'        => $request->jumlah_anggota,
+                'status_id'             => 7,
+            ]);
+            return redirect()->route('penelitian.index')->with('success', ' Updated successfully');
         }
     }
 

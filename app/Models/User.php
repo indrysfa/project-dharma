@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'alamat',
         'email_verified_at',
         'picture',
+        'status'
     ];
 
     public function hasStatus($status)

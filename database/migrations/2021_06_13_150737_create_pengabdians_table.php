@@ -18,6 +18,7 @@ class CreatePengabdiansTable extends Migration
             $table->bigInteger('dosen_id')->unsigned();
             $table->bigInteger('periode_id')->unsigned();
             $table->bigInteger('status_id')->unsigned();
+            $table->string('tgl_pengabdian')->nullable();
             $table->string('judul_pkm');
             $table->string('nama_komunitas');
             $table->string('lokasi_pkm');

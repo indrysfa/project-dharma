@@ -14,7 +14,7 @@
 
                 {{-- Tahun Ajaran --}}
                 <div class="form-group row">
-                    <label for="tahun" class="col-sm-2 col-form-label">Tahun Ajaran</label>
+                    <label for="tahun" class="col-sm-2 col-form-label">Tahun Akademik</label>
                     <div class="col-sm-6">
                         <input type="number" class="form-control @error('tahun') is-invalid @enderror" name="tahun"
                             value="{{ old('tahun') }}" autocomplete="tahun" autofocus placeholder="Masukan Tahun Ajaran Baru">

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\Jenis_penelitianController;
 use App\Http\Controllers\Jenis_pengdiriController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PengabdianController;
@@ -70,6 +71,13 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::put('/jenis_pengdiri-edit/{jenis_pengdiri}', [Jenis_pengdiriController::class, 'update'])->name('jenis_pengdiri.update');
     Route::delete('/jenis_pengdiri/delete/{jenis_pengdiri}', [Jenis_pengdiriController::class, 'destroy'])->name('jenis_pengdiri.delete');
 
+    Route::get('/jenis_penelitian', [Jenis_penelitianController::class, 'index'])->name('jenis_penelitian.index');
+    Route::get('/jenis_penelitian/add', [Jenis_penelitianController::class, 'create'])->name('jenis_penelitian.add');
+    Route::post('/jenis_penelitian/add', [Jenis_penelitianController::class, 'store'])->name('jenis_penelitian.create');
+    Route::get('/jenis_penelitian-edit/{jenis_penelitian}', [Jenis_penelitianController::class, 'edit'])->name('jenis_penelitian.edit');
+    Route::put('/jenis_penelitian-edit/{jenis_penelitian}', [Jenis_penelitianController::class, 'update'])->name('jenis_penelitian.update');
+    Route::delete('/jenis_penelitian/delete/{jenis_penelitian}', [Jenis_penelitianController::class, 'destroy'])->name('jenis_penelitian.delete');
+
     Route::get('/penugasan', [PenugasanController::class, 'index'])->name('penugasan.index');
     Route::get('/penugasan/add', [PenugasanController::class, 'create'])->name('penugasan.add');
     Route::post('/penugasan/add', [PenugasanController::class, 'store'])->name('penugasan.create');
@@ -83,6 +91,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/pengajaran/report', [PengajaranController::class, 'report'])->name('pengajaran.report');
     Route::get('/pengajaran/export', [PengajaranController::class, 'export'])->name('pengajaran.export');
     Route::get('/pengajaran/generate-pdf/{id}', [PengajaranController::class, 'generatePDF'])->name('pengajaran.pdf');
+    Route::get('/pengajaran/search', [PengajaranController::class, 'search'])->name('pengajaran.search');
 
     Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
     Route::get('/penelitian/add', [PenelitianController::class, 'create'])->name('penelitian.add');

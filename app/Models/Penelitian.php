@@ -24,4 +24,9 @@ class Penelitian extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_id', 'id');
     }
+
+    public function m_jenis_penelitian()
+    {
+        return $this->belongsTo(Jenis_penelitian::class, 'jenis_penelitian_id', 'id');
+    }
 }

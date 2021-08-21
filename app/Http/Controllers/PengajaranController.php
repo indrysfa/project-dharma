@@ -15,7 +15,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -26,11 +25,21 @@ class PengajaranController extends Controller
     //     $this->authorize('aktif', User::class);
     // }
 
+    // if (Auth::user()->role_id !== 3) {
+    // } else {
+    //     $dosen = Dosen::where('user_id', '=', $user)
+    //         ->orderBy('created_at', 'asc')
+    //         ->get();
+    //     $data = Pengajaran::where('dosen_id', $dosen[0]->id)
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
+    // }
     public function index()
     {
         $this->authorize('view', Pengajaran::class);
 
         $user = Auth::user()->username;
+        $periode = Periode::all();
         if (Auth::user()->role_id !== 3) {
             $data = Pengajaran::orderBy('created_at', 'desc')->get();
         } else {
@@ -41,7 +50,26 @@ class PengajaranController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        return view('pengajaran.index', compact('data'));
+
+        // dd($request->REQUEST_URI);
+        return view('pengajaran.index', compact('periode', 'data'));
+    }
+
+    public function search(Request $request)
+    {
+        // dd($request);
+        $periode = Periode::all();
+        $search = $request->search;
+        $data = Pengajaran::orderBy('created_at', 'desc')
+            ->where('pengajarans.periode_id', '=', $search)
+            ->get();
+        // if ($search->REQUEST_URI) {
+        //     $data = Pengajaran::orderBy('created_at', 'desc')
+        //     ->where('pengajarans.periode_id', '=', $search)
+        //     ->paginate($search);
+        // }
+        //bikin aja kayak yang search itu. kalo ada query param page berarti nanti dipakein limit
+        return view('pengajaran.index', compact('data', 'periode'));
     }
 
     public function add()
@@ -60,41 +88,42 @@ class PengajaranController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->get();
         }
-        return view('pengajaran.add', compact('data', 'dosen'));
+        return view('pengajaran.add1', compact('data', 'dosen'));
     }
 
     public function create(Request $request)
     {
         $this->authorize('create', Pengajaran::class);
 
-        $this->validate($request, [
-            'kode_mk'   => 'required',
-            'nama_mk'   => 'required',
-            'kelas'     => 'required',
-            'sks'       => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'kode_mk'   => 'required',
+        //     'nama_mk'   => 'required',
+        //     'kelas'     => 'required',
+        //     'sks'       => 'required',
+        // ]);
 
-        $pengajaran = DB::table('pengajarans')
-            ->where('kode_mk', 'like', "%" . $request->kode_mk . "%")
-            ->first();
+        // $pengajaran = Pengajaran::where('kode_mk', $request->kode_mk)->first();
 
-        if ($pengajaran->kode_mk) {
-            return redirect()->route('pengajaran.index')->with('warning', 'Data already exists');
-        } else {
-            $data = Pengajaran::create([
-                'dosen_id'   => $request->dosen_id,
-                'periode_id' => 1,
-                'kode_mk'    => $request->kode_mk,
-                'nama_mk'    => $request->nama_mk,
-                'kelas'      => $request->kelas,
-                'sks'        => $request->sks,
-                'status_id'  => 9,
-            ]);
+        // if ($pengajaran) {
+        //     return redirect()->route('pengajaran.index')->with('warning', 'Data already exists');
+        // } else {
+            $row = $request->row;
+            for ($i=0; $i < $row; $i++) {
+                $data = Pengajaran::create([
+                    'dosen_id'   => $request->dosen_id,
+                    'periode_id' => $request->periode_id,
+                    'status_id'  => 9,
+                    'kode_mk'    => 0,
+                    'nama_mk'    => '-',
+                    'kelas'      => '-',
+                    'sks'        => 0,
+                ]);
+            }
 
             if ($data) {
                 return redirect()->route('pengajaran.index')->with('success', 'Data added successfully');
             }
-        }
+        // }
 
     }
 
@@ -116,30 +145,52 @@ class PengajaranController extends Controller
 
         $pengajaran = Pengajaran::findOrFail($pengajaran->id);
 
-        if ($request->periode_id == 1) {
-            return redirect()->route('pengajaran.edit', $pengajaran)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        $this->validate($request, [
+            'kode_mk'   => 'required',
+            'nama_mk'   => 'required',
+            'kelas'     => 'required',
+            'sks'       => 'required',
+        ]);
+
+        if ($request->kode_mk == 0 || $request->nama_mk == '-' || $request->kelas == '-' || $request->sks == 0) {
+            return redirect()->route('pengajaran.index')->with('warning', 'Data failed to update! Isi data terlebih dahulu');
         } else {
-            if (Auth::user()->role_id == 1) {
-                $pengajaran->update([
-                    'kode_mk'      => $request->kode_mk,
-                    'nama_mk'      => $request->nama_mk,
-                    'periode_id'   => $request->periode_id,
-                    'kelas'        => $request->kelas,
-                    'sks'          => $request->sks,
-                    'status_id'    => $request->status_id,
-                ]);
-            } else if ($request->status_id == 9 || Auth::user()->role_id == 2) {
-                $pengajaran->update([
-                    'kode_mk'      => $request->kode_mk,
-                    'nama_mk'      => $request->nama_mk,
-                    'periode_id'   => $request->periode_id,
-                    'kelas'        => $request->kelas,
-                    'sks'          => $request->sks,
-                    'status_id'    => 11,
-                ]);
-            }
+            $pengajaran->update([
+                'kode_mk'      => $request->kode_mk,
+                'nama_mk'      => $request->nama_mk,
+                'periode_id'   => $request->periode_id,
+                'kelas'        => $request->kelas,
+                'sks'          => $request->sks,
+                'status_id'    => 11,
+            ]);
             return redirect()->route('pengajaran.index')->with('success', 'Judul PKM ' . $pengajaran["kode_mk"] . ' Updated successfully');
         }
+
+
+        // if ($request->periode_id == 1) {
+        //     return redirect()->route('pengajaran.edit', $pengajaran)->with('warning', 'Silahkan pilih periode terlebih dahulu');
+        // } else {
+        //     if (Auth::user()->role_id == 1) {
+        //         $pengajaran->update([
+        //             'kode_mk'      => $request->kode_mk,
+        //             'nama_mk'      => $request->nama_mk,
+        //             'periode_id'   => $request->periode_id,
+        //             'kelas'        => $request->kelas,
+        //             'sks'          => $request->sks,
+        //             'status_id'    => $request->status_id,
+        //         ]);
+        //     } else if ($request->status_id == 9 || Auth::user()->role_id == 2) {
+        //         $pengajaran->update([
+        //             'kode_mk'      => $request->kode_mk,
+        //             'nama_mk'      => $request->nama_mk,
+        //             'periode_id'   => $request->periode_id,
+        //             'kelas'        => $request->kelas,
+        //             'sks'          => $request->sks,
+        //             'status_id'    => 10,
+        //         ]);
+        //     }
+
+        // }
     }
 
     public function destroy(Pengajaran $pengajaran)

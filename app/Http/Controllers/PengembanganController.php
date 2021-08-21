@@ -66,6 +66,7 @@ class PengembanganController extends Controller
 
         $this->validate($request, [
             'dosen_id'          => 'required',
+            'tanggal'           => 'required',
             'jenis_pengdiri_id' => 'required',
             'judul_pengdiri'    => 'required',
             'lokasi_pengdiri'   => 'required',
@@ -73,6 +74,7 @@ class PengembanganController extends Controller
 
         $data = Pengembangan::create([
             'dosen_id'          => $request->dosen_id,
+            'tanggal'           => $request->tanggal,
             'periode_id'        => 1,
             'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
             'status_id'         => 17,
@@ -109,6 +111,7 @@ class PengembanganController extends Controller
             if (Auth::user()->role_id == 1) {
                 $pengembangan->update([
                     'periode_id'        => $request->periode_id,
+                    'tanggal'           => $request->tanggal,
                     'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
                     'judul_pengdiri'    => $request->judul_pengdiri,
                     'lokasi_pengdiri'   => $request->lokasi_pengdiri,

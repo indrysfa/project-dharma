@@ -87,9 +87,9 @@
                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
                                 data-target="#pengajaran" aria-expanded="false" aria-controls="pengajaran">
                                 Pengajaran Tahun ini
-                                @if (!$pengajaran)
+                                @if ($pengajaran->isEmpty())
                                     <span class="badge badge-danger">{{ ucwords('belum ada') }}</span>
-                                    {{-- @elseif ($pengajaran == 2000)
+                                    {{-- @elseif ($pengajaran->tahun == '2000')
                                     <span class="badge badge-warning">{{ ucwords('dalam proses') }}</span> --}}
                                 @endif
                             </button>

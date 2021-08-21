@@ -3,13 +3,13 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.home') }}">
-        {{-- <div class="sidebar-brand-icon rotate-n-15">
+        <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-rocket"></i>
-        </div> --}}
+        </div>
         {{-- <x-application-logo class="sidebar-brand-text mx-3" /> --}}
 
         <div class="sidebar-brand-text mx-3">
-            <img style="width: 110px" src="{{ asset('assets/images/logo-binus3.png') }}" alt="">
+            {{-- <img style="width: 110px" src="{{ asset('assets/images/logo-binus3.png') }}" alt=""> --}}
         </div>
     </a>
 
@@ -37,6 +37,9 @@
                 @endcan
                 @can('view', App\Models\Jenis_pengdiri::class)
                     <a class="collapse-item" href="{{ route('jenis_pengdiri.index') }}">Jenis Peng. Diri</a>
+                @endcan
+                @can('view', App\Models\Jenis_penelitian::class)
+                    <a class="collapse-item" href="{{ route('jenis_penelitian.index') }}">Jenis Penelitian</a>
                 @endcan
             </div>
         </div>

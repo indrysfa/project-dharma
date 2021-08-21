@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'jja_id'        => ['required', 'integer', 'max:7'],
             'kode'          => ['required', 'string', 'max:7'],
             'name'          => ['required', 'string', 'max:30'],
-            'username'      => ['required', 'string', 'max:8', 'unique:users', 'alpha_dash'],
+            'username'      => ['required', 'string', 'max:12', 'unique:users', 'alpha_dash'],
             'email'         => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password'      => ['required', 'confirmed', Rules\Password::defaults()],
             'tmptlahir'     => ['required', 'string', 'max:50'],

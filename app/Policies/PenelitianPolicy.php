@@ -22,12 +22,12 @@ class PenelitianPolicy
 
     public function create(User $user)
     {
-        return in_array($user->role_id, [1, 3]);
+        return in_array($user->role_id, [1, 2]);
     }
 
     public function update(User $user)
     {
-        return in_array($user->role_id, [1, 2]);
+        return in_array($user->role_id, [1, 2, 3]);
     }
 
     public function delete(User $user)

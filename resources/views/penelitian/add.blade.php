@@ -58,6 +58,29 @@
                     @enderror
                 </div>
 
+                {{-- Jenis Penelitian --}}
+                <div class="form-group row">
+                    <label for="jenis_penelitian_id" class="col-sm-3 col-form-label">Jenis Penelitian</label>
+                    <div class="col-sm-4">
+                        <select name="jenis_penelitian_id" id="jenis_penelitian_id"
+                            class="form-control selectpicker @error('jenis_penelitian_id') is-invalid @enderror" data-size="5"
+                            data-live-search="true">
+                            @foreach ($jenis_penelitian as $e)
+                                <option value="{{ $e->id }}"
+                                    {{ old('jenis_penelitian_id') == "$e->id" ? 'selected' : '' }}>
+                                    {{ ucwords($e->name_jns_penelitian) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @error('jenis_penelitian_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 {{-- Status Penelitian --}}
                 {{-- <div class="form-group row">
             <label for="status_id" class="col-sm-4 col-form-label">Status Penelitian</label>

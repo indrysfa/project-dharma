@@ -29,7 +29,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Tahun Ajaran</th>
+                                    <th>Tahun Akademik</th>
                                     <th>Semester</th>
                                     <th></th>
                                 </tr>
@@ -40,22 +40,38 @@
                                 @endphp
                                 @foreach ($data as $item)
                                     <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $item->tahun }}</td>
-                                        <td>{{ $item->semester }}</td>
-                                        <td>
-                                            @can('delete', App\Models\Periode::class)
-                                                <div class="btn-center">
-                                                    <form action="{{ route('periode.delete', $item->id) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
+                                        @if ($item->tahun == 2000)
+                                            <td></td>
+                                            <td></td>
+                                        @else
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $item->tahun }}</td>
+                                        @endif
+                                        @if ($item->semester == 1)
+                                            <td>Ganjil</td>
+                                        @elseif ($item->semester == 2)
+                                            <td>Genap</td>
+                                        @elseif ($item->tahun == 2000)
+                                            <td></td>
+                                        @endif
+                                        @if ($item->tahun == 2000)
+                                            <td></td>
+                                        @else
+                                            <td>
+                                                @can('delete', App\Models\Periode::class)
+                                                    <div class="btn-center">
+                                                        <form action="{{ route('periode.delete', $item->id) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
 
-                                                        <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
-                                                                class="fas fa-trash"></i></button>
-                                                    </form>
-                                                </div>
-                                            @endcan
-                                        </td>
+                                                            <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
+                                                                    class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </div>
+                                                @endcan
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                             </tbody>

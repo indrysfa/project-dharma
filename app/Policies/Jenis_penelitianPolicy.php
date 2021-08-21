@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Pengabdian;
+use App\Models\Jenis_penelitian;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PengabdianPolicy
+class Jenis_penelitianPolicy
 {
     use HandlesAuthorization;
 
@@ -17,25 +17,20 @@ class PengabdianPolicy
 
     public function view(User $user)
     {
-        return in_array($user->role_id, [1, 2, 3]);
+        return in_array($user->role_id, [1]);
     }
 
     public function create(User $user)
     {
-        return in_array($user->role_id, [1, 2]);
+        return in_array($user->role_id, [1]);
     }
 
     public function update(User $user)
     {
-        return in_array($user->role_id, [1, 2, 3]);
-    }
-
-    public function delete(User $user)
-    {
         return in_array($user->role_id, [1]);
     }
 
-    public function viewReport(User $user)
+    public function delete(User $user)
     {
         return in_array($user->role_id, [1]);
     }

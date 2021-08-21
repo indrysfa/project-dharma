@@ -74,7 +74,7 @@
             <h2>Laporan Pengabdian Kepada Masyarakat</h2>
             <hr style="size: 10px">
         </div>
-        <p>Sehubungan dengan telah selesainya Pengabdian {{ $data[0]->judul_pkm }} Tahun Ajaran
+        <p>Sehubungan dengan telah selesainya Pengabdian Kepada Masyarakat {{ $data[0]->judul_pkm }} Tahun Ajaran
             {{ $data[0]->m_periode->tahun }} yang saya laksanakan dan sesuai dengan peraturan, bersama ini kami
             sampaikan dengan hormat laporan tersebut dibawah ini :</p>
         <table align="center" border="1">
@@ -101,7 +101,7 @@
                 </tr>
             </tbody>
         </table>
-        <p>Demikian laporan Pengabdian kepada Masyarakat yang saya sampaikan atas perhatiannya saya ucapkan terima
+        <p>Demikian laporan Pengabdian Kepada Masyarakat yang saya sampaikan atas perhatiannya saya ucapkan terima
             kasih.</p>
         <br>
         <p>Hormat saya,</p>

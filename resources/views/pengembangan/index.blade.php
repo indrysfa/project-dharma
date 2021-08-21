@@ -30,6 +30,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>Nama Dosen</th>
                                     <th>Jenis Peng. Diri</th>
                                     <th>Judul Peng. Diri</th>
@@ -47,6 +48,7 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->m_dosen->name_dsn }}</td>
                                         <td>{{ ucwords($item->m_jenis_pengdiri->name_jp) }}</td>
                                         <td>{{ $item->judul_pengdiri }}</td>

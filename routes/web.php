@@ -102,6 +102,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/penelitian/report', [PenelitianController::class, 'report'])->name('penelitian.report');
     Route::get('/penelitian/export', [PenelitianController::class, 'export'])->name('penelitian.export');
     Route::get('/penelitian/generate-pdf/{id}', [PenelitianController::class, 'generatePDF'])->name('penelitian.pdf');
+    Route::get('/penelitian/search', [PenelitianController::class, 'search'])->name('penelitian.search');
 
     Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
     Route::get('/pengabdian/add', [PengabdianController::class, 'create'])->name('pengabdian.add');

@@ -23,10 +23,38 @@
                             </a>
                         @endcan
                     </h6>
+                    <div class="card-body">
+                        <form action="{{ route('penelitian.search') }}" method="GET">
+                            <div class="form-group row">
+                                <label for="search" class="col-sm-3 col-form-label">Periode</label>
+                                <div class="col-sm-5">
+                                    <select name="search" id="search" class="form-control selectpicker show-tick" data-size="5"
+                                        data-live-search="true" value="{{ old('search') }}">
+                                        @foreach ($periode as $d)
+                                            <option noneSelectedText value="{{ $d->id }}"
+                                                {{ old('search') == "$d->id" ? 'selected' : '' }}>
+                                                @if ($d->semester == 1)
+                                                    {{ $d->tahun . ' - Ganjil' }}
+                                                @elseif ($d->semester == 2)
+                                                    {{ $d->tahun . ' - Genap' }}
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="icon text-white-50 btn btn-info">
+                                        <span>
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-striped table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -130,7 +158,7 @@
                         "searchable": true,
                     }
                 ],
-                "pageLength": 20
+                "pageLength": 10
             });
         });
     </script>

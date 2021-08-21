@@ -28,8 +28,8 @@
                             <div class="form-group row">
                                 <label for="search" class="col-sm-3 col-form-label">Periode</label>
                                 <div class="col-sm-5">
-                                    <select name="search" id="search" class="form-control selectpicker" data-size="5"
-                                        data-live-search="true" value="{{ old('search') }}">
+                                    <select name="search" id="search" class="form-control selectpicker show-tick" data-size="5"
+                                        data-live-search="true">
                                         @foreach ($periode as $d)
                                             <option noneSelectedText value="{{ $d->id }}"
                                                 {{ old('search') == "$d->id" ? 'selected' : '' }}>
@@ -55,7 +55,7 @@
 
 
                 <div class="table-responsive">
-                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-striped table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -71,66 +71,71 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $no = 1;
-                            @endphp
-                            @foreach ($data as $item)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    @if ($item->m_periode->id == 1)
-                                        <td>{{ '' }}</td>
-                                        <td>{{ '' }}</td>
-                                    @else
-                                        <td>{{ $item->m_periode->tahun }}</td>
-                                        <td>{{ $item->m_periode->semester }}</td>
-                                    @endif
-                                    @if ($item->m_status->code == 1)
-                                        <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
-                                        </td>
-                                    @elseif ($item->m_status->code == 2)
-                                        <td><span class="badge badge-info">{{ ucwords($item->m_status->name) }}</span>
-                                        </td>
-                                    @elseif ($item->m_status->code == 3)
-                                        <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
-                                        </td>
-                                    @elseif ($item->m_status->code == 4)
-                                        <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
-                                        </td>
-                                    @endif
-                                    <td>{{ $item->m_dosen->name_dsn }}</td>
-                                    <td>{{ $item->kode_mk }}</td>
-                                    <td>{{ $item->nama_mk }}</td>
-                                    <td>{{ $item->kelas }}</td>
-                                    <td>{{ $item->sks }}</td>
-                                    <td>
-                                        <div class="btn-center">
-                                            @if ($item->m_status->code == 3)
-                                                <a href="{{ route('pengajaran.pdf', $item->id) }}"
-                                                    class="btn btn-info btn-circle btn-sm"><i class="fas fa-download"></i></a>
-                                            @else
-                                                {{ '' }}
-                                            @endif
-                                            @can('update', App\Models\Pengajaran::class)
+                            @if ($uri == '/pengajaran' || $uri == '/pengajaran/')
+                                <td colspan="10" class="text-center">Select period first!</td>
+                            @else
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        @if ($item->m_periode->id == 1)
+                                            <td>{{ '' }}</td>
+                                            <td>{{ '' }}</td>
+                                        @else
+                                            <td>{{ $item->m_periode->tahun }}</td>
+                                            <td>{{ $item->m_periode->semester }}</td>
+                                        @endif
+                                        @if ($item->m_status->code == 1)
+                                            <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
+                                            </td>
+                                        @elseif ($item->m_status->code == 2)
+                                            <td><span class="badge badge-info">{{ ucwords($item->m_status->name) }}</span>
+                                            </td>
+                                        @elseif ($item->m_status->code == 3)
+                                            <td><span class="badge badge-success">{{ ucwords($item->m_status->name) }}</span>
+                                            </td>
+                                        @elseif ($item->m_status->code == 4)
+                                            <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
+                                            </td>
+                                        @endif
+                                        <td>{{ $item->m_dosen->name_dsn }}</td>
+                                        <td>{{ $item->kode_mk }}</td>
+                                        <td>{{ $item->nama_mk }}</td>
+                                        <td>{{ $item->kelas }}</td>
+                                        <td>{{ $item->sks }}</td>
+                                        <td>
+                                            <div class="btn-center">
                                                 @if ($item->m_status->code == 3)
-                                                    {{ '' }}
+                                                    <a href="{{ route('pengajaran.pdf', $item->id) }}"
+                                                        class="btn btn-info btn-circle btn-sm"><i
+                                                            class="fas fa-download"></i></a>
                                                 @else
-                                                    <a href="{{ route('pengajaran.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    {{ '' }}
                                                 @endif
-                                            @endcan
-                                            @can('delete', App\Models\Pengajaran::class)
-                                                <form action="{{ route('pengajaran.delete', $item->id) }}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
+                                                @can('update', App\Models\Pengajaran::class)
+                                                    @if ($item->m_status->code == 3)
+                                                        {{ '' }}
+                                                    @else
+                                                        <a href="{{ route('pengajaran.edit', $item->id) }}"
+                                                            class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @endif
+                                                @endcan
+                                                @can('delete', App\Models\Pengajaran::class)
+                                                    <form action="{{ route('pengajaran.delete', $item->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
 
-                                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </form>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                        <button type="submit" class="btn btn-danger btn-circle btn-sm"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </form>
+                                                @endcan
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
 
@@ -165,14 +170,14 @@
     {{-- <script type="text/javascript">
         $(document).ready(function() {
             $("#dataTable").DataTable({
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    url: route('pengajaran.index'),
-                    type: "GET"
+                processing: true,
+                serverSide: true,
+                order: [],
+                ajax: {
+                    url: "{{ route('pengajaran.index') }}",
+                    type: 'GET'
                 },
-                "columnDefs": [{
+                columnDefs: [{
                         "targets": [0, 1, 4, 5],
                         "orderable": false,
                     },
@@ -181,8 +186,30 @@
                         "searchable": true,
                     }
                 ],
-                "pageLength": 5,
-                "fnInfoCallback": function(oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                columns: [{
+                    data: 'periode_id',
+                    name: 'periode_id'
+                }, {
+                    data: 'status_id',
+                    name: 'status_id'
+                }, {
+                    data: 'name_dsn',
+                    name: 'name_dsn'
+                }, {
+                    data: 'kode_mk',
+                    name: 'kode_mk'
+                }, {
+                    data: 'nama_mk',
+                    name: 'nama_mk'
+                }, {
+                    data: 'kelas',
+                    name: 'kelas'
+                }, {
+                    data: 'sks',
+                    name: 'sks'
+                }, ]
+                pageLength: 5,
+                fnInfoCallback: function(oSettings, iStart, iEnd, iMax, iTotal, sPre) {
                     return "Showing " + iStart + " to " + iEnd + " of " + iTotal + " entries";
                 }
             })

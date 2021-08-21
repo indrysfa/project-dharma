@@ -59,7 +59,7 @@
                     <div class="col-sm-6">
                         <input type="number" class="form-control @error('row') is-invalid @enderror" id="row" name="row"
                             value="{{ old('row') }}" autocomplete="row" autofocus
-                            placeholder="Masukan Berapa banyak data yang dibutuhkan">
+                            placeholder="Masukan Berapa banyak data yang dibutuhkan" required>
                     </div>
 
                     @error('row')

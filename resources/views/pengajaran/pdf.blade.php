@@ -80,7 +80,6 @@
         <table align="center" border="1">
             <thead>
                 <tr>
-                    <th>Tanggal</th>
                     <th>Nama Dosen</th>
                     <th>Kode MK</th>
                     <th>Nama MK</th>
@@ -93,7 +92,6 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ date('d F Y', strtotime($data[0]->created_at)) }}</td>
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
                     <td>{{ $data[0]->kode_mk }}</td>
                     <td>{{ $data[0]->nama_mk }}</td>

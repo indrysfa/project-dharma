@@ -25,17 +25,9 @@ class PengajaranController extends Controller
     //     $this->authorize('aktif', User::class);
     // }
 
-    // if (Auth::user()->role_id !== 3) {
-    // } else {
-    //     $dosen = Dosen::where('user_id', '=', $user)
-    //         ->orderBy('created_at', 'asc')
-    //         ->get();
-    //     $data = Pengajaran::where('dosen_id', $dosen[0]->id)
-    //         ->orderBy('created_at', 'desc')
-    //         ->get();
-    // }
-    public function index()
+    public function index(Request $request)
     {
+        $uri = \Request::getRequestUri();
         $this->authorize('view', Pengajaran::class);
 
         $user = Auth::user()->username;
@@ -50,26 +42,29 @@ class PengajaranController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-
-        // dd($request->REQUEST_URI);
-        return view('pengajaran.index', compact('periode', 'data'));
+        return view('pengajaran.index', compact('periode', 'data', 'uri'));
     }
 
     public function search(Request $request)
     {
-        // dd($request);
+        $uri = \Request::getRequestUri();
+        $user = Auth::user()->username;
         $periode = Periode::all();
         $search = $request->search;
-        $data = Pengajaran::orderBy('created_at', 'desc')
-            ->where('pengajarans.periode_id', '=', $search)
-            ->get();
-        // if ($search->REQUEST_URI) {
-        //     $data = Pengajaran::orderBy('created_at', 'desc')
-        //     ->where('pengajarans.periode_id', '=', $search)
-        //     ->paginate($search);
-        // }
-        //bikin aja kayak yang search itu. kalo ada query param page berarti nanti dipakein limit
-        return view('pengajaran.index', compact('data', 'periode'));
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengajaran::orderBy('created_at', 'desc')
+                ->where('pengajarans.periode_id', '=', $search)
+                ->get();
+        } else {
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            $data = Pengajaran::orderBy('created_at', 'desc')
+                ->where('pengajarans.dosen_id', $dosen[0]->id)
+                ->where('pengajarans.periode_id', '=', $search)
+                ->get();
+        }
+        return view('pengajaran.index', compact('data', 'periode', 'uri'));
     }
 
     public function add()

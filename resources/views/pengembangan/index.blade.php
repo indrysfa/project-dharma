@@ -26,7 +26,7 @@
                 @endcan
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-striped table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -137,7 +137,7 @@
                         "searchable": true,
                     }
                 ],
-                "pageLength": 20
+                "pageLength": 10
             });
         });
     </script>

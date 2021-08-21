@@ -32,6 +32,7 @@ class PenelitianController extends Controller
         $this->authorize('view', Penelitian::class);
 
         $user = Auth::user()->username;
+        $periode = Periode::all();
         if (Auth::user()->role_id !== 3) {
             $data = Penelitian::orderBy('created_at', 'desc')->get();
         } else {
@@ -42,7 +43,17 @@ class PenelitianController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        return view('penelitian.index', compact('data'));
+        return view('penelitian.index', compact('data', 'periode'));
+    }
+
+    public function search(Request $request)
+    {
+        $periode = Periode::all();
+        $search = $request->search;
+        $data = Penelitian::orderBy('created_at', 'desc')
+            ->where('penelitians.periode_id', '=', $search)
+            ->get();
+        return view('penelitian.index', compact('data', 'periode'));
     }
 
     public function create()
@@ -69,12 +80,9 @@ class PenelitianController extends Controller
     {
         $this->authorize('create', Penelitian::class);
 
-        // $this->validate($request, [
-        //     'dosen_id'              => 'required',
-        //     'jenis_penelitian_id'   => 'required',
-        //     'judul_penelitian'      => 'required',
-        //     'jumlah_anggota'        => 'required',
-        // ]);
+        $this->validate($request, [
+            'row'   => 'required'
+        ]);
 
         // $data = Penelitian::create([
         //     'dosen_id'              => $request->dosen_id,

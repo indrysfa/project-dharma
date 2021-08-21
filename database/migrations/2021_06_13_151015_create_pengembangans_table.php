@@ -17,7 +17,7 @@ class CreatePengembangansTable extends Migration
             $table->id();
             $table->bigInteger('dosen_id')->unsigned();
             $table->bigInteger('periode_id')->unsigned();
-            $table->bigInteger('jenis_pengdiri_id')->unsigned();
+            $table->bigInteger('jenis_pengdiri_id')->unsigned()->nullable();
             $table->bigInteger('status_id')->unsigned();
             $table->string('tgl_pengembangan')->nullable();
             $table->string('judul_pengdiri');

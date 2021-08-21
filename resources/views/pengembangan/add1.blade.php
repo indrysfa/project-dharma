@@ -1,24 +1,28 @@
 @extends('admin.layouts.app')
-@section('title', 'Tambah Data Pengajaran Baru')
+@section('title', 'Tambah Data Pengembangan Diri Baru')
 @section('content')
-    @can('create', App\Models\Pengajaran::class)
+    @can('create', App\Models\Pengembangan::class)
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
-            <form class="user" method="POST" action="{{ route('pengajaran.create') }}">
+            <form class="user" method="POST" action="{{ route('pengembangan.create') }}">
                 @csrf
 
                 {{-- Periode --}}
                 <div class="form-group row">
                     <label for="periode_id" class="col-sm-2 col-form-label">Periode</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-2">
                         <select name="periode_id" id="periode_id" class="selectpicker" data-size="5" data-live-search="true">
-                            @foreach ($data as $d)
+                            @foreach ($periode as $d)
                                 <option value="{{ $d->id }}" {{ old('periode_id') == "$d->tahun" ? selected : '' }}>
-                                    {{ $d->tahun . '-' . $d->semester }}
+                                    @if ($d->semester == 1)
+                                        {{ $d->tahun . ' - Ganjil' }}
+                                    @else
+                                        {{ $d->tahun . ' - Genap' }}
+                                    @endif
                                 </option>
                             @endforeach
                         </select>
@@ -72,7 +76,7 @@
                     <button type="submit" class="btn btn-primary">
                         Submit
                     </button>
-                    <a type="button" href="{{ route('pengajaran.index') }}" class="btn btn-secondary">Back</a>
+                    <a type="button" href="{{ route('pengembangan.index') }}" class="btn btn-secondary">Back</a>
                 </div>
             </form>
 

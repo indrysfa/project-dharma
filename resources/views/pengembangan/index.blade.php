@@ -30,14 +30,14 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Tanggal</th>
+                                    <th>Tahun Ajaran</th>
+                                    <th>Semester</th>
                                     <th>Nama Dosen</th>
+                                    <th>Status Laporan</th>
+                                    <th>Tanggal</th>
                                     <th>Jenis Peng. Diri</th>
                                     <th>Judul Peng. Diri</th>
                                     <th>Lokasi</th>
-                                    <th>Status Laporan</th>
-                                    <th>Tahun Ajaran</th>
-                                    <th>Semester</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -48,11 +48,14 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $item->tanggal }}</td>
+                                        @if ($item->m_periode->id == 1)
+                                            <td>{{ '' }}</td>
+                                            <td>{{ '' }}</td>
+                                        @else
+                                            <td>{{ $item->m_periode->tahun }}</td>
+                                            <td>{{ $item->m_periode->semester }}</td>
+                                        @endif
                                         <td>{{ $item->m_dosen->name_dsn }}</td>
-                                        <td>{{ ucwords($item->m_jenis_pengdiri->name_jp) }}</td>
-                                        <td>{{ $item->judul_pengdiri }}</td>
-                                        <td>{{ ucwords($item->lokasi_pengdiri) }}</td>
                                         @if ($item->m_status->code == 1)
                                             <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
@@ -66,13 +69,10 @@
                                             <td><span class="badge badge-danger">{{ ucwords($item->m_status->name) }}</span>
                                             </td>
                                         @endif
-                                        @if ($item->m_periode->id == 1)
-                                            <td>{{ '' }}</td>
-                                            <td>{{ '' }}</td>
-                                        @else
-                                            <td>{{ $item->m_periode->tahun }}</td>
-                                            <td>{{ $item->m_periode->semester }}</td>
-                                        @endif
+                                        <td>{{ $item->tgl_pengembangan }}</td>
+                                        <td>{{ ucwords(isset($item->m_jenis_pengdiri->name_jp)) }}</td>
+                                        <td>{{ $item->judul_pengdiri }}</td>
+                                        <td>{{ ucwords($item->lokasi_pengdiri) }}</td>
                                         <td>
                                             <div class="btn-center">
                                                 {{-- issue button edit if approved is clear --}}

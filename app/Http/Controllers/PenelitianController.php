@@ -86,15 +86,15 @@ class PenelitianController extends Controller
         // ]);
 
         $row = $request->row;
-            for ($i=0; $i < $row; $i++) {
-                $data = Penelitian::create([
-                    'dosen_id'              => $request->dosen_id,
-                    'status_id'             => 5,
-                    'periode_id'            => $request->periode_id,
-                    'judul_penelitian'      => '-',
-                    'jumlah_anggota'        => 0,
-                ]);
-            }
+        for ($i=0; $i < $row; $i++) {
+            $data = Penelitian::create([
+                'dosen_id'              => $request->dosen_id,
+                'status_id'             => 5,
+                'periode_id'            => $request->periode_id,
+                'judul_penelitian'      => '-',
+                'jumlah_anggota'        => 0,
+            ]);
+        }
         // dd($data);
 
         if ($data) {

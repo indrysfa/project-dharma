@@ -83,16 +83,16 @@ class PengabdianController extends Controller
         // ]);
 
         $row = $request->row;
-            for ($i=0; $i < $row; $i++) {
-                $data = Pengabdian::create([
-                    'dosen_id'          => $request->dosen_id,
-                    'periode_id'        => $request->periode_id,
-                    'status_id'         => 13,
-                    'judul_pkm'         => '-',
-                    'nama_komunitas'    => '-',
-                    'lokasi_pkm'        => '-',
-                ]);
-            }
+        for ($i=0; $i < $row; $i++) {
+            $data = Pengabdian::create([
+                'dosen_id'          => $request->dosen_id,
+                'periode_id'        => $request->periode_id,
+                'status_id'         => 13,
+                'judul_pkm'         => '-',
+                'nama_komunitas'    => '-',
+                'lokasi_pkm'        => '-',
+            ]);
+        }
 
         if ($data) {
             return redirect()->route('pengabdian.index')->with('success', 'Data added successfully');

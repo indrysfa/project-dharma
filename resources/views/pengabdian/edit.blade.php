@@ -154,7 +154,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">
-                        Submit
+                        Report
                     </button>
                     <a href="{{ route('pengabdian.index') }}" type="button" class="btn btn-secondary">
                         Back

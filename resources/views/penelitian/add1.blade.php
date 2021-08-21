@@ -71,7 +71,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">
-                        Tambah
+                        Submit
                     </button>
                     <a type="button" href="{{ route('penelitian.index') }}" class="btn btn-secondary">Back</a>
                 </div>

@@ -14,10 +14,6 @@ class PeriodeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('periodes')->insert([
-            'tahun'     => 2000,
-            'semester'  => 0,
-        ]);
 
         DB::table('periodes')->insert([
             'tahun'     => 2021,

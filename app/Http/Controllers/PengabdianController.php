@@ -28,6 +28,8 @@ class PengabdianController extends Controller
     {
         $this->authorize('view', Pengabdian::class);
 
+        $uri = \Request::getRequestUri();
+        $periode = Periode::all();
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Pengabdian::orderBy('created_at', 'desc')->get();
@@ -39,7 +41,20 @@ class PengabdianController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        return view('pengabdian.index', compact('data'));
+        return view('pengabdian.index', compact('data', 'periode' ,'uri'));
+    }
+
+    public function search(Request $request)
+    {
+        $this->authorize('view', Penelitian::class);
+
+        $uri = \Request::getRequestUri();
+        $periode = Periode::all();
+        $search = $request->search;
+        $data = Pengabdian::orderBy('created_at', 'desc')
+            ->where('pengabdians.periode_id', '=', $search)
+            ->get();
+        return view('pengabdian.index', compact('data', 'periode', 'uri'));
     }
 
     public function create()
@@ -65,6 +80,9 @@ class PengabdianController extends Controller
     {
         $this->authorize('create', Pengabdian::class);
 
+        $this->validate($request, [
+            'row'   => 'required'
+        ]);
         // $this->validate($request, [
         //     'dosen_id'          => 'required',
         //     'judul_pkm'         => 'required',
@@ -154,12 +172,13 @@ class PengabdianController extends Controller
             $pengabdian->update([
                 'periode_id'        => $request->periode_id,
                 'dosen_id'          => $request->dosen_id,
+                'tgl_pengabdian'    => $request->tgl_pengabdian,
                 'judul_pkm'         => $request->judul_pkm,
                 'nama_komunitas'    => $request->nama_komunitas,
                 'lokasi_pkm'        => $request->lokasi_pkm,
                 'status_id'         => 11,
             ]);
-            return redirect()->route('pengabdian.index')->with('success', 'Updated successfully');
+            return redirect()->route('pengabdian.index')->with('success', 'Judul PKM ' . $pengabdian["judul_pkm"] . ' updated successfully');
         }
     }
 
@@ -172,7 +191,7 @@ class PengabdianController extends Controller
         $pengabdian->delete();
 
         if ($pengabdian) {
-            return redirect()->route('pengabdian.index')->with('success', 'Judul Pengabdian ' . $pengabdian["judul_pkm"] . ' deleted successfully');
+            return redirect()->route('pengabdian.index')->with('success', 'Judul PKM ' . $pengabdian["judul_pkm"] . ' deleted successfully');
         }
     }
 

@@ -92,13 +92,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ date('d F Y', strtotime($data[0]->created_at)) }}</td>
+                    <td>{{ date('d F Y', strtotime($data[0]->tgl_pengembangan)) }}</td>
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
                     <td>{{ ucwords($data[0]->m_jenis_pengdiri->name_jp) }}</td>
                     <td>{{ $data[0]->judul_pengdiri }}</td>
                     <td>{{ ucwords($data[0]->lokasi_pengdiri) }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->tahun }}</td>
-                    <td style="text-align: center">{{ $data[0]->m_periode->semester }}</td>
+                    @if ($data[0]->m_periode->semester == 1)
+                        <td style="text-align: center">Ganjil</td>
+                    @else
+                        <td style="text-align: center">Genap</td>
+                    @endif
                     <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>
                 </tr>
             </tbody>

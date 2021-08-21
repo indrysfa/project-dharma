@@ -16,6 +16,7 @@ class CreateJenisPenelitiansTable extends Migration
         Schema::create('jenis_penelitians', function (Blueprint $table) {
             $table->id();
             $table->string('name_jns_penelitian');
+            $table->integer('category');
             $table->timestamps();
         });
     }

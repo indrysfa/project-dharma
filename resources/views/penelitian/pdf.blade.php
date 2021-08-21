@@ -90,7 +90,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ date('d F Y', strtotime($data[0]->created_at)) }}</td>
+                    <td>{{ date('d F Y', strtotime($data[0]->tgl_penelitian)) }}</td>
                     <td>{{ $data[0]->m_dosen->name_dsn }}</td>
                     <td>{{ $data[0]->judul_penelitian }}</td>
                     <td style="text-align: center">{{ $data[0]->jumlah_anggota }}</td>

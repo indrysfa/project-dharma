@@ -22,10 +22,10 @@
                         <div class="col-sm-3">
                             <select id="periode_id" class="form-control selectpicker @error('periode_id') is-invalid @enderror"
                                 data-size="5" data-live-search="true" name="periode_id"
-                                value="{{ old('periode_id', $pengabdian->periode_id) }}" required>
+                                value="{{ old('periode_id', $pengajaran->periode_id) }}" required>
                                 @foreach ($periode as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ $pengabdian->periode_id == $item->id ? 'selected' : '' }}>
+                                        {{ $pengajaran->periode_id == $item->id ? 'selected' : '' }}>
                                         {{ $item->tahun . '-' . $item->semester }}</option>
                                 @endforeach
                             </select>

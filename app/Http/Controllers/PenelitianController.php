@@ -31,6 +31,7 @@ class PenelitianController extends Controller
     {
         $this->authorize('view', Penelitian::class);
 
+        $uri = \Request::getRequestUri();
         $user = Auth::user()->username;
         $periode = Periode::all();
         if (Auth::user()->role_id !== 3) {
@@ -43,17 +44,20 @@ class PenelitianController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        return view('penelitian.index', compact('data', 'periode'));
+        return view('penelitian.index', compact('data', 'periode', 'uri'));
     }
 
     public function search(Request $request)
     {
+        $this->authorize('view', Penelitian::class);
+
+        $uri = \Request::getRequestUri();
         $periode = Periode::all();
         $search = $request->search;
         $data = Penelitian::orderBy('created_at', 'desc')
             ->where('penelitians.periode_id', '=', $search)
             ->get();
-        return view('penelitian.index', compact('data', 'periode'));
+        return view('penelitian.index', compact('data', 'periode', 'uri'));
     }
 
     public function create()
@@ -99,6 +103,7 @@ class PenelitianController extends Controller
                 'dosen_id'              => $request->dosen_id,
                 'status_id'             => 5,
                 'periode_id'            => $request->periode_id,
+                'jenis_penelitian_id'   => 1,
                 'judul_penelitian'      => '-',
                 'jumlah_anggota'        => 0,
             ]);
@@ -175,7 +180,7 @@ class PenelitianController extends Controller
                 'jumlah_anggota'        => $request->jumlah_anggota,
                 'status_id'             => 7,
             ]);
-            return redirect()->route('penelitian.index')->with('success', ' Updated successfully');
+            return redirect()->route('penelitian.index')->with('success', 'Judul Penelitian ' . $penelitian["judul_penelitian"] . ' updated successfully');
         }
     }
 

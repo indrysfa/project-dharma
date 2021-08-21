@@ -23,37 +23,35 @@
                             </a>
                         @endcan
                     </h6>
-                    <div class="card-body">
-                        <form action="{{ route('pengajaran.search') }}" method="GET">
-                            <div class="form-group row">
-                                <label for="search" class="col-sm-3 col-form-label">Periode</label>
-                                <div class="col-sm-5">
-                                    <select name="search" id="search" class="form-control selectpicker show-tick" data-size="5"
-                                        data-live-search="true">
-                                        @foreach ($periode as $d)
-                                            <option noneSelectedText value="{{ $d->id }}"
-                                                {{ old('search') == "$d->id" ? 'selected' : '' }}>
-                                                @if ($d->semester == 1)
-                                                    {{ $d->tahun . ' - Ganjil' }}
-                                                @elseif ($d->semester == 2)
-                                                    {{ $d->tahun . ' - Genap' }}
-                                                @endif
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="submit" class="icon text-white-50 btn btn-info">
-                                        <span>
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                        </form>
-                    </div>
                 </div>
-
-
+                <div class="card-body">
+                    <form action="{{ route('pengajaran.search') }}" method="GET">
+                        <div class="form-group row">
+                            <label for="search" class="col-sm-3 col-form-label">Periode</label>
+                            <div class="col-sm-5">
+                                <select name="search" id="search" class="form-control selectpicker show-tick" data-size="5"
+                                    data-live-search="true">
+                                    @foreach ($periode as $d)
+                                        <option noneSelectedText value="{{ $d->id }}"
+                                            {{ old('search') == "$d->id" ? 'selected' : '' }}>
+                                            @if ($d->semester == 1)
+                                                {{ $d->tahun . ' - Ganjil' }}
+                                            @elseif ($d->semester == 2)
+                                                {{ $d->tahun . ' - Genap' }}
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="icon text-white-50 btn btn-info">
+                                    <span>
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </button>
+                            </div>
+                    </form>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -80,12 +78,11 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        @if ($item->m_periode->id == 1)
-                                            <td>{{ '' }}</td>
-                                            <td>{{ '' }}</td>
+                                        <td>{{ $item->m_periode->tahun }}</td>
+                                        @if ($item->m_periode->semester == 1)
+                                            <td>Ganjil</td>
                                         @else
-                                            <td>{{ $item->m_periode->tahun }}</td>
-                                            <td>{{ $item->m_periode->semester }}</td>
+                                            <td>Genap</td>
                                         @endif
                                         @if ($item->m_status->code == 1)
                                             <td><span class="badge badge-primary">{{ ucwords($item->m_status->name) }}</span>
@@ -115,9 +112,12 @@
                                                     {{ '' }}
                                                 @endif
                                                 @can('update', App\Models\Pengajaran::class)
-                                                    @if ($item->m_status->code == 3)
+                                                    @if (($item->m_status->code == 3 && Auth::user()->role_id == 3) || Auth::user()->role_id == 2)
                                                         {{ '' }}
-                                                    @else
+                                                    @elseif ($item->m_status->code == 1 && Auth::user()->role_id == 3)
+                                                        <a href="{{ route('pengajaran.edit', $item->id) }}"
+                                                            class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
+                                                    @elseif (Auth::user()->role_id == 1)
                                                         <a href="{{ route('pengajaran.edit', $item->id) }}"
                                                             class="btn btn-warning btn-circle btn-sm"><i class="fas fa-pen"></i></a>
                                                     @endif

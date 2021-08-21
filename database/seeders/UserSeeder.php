@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name'              => ucwords('Admin 01'),
             'username'          => strtolower('admin01'),
-            'email'             => 'admin1@mail.com',
+            'email'             => 'admin01@mail.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password'          => Hash::make('12345678'),
             'role_id'           => 2,

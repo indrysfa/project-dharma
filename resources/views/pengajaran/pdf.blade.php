@@ -96,7 +96,11 @@
                     <td>{{ $data[0]->kode_mk }}</td>
                     <td>{{ $data[0]->nama_mk }}</td>
                     <td style="text-align: center">{{ $data[0]->m_periode->tahun }}</td>
-                    <td style="text-align: center">{{ $data[0]->m_periode->semester }}</td>
+                    @if ($data[0]->m_periode->semester == 1)
+                        <td style="text-align: center">Ganjil</td>
+                    @else
+                        <td style="text-align: center">Genap</td>
+                    @endif
                     <td style="text-align: center">{{ $data[0]->kelas }}</td>
                     <td style="text-align: center">{{ $data[0]->sks }}</td>
                     <td style="text-align: center">{{ ucwords($data[0]->m_status->name) }}</td>

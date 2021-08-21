@@ -25,7 +25,7 @@ class PengajaranController extends Controller
     //     $this->authorize('aktif', User::class);
     // }
 
-    public function index(Request $request)
+    public function index()
     {
         $uri = \Request::getRequestUri();
         $this->authorize('view', Pengajaran::class);
@@ -90,6 +90,9 @@ class PengajaranController extends Controller
     {
         $this->authorize('create', Pengajaran::class);
 
+        $this->validate($request, [
+            'row'   => 'required'
+        ]);
         // $this->validate($request, [
         //     'kode_mk'   => 'required',
         //     'nama_mk'   => 'required',
@@ -126,12 +129,12 @@ class PengajaranController extends Controller
     {
         $this->authorize('update', Pengajaran::class);
 
-        $period = Periode::all();
+        $periode = Periode::all();
         $status = Status::where('group', '=', 'pengajaran')->get();
         $dosen = DB::table('dosens')
             ->where('status', '=', 'aktif')
             ->get();
-        return view('pengajaran.edit', compact('pengajaran', 'period', 'status', 'dosen'));
+        return view('pengajaran.edit', compact('pengajaran', 'periode', 'status', 'dosen'));
     }
 
     public function update(Request $request, Pengajaran $pengajaran)
@@ -158,7 +161,7 @@ class PengajaranController extends Controller
                 'sks'          => $request->sks,
                 'status_id'    => 11,
             ]);
-            return redirect()->route('pengajaran.index')->with('success', 'Judul PKM ' . $pengajaran["kode_mk"] . ' Updated successfully');
+            return redirect()->route('pengajaran.index')->with('success', 'Kode MK ' . $pengajaran["kode_mk"] . ' updated successfully');
         }
 
 

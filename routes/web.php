@@ -113,6 +113,7 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/pengabdian/report', [PengabdianController::class, 'report'])->name('pengabdian.report');
     Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
     Route::get('/pengabdian/generate-pdf/{id}', [PengabdianController::class, 'generatePDF'])->name('pengabdian.pdf');
+    Route::get('/pengabdian/search', [PengabdianController::class, 'search'])->name('pengabdian.search');
 
     Route::get('/pengembangan', [PengembanganController::class, 'index'])->name('pengembangan.index');
     Route::get('/pengembangan/add', [PengembanganController::class, 'create'])->name('pengembangan.add');
@@ -123,4 +124,5 @@ Route::prefix('/')->middleware('auth')->middleware('verified')->group(function (
     Route::get('/pengembangan/report', [PengembanganController::class, 'report'])->name('pengembangan.report');
     Route::get('/pengembangan/export', [PengembanganController::class, 'export'])->name('pengembangan.export');
     Route::get('/pengembangan/generate-pdf/{id}', [PengembanganController::class, 'generatePDF'])->name('pengembangan.pdf');
+    Route::get('/pengembangan/search', [PengembanganController::class, 'search'])->name('pengembangan.search');
 });

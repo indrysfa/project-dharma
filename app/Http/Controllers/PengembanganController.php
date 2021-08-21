@@ -8,8 +8,10 @@ namespace App\Http\Controllers;
 
 use App\Exports\PengembangansExport;
 use App\Models\Dosen;
+use App\Models\Jenis_pengdiri;
 use App\Models\Pengembangan;
 use App\Models\Periode;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +30,8 @@ class PengembanganController extends Controller
     {
         $this->authorize('view', Pengembangan::class);
 
-        $periode = DB::table('periodes')->first();
+        $uri = \Request::getRequestUri();
+        $periode = Periode::all();
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
             $data = Pengembangan::orderBy('created_at', 'DESC')->get();
@@ -36,20 +39,43 @@ class PengembanganController extends Controller
             $dosen = Dosen::where('user_id', '=', $user)
                 ->orderBy('created_at', 'asc')
                 ->get();
-            $data = Pengembangan::where('dosen_id', isset($dosen[0]->id))
+            $data = Pengembangan::where('dosen_id', $dosen[0]->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        return view('pengembangan.index', compact('data'));
+        return view('pengembangan.index', compact('data', 'periode', 'uri'));
+    }
+
+    public function search(Request $request)
+    {
+        $uri = \Request::getRequestUri();
+        $user = Auth::user()->username;
+        $periode = Periode::all();
+        $search = $request->search;
+        if (Auth::user()->role_id !== 3) {
+            $data = Pengembangan::orderBy('created_at', 'desc')
+                ->where('pengembangans.periode_id', '=', $search)
+                ->get();
+        } else {
+            $dosen = Dosen::where('user_id', '=', $user)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            $data = Pengembangan::orderBy('created_at', 'desc')
+                ->where('pengembangans.dosen_id', $dosen[0]->id)
+                ->where('pengembangans.periode_id', '=', $search)
+                ->get();
+        }
+        return view('pengembangan.index', compact('data', 'periode', 'uri'));
     }
 
     public function create()
     {
         $this->authorize('create', Pengembangan::class);
 
+        $uri = \Request::getRequestUri();
         $user = Auth::user()->username;
         $periode = Periode::all();
-        $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
+        $jenis_pengdiri = Jenis_pengdiri::all();
         if (Auth::user()->role_id === 3) {
             $dosen = DB::table('dosens')
                 ->where('user_id', '=', $user)
@@ -59,13 +85,16 @@ class PengembanganController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->get();
         }
-        return view('pengembangan.add1', compact('jenis_pengdiri', 'dosen', 'periode'));
+        return view('pengembangan.add1', compact('jenis_pengdiri', 'dosen', 'periode', 'uri'));
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', Pengembangan::class);
 
+        $this->validate($request, [
+            'row'   => 'required'
+        ]);
         // $this->validate($request, [
         //     'dosen_id'          => 'required',
         //     'tanggal'           => 'required',
@@ -89,6 +118,7 @@ class PengembanganController extends Controller
             $data = Pengembangan::create([
                 'dosen_id'          => $request->dosen_id,
                 'periode_id'        => $request->periode_id,
+                'jenis_pengdiri_id' => 1,
                 'status_id'         => 17,
                 'judul_pengdiri'    => '-',
                 'lokasi_pengdiri'   => '-',
@@ -104,11 +134,9 @@ class PengembanganController extends Controller
     {
         $this->authorize('update', Pengembangan::class);
 
-        $periode        = DB::table('periodes')->get();
-        $jenis_pengdiri = DB::table('jenis_pengdiris')->get();
-        $status         = DB::table('statuses')
-                            ->where('group', '=', 'pengembangan')
-                            ->get();
+        $periode        = Periode::all();
+        $jenis_pengdiri = Jenis_pengdiri::where('category', 1)->get();
+        $status         = Status::where('group', '=','pengembangan')->get();
         return view('pengembangan.edit', compact('pengembangan', 'periode', 'jenis_pengdiri', 'status'));
     }
 
@@ -157,6 +185,7 @@ class PengembanganController extends Controller
                 'periode_id'        => $request->periode_id,
                 'dosen_id'          => $request->dosen_id,
                 'jenis_pengdiri_id' => $request->jenis_pengdiri_id,
+                'tgl_pengembangan'  => $request->tgl_pengembangan,
                 'judul_pengdiri'    => $request->judul_pengdiri,
                 'lokasi_pengdiri'   => $request->lokasi_pengdiri,
                 'status_id'         => 19,
@@ -218,7 +247,7 @@ class PengembanganController extends Controller
         } else {
             $data = Pengembangan::where('dosen_id', $dosen[0]->id)
                 ->where('id', $id)
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
 

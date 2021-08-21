@@ -29,13 +29,11 @@ class DosenController extends Controller
 
         $user = Auth::user()->username;
         if (Auth::user()->role_id !== 3) {
-            $data = Dosen::orderBy('created_at', 'desc')->get();
+            $data = Dosen::orderBy('created_at', 'DESC')->get();
         } else {
-            $dosen = Dosen::where('user_id', '=', $user)
-                ->orderBy('created_at', 'asc')
+            $dosen = Dosen::where('user_id', $user)
                 ->get();
             $data = Dosen::where('id', $dosen[0]->id)
-                ->orderBy('created_at', 'desc')
                 ->get();
         }
         return view('master.dosen-index', compact('data'));
@@ -89,31 +87,32 @@ class DosenController extends Controller
     {
         $this->authorize('view', Dosen::class);
 
-        $dosens = $dosen->find($dosen->id)->all();
-        // dd($dosens);
+        $dosens = DB::table('dosens')
+            ->where('id', 'like', "%" . $dosen->id . "%")
+            ->first();
         $year = date("Y");
         $pengajaran = Pengajaran::orderBy('pengajarans.created_at', 'desc')
             ->join('dosens', 'pengajarans.dosen_id', '=', 'dosens.id')
             ->join('periodes', 'pengajarans.periode_id', '=', 'periodes.id')
-            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('dosens.id', '=', $dosens->id)
             ->where('periodes.tahun', '=', $year)
             ->get();
         $penelitian = Penelitian::orderBy('penelitians.created_at', 'desc')
             ->join('dosens', 'penelitians.dosen_id', '=', 'dosens.id')
             ->join('periodes', 'penelitians.periode_id', '=', 'periodes.id')
-            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('dosens.id', '=', $dosens->id)
             ->where('periodes.tahun', '=', $year)
             ->get();
         $pengabdian = Pengabdian::orderBy('pengabdians.created_at', 'desc')
             ->join('dosens', 'pengabdians.dosen_id', '=', 'dosens.id')
             ->join('periodes', 'pengabdians.periode_id', '=', 'periodes.id')
-            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('dosens.id', '=', $dosens->id)
             ->where('periodes.tahun', '=', $year)
             ->get();
         $pengembangan = Pengembangan::orderBy('pengembangans.created_at', 'desc')
             ->join('dosens', 'pengembangans.dosen_id', '=', 'dosens.id')
             ->join('periodes', 'pengembangans.periode_id', '=', 'periodes.id')
-            ->where('dosens.id', '=', $dosens[0]->id)
+            ->where('dosens.id', '=', $dosens->id)
             ->where('periodes.tahun', '=', $year)
             ->get();
         return view('master.dosen-detail', compact('dosen', 'pengajaran', 'penelitian', 'pengabdian', 'pengembangan'));
